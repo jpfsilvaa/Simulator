@@ -5,14 +5,14 @@ import HeapSingleton
 
 global heapQueue
 
-def initialAllocation(graphs): # TODO: MAKE A METHOD TO UPDATE ALL GRAPHS WHEN ONE GETS MODIFIED
-    heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, graphs)
+def initialAllocation(graphs):
+    heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (usersObjs, cloudletsObjs, graphs))
 
-def initRoutine(users, cloudlets, simClock, heapSing, graphs, statsStoring):    
+def initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graphs, statsStoring):    
     # initCloudlets(inGraph) # TODO: PHASE 2
     # initUsers(inGraph) # TODO: PHASE 2
-    initialAllocation(graphs)
-    timingRoutine(users, cloudlets, simClock, heapSing, statsStoring)
+    initialAllocation(usersObjs, cloudletsObjs, graphs)
+    timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring)
 
 def initHeap():
     heapSing = HeapSingleton()
@@ -22,23 +22,24 @@ def initSimClock():
     simClock = TimerSingleton()
     return simClock
 
-def timingRoutine(users, cloudlets, simClock, heapSing, statsStoring):
+def timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring):
     nextEvent = heapSing.nextEvent()
-    invokeRoutine(users, cloudlets, simClock, nextEvent, statsStoring)
+    invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, nextEvent, statsStoring)
 
-def invokeRoutine(users, cloudlets, simClock, eTuple, statsStoring):
-    Event.executeEvent(users, cloudlets, eTuple)
-    statsStoring.writeStats(users, cloudlets, simClock, eTuple)
+def invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, eTuple, statsStoring):
+    Event.executeEvent(simClock, heapSing, usersObjs, cloudletsObjs, eTuple)
+    statsStoring.writeStats(usersObjs, cloudletsObjs, simClock, eTuple)
 
-def startSimulation(cloudlets, users, graphs):
+def startSimulation(cloudletsObjs, users, graphs):
     statsStoring = Stats()
     heapSing = initHeap()
     simClock = initSimClock()
-    initRoutine(users, cloudlets, simClock, heapSing, graphs, statsStoring)
+    initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graphs, statsStoring)
     while len(heapQueue) > 0:
-        timingRoutine(users, cloudlets, simClock, heapSing, statsStoring)
+        timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring)
     statsStoring.writeReport() # TODO
 
-def main(cloudlets, users, graphs):
+def main(cloudletsObjs, usersObjs, graphs):
     # graphs[0] -> main graph / graphs[1] -> cloudlets subgraph / graphs[2] -> users' routes subgraphs
-    startSimulation(cloudlets, users, graphs)
+    # TODO: CALL THE INSTANCE GENERATOR
+    startSimulation(cloudletsObjs, usersObjs, graphs)

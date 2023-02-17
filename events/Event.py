@@ -10,85 +10,73 @@ class Event(Enum):
     CALL_PRICE = 4
 
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-
     @classmethod
-    def executeEvent(users, cloudlets, eTuple):
+    def executeEvent(simClock, heapSing, users, cloudlets, eTuple):
         eventType = eTuple[2]
         if eventType == Event.MOVE_USER:
-            moveUser(users, cloudlets, eTuple) # TODO
+            moveUser(users, cloudlets, eTuple)
         elif eventType == Event.ALLOCATE_USER:
-            allocateUser(users, cloudlets, eTuple) # TODO
+            allocateUser(eTuple)
         elif eventType == Event.INITIAL_ALLOCATION:
-            initialAlloc(users, cloudlets, eTuple) # TODO
+            initialAlloc(simClock, heapSing, users, cloudlets, eTuple)
         elif eventType == Event.CALL_OPT:
-            optimizeAlloc(users, cloudlets, eTuple)  # TODO
+            optimizeAlloc(simClock, heapSing, users, cloudlets, eTuple)
         elif eventType == Event.CALL_PRICE:
             pass
 
 def moveUser(users, cloudlets, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (userID, destNodeID, graphs)
-    """
-        This event will be important for the prediction
-        TODO: WHEN TO CALL IT?
-            - If I have the whole path and timing, I can call this multiple times at the beginning of the simulation
-            - I can also call it only for the next 2 (for example) hopes
-    """
-    userID = eTuple[3][0]
-    destNodeID = eTuple[3][1]
-    userIndex = findUserById(userID)
-    users[userIndex].currNode = destNodeID
-    users[userIndex].currLatency = latencyFunction(users[userIndex], eTuple[3][2][0])
+    # contentSubtuple: (User, Node, graphs)
+    user = eTuple[3][0]
+    Node = eTuple[3][1]
+    user.currNode = Node
+    user.currLatency = latencyFunction(user, eTuple[3][2][0])
 
 def latencyFunction(user, mainGraph):
-    # TODO: TALVEZ SERIA MELHOR ESSA FUNÇÃO FICAR EM OUTRO ARQUIVO
     # TODO: vou precisar descobrir como saber a distancia fisica do mapa entre os nós (não necessariamente pelos arcos...)
     distance = checkDistance(user.currNode, user.allocatedCloudlet, mainGraph)
     return distance * 0.01
 
-def allocateUser(users, cloudlets, eTuple):
+def allocateUser(eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (userID, cloudletID, graphs)
-    userID = eTuple[3][0]
-    cloudletID = eTuple[3][1]
-    userIndex = findUserById(userID)
-    cloudletIndex = findCloudletById(cloudletID)
-    user = users[userIndex]
-    cloudlet = cloudlets[cloudletIndex]
+    # contentSubtuple: (User, Cloudlet, graphs)
+    user = eTuple[3][0]
+    oldCloudlet = user.allocatedCloudlet
+    newCloudlet = eTuple[3][1]
+    
+    oldCloudlet.resources.cpu += user.reqs.cpu
+    oldCloudlet.resources.ram += user.reqs.ram
+    oldCloudlet.resources.storage += user.reqs.storage
+    oldCloudlet.currUsersAllocated.remove(user)
+
+    newCloudlet.resources.cpu -= user.reqs.cpu
+    newCloudlet.resources.ram -= user.reqs.ram
+    newCloudlet.resources.storage -= user.reqs.storage
+    newCloudlet.currUsersAllocated.append(user)
 
     user.latency = latencyFunction(user, eTuple[3][2][0])
-    # TODO: Maybe we can save the old allocated cloudlet to  use for allocation
-    user.allocatedCloudlet = cloudlet
-    
-    cloudlet.resources.cpu -= user.reqs.cpu
-    cloudlet.resources.ram -= user.reqs.ram
-    cloudlet.resources.storage -= user.reqs.storage
-    cloudlet.currUsersAllocated.append(user)
+    user.allocatedCloudlet = newCloudlet
 
+def initialAlloc(simClock, heapSing, usersObjs, cloudletsObjs, eTuple):
+    # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
+    # contentSubtuple: (graphs)
+    result = algs.greedyAlloc(cloudletsObjs, usersObjs)
+    for alloc in result[1]:
+        user = alloc[0]
+        cloudlet = alloc[1]
+        eventSubtuple = (user, cloudlet, eTuple)
+        heapSing.insertEvent(simClock, Event.ALLOCATE_USER, eventSubtuple)
 
+def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
+    # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
+    # contentSubtuple: (graphs)
+    result = algs.greedyAlloc(cloudletsObjs, usersObjs)
+    for alloc in result[1]:
+        user = alloc[0]
+        cloudlet = alloc[1]
+        eventSubtuple = (user, cloudlet, eTuple)
+        heapSing.insertEvent(simClock, Event.ALLOCATE_USER, eventSubtuple)
 
-def initialAlloc(users, cloudlets, eTuple):
-    """
-        Function to make the initial allocation of the simulation
-        Possibilities:
-            - Run an allocation algorithm at the beggining, according to the initial positions of the users
-            - Allocate arbitrarly
-        Necessary information inside the tuple
-            - all users and all cloudlets (tthe graphs, basically)
-            - TODO: ALL USERS WILL START AT THE SAME TIME???
-                - We might have users arriving/starting in the middle of the simulation
-                
-    """
-    result = algs.greedyAlloc(cloudlets, users)
-    # TODO: CALL THE EVENT FOR ALLOCATE EACH USER ACCORDING TO THE RESULT
-
-
-def optimizeAlloc(users, cloudlets, eTuple):
-    """
-        Function to call the optimization algorithm for allocating the users
-        Necessary information inside the tuple:
-            - chosen algorithm to optimize (maybe a number given at the beginning of the simulation)
-            - all graphs
-    """
-    result = algs.greedyAlloc(cloudlets, users)
-    # TODO: CALL THE EVENT FOR ALLOCATE EACH USER ACCORDING TO THE RESULT
+def checkDistance(srcNodeID, dstNodeID, graph):
+    # TODO
+    return 1
