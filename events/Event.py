@@ -13,8 +13,9 @@ class Event(Enum):
     @classmethod
     def executeEvent(simClock, heapSing, users, cloudlets, eTuple):
         eventType = eTuple[2]
+        simClock.incrementTimer(eTuple[0])
         if eventType == Event.MOVE_USER:
-            moveUser(users, cloudlets, eTuple)
+            moveUser(heapSing, users, cloudlets, eTuple)
         elif eventType == Event.ALLOCATE_USER:
             allocateUser(eTuple)
         elif eventType == Event.INITIAL_ALLOCATION:
@@ -22,15 +23,17 @@ class Event(Enum):
         elif eventType == Event.CALL_OPT:
             optimizeAlloc(simClock, heapSing, users, cloudlets, eTuple)
         elif eventType == Event.CALL_PRICE:
-            pass
+            pass # TODO: PHASE 3 or 4
 
-def moveUser(users, cloudlets, eTuple):
+def moveUser(heapSing, users, cloudlets, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (User, Node, graphs)
     user = eTuple[3][0]
     Node = eTuple[3][1]
     user.currNode = Node
     user.currLatency = latencyFunction(user, eTuple[3][2][0])
+    # TODO: TRIGGER ONE MORE MOVE_USER EVENT FOR THIS USER
+    
 
 def latencyFunction(user, mainGraph):
     # TODO: vou precisar descobrir como saber a distancia fisica do mapa entre os nós (não necessariamente pelos arcos...)
@@ -65,7 +68,7 @@ def initialAlloc(simClock, heapSing, usersObjs, cloudletsObjs, eTuple):
         user = alloc[0]
         cloudlet = alloc[1]
         eventSubtuple = (user, cloudlet, eTuple)
-        heapSing.insertEvent(simClock, Event.ALLOCATE_USER, eventSubtuple)
+        heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
 def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
@@ -75,8 +78,17 @@ def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
         user = alloc[0]
         cloudlet = alloc[1]
         eventSubtuple = (user, cloudlet, eTuple)
-        heapSing.insertEvent(simClock, Event.ALLOCATE_USER, eventSubtuple)
+        heapSing.insertEvent(simClock.getTimetValue(), Event.ALLOCATE_USER, eventSubtuple)
+    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (usersObjs, cloudletsObjs, graph))
 
 def checkDistance(srcNodeID, dstNodeID, graph):
-    # TODO
-    return 1
+    distSum = 0
+    cont = 0
+    userRouteNodes = [mainGraph.findNodeById(srcNodeID) for routeNode in u.route]
+    subGraph = mainGraph.getSubgraph(userRouteNodes)
+    node = routeSubgraph.nodes[cont]
+    while node.nId != dstNodeID:
+        distSum += routeSubgraph.adjList[node.nId][destNode.nId]
+        cont += 1
+        node = routeSubgraph.nodes[cont]
+    return distSum

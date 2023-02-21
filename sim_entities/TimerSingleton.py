@@ -1,6 +1,7 @@
 class TimerSingleton:
     _instance = None
     _lock = threading.Lock()
+    delta = 120 # seconds
     timer = 0
 
     def __new__(cls):
@@ -11,8 +12,11 @@ class TimerSingleton:
         return cls._instance
 
     def incrementTimer(self, i = 1):
-        self.timer += t
+        self.timer += i
         return timer
     
     def getTimerValue(self):
         return self.timer
+    
+    def getDelta(self):
+        return delta
