@@ -1,3 +1,5 @@
+import threading
+
 class TimerSingleton:
     _instance = None
     _lock = threading.Lock()

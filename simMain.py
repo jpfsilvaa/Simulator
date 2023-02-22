@@ -1,16 +1,15 @@
 import events
 import stats
-import TimerSingleton
-import HeapSingleton
-import GraphGen.instanceGen as instGen
+import sim_entities
+from ..GraphGen import instanceGen as instGen
 
-def initialAllocation(graph):
+def initialAllocation(heapSing, usersObjs, cloudletsObjs, graph):
     heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (usersObjs, cloudletsObjs, graph))
 
 def initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graphs, statsStoring):    
     # initCloudlets(inGraph) # TODO: PHASE 2
     # initUsers(inGraph) # TODO: PHASE 2
-    initialAllocation(usersObjs, cloudletsObjs, graph)
+    initialAllocation(heapSing, usersObjs, cloudletsObjs, graph)
     triggerUserPathEvents(usersObjs, cloudletsObjs, graph)
     triggerAllocClock()
     timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring)
@@ -28,6 +27,7 @@ def timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring):
     invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, nextEvent, statsStoring)
 
 def invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, eTuple, statsStoring):
+    print("CALLING EVENT", eTuple[2])
     Event.executeEvent(simClock, heapSing, usersObjs, cloudletsObjs, eTuple)
     statsStoring.writeStats(usersObjs, cloudletsObjs, simClock.getTimerValue(), eTuple)
 
@@ -39,6 +39,7 @@ def triggerUserPathEvents(usersObjs, cloudletsObjs, graph):
         heapSing.insertEvent(calcTimeToExec(u, currSg, userRouteNodes[1]), Event.MOVE_USER, (usersObjs, cloudletsObjs, graphs))
 
 def calcTimeToExec(user, routeSubgraph, destNode):
+    # TODO: USAR O GEOTOOLS (LIB DA LIB DO OSM)
     distance = getDistSum(routeSubgraph, destNode)
     arrivalTime = distance // user.avgSpeed
     return arrivalTime + user.initTime
@@ -58,7 +59,8 @@ def startSimulation(cloudletsObjs, users, graph):
     heapSing = initHeap()
     simClock = initSimClock()
     initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graph, statsStoring)
-    while len(heapQueue) > 0: # TODO: PHASE 2: Actually the end should be when there're no more users to move (MOVE_USER event)
+    while len(heapSing.getHeapSize()) > 0: # TODO: PHASE 2: Actually the end should be when there're no more users to move (MOVE_USER event)
+        print('HEAP SIZE: ', heapSing.getHeapSize())
         timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing, statsStoring)
     # statsStoring.writeReport() # TODO: PHASE 2
 

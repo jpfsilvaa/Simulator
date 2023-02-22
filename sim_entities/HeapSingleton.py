@@ -1,5 +1,6 @@
 import heapq
 import events
+import threading
 
 class HeapSingleton:
     _instance = None
@@ -20,3 +21,6 @@ class HeapSingleton:
 
     def nextEvent(self):
         return heappop(self.heapQueue)
+
+    def getHeapSize(self):
+        return len(heapq)
