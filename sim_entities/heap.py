@@ -1,6 +1,6 @@
 import heapq
-import events
 import threading
+from events.event import Event
 
 class HeapSingleton:
     _instance = None
@@ -17,10 +17,10 @@ class HeapSingleton:
     
     def insertEvent(self, time, event: Event, contentTuple):
         self.IDCounter += 1
-        heappush(self.heapQueue, (time, IDCounter, event, contentTuple))
+        heapq.heappush(self.heapQueue, (time, self.IDCounter, event, contentTuple))
 
     def nextEvent(self):
-        return heappop(self.heapQueue)
+        return heapq.heappop(self.heapQueue)
 
     def getHeapSize(self):
-        return len(heapq)
+        return len(self.heapQueue)

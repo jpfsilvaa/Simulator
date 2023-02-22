@@ -1,6 +1,8 @@
 from enum import Enum
-import classes
-import Algorithms.multipleKS as algs
+from GraphGen.classes.cloudlet import Cloudlet
+from GraphGen.classes.resources import Resources
+from GraphGen.classes.user import UserVM
+from algorithms.multipleKS import greedyAlloc as alg
 
 class Event(Enum):
     MOVE_USER = 0
@@ -11,7 +13,7 @@ class Event(Enum):
 
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     @classmethod
-    def executeEvent(simClock, heapSing, users, cloudlets, eTuple):
+    def execEvent(self, simClock, heapSing, users, cloudlets, eTuple):
         eventType = eTuple[2]
         simClock.incrementTimer(eTuple[0])
         if eventType == Event.MOVE_USER:
@@ -27,17 +29,17 @@ class Event(Enum):
 
 def moveUser(heapSing, users, cloudlets, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (User, Node, graphs)
+    # contentSubtuple: (User, Node, graph)
     user = eTuple[3][0]
     Node = eTuple[3][1]
     user.currNode = Node
-    user.currLatency = latencyFunction(user, eTuple[3][2][0])
+    user.currLatency = latencyFunction(user, eTuple[3][2])
     # TODO: TRIGGER ONE MORE MOVE_USER EVENT FOR THIS USER
     
 
 def latencyFunction(user, mainGraph):
     # TODO: vou precisar descobrir como saber a distancia fisica do mapa entre os nós (não necessariamente pelos arcos...)
-    distance = checkDistance(user.currNode, user.allocatedCloudlet, mainGraph)
+    distance = checkDistance(user, user.currNode, user.allocatedCloudlet, mainGraph)
     return distance * 0.01
 
 def allocateUser(eTuple):
@@ -63,7 +65,7 @@ def allocateUser(eTuple):
 def initialAlloc(simClock, heapSing, usersObjs, cloudletsObjs, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graphs)
-    result = algs.greedyAlloc(cloudletsObjs, usersObjs)
+    result = alg.greedyAlloc(cloudletsObjs, usersObjs)
     for alloc in result[1]:
         user = alloc[0]
         cloudlet = alloc[1]
@@ -73,7 +75,7 @@ def initialAlloc(simClock, heapSing, usersObjs, cloudletsObjs, eTuple):
 def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graphs)
-    result = algs.greedyAlloc(cloudletsObjs, usersObjs)
+    result = alg.greedyAlloc(cloudletsObjs, usersObjs)
     for alloc in result[1]:
         user = alloc[0]
         cloudlet = alloc[1]
@@ -81,14 +83,14 @@ def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
         heapSing.insertEvent(simClock.getTimetValue(), Event.ALLOCATE_USER, eventSubtuple)
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (usersObjs, cloudletsObjs, graph))
 
-def checkDistance(srcNodeID, dstNodeID, graph):
+def checkDistance(u, srcNodeID, dstNodeID, graph):
     distSum = 0
-    cont = 0
-    userRouteNodes = [mainGraph.findNodeById(srcNodeID) for routeNode in u.route]
-    subGraph = mainGraph.getSubgraph(userRouteNodes)
-    node = routeSubgraph.nodes[cont]
-    while node.nId != dstNodeID:
-        distSum += routeSubgraph.adjList[node.nId][destNode.nId]
-        cont += 1
-        node = routeSubgraph.nodes[cont]
+    count = 0
+    countCurrID = 0
+    userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
+    subGraph = graph.getSubgraph(userRouteNodes)
+    while userRouteNodes[countCurrID] != dstNodeID:
+        distSum += subGraph.adjList[u.route[countCurrID]][u.route[countCurrID+1]]
+        count += 1
+        countCurrID += 1
     return distSum

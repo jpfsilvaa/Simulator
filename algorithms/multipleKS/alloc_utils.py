@@ -1,5 +1,8 @@
 import json, math
 import copy
+from GraphGen.classes.cloudlet import Cloudlet
+from GraphGen.classes.resources import Resources
+from GraphGen.classes.user import UserVM
 
 """ class Resources:
     def __init__(self, cpu, ram, storage):
@@ -25,7 +28,9 @@ class Cloudlet:
 def normalize(cloudlet, vms):
     normalized = []
     for v in vms:
-        normalized.append(UserVM(v.id, v.vmType, v.bid, Resources(
+        # uId, vmType, bid, avgSpeed, initTime, route, reqs
+        normalized.append(UserVM(v.uId, v.vmType, v.bid, v.avgSpeed, v.initTime,
+            v.route, Resources(
             v.reqs.cpu/cloudlet.resources.cpu,
             v.reqs.ram/cloudlet.resources.ram,
             v.reqs.storage/cloudlet.resources.storage
@@ -50,7 +55,7 @@ def calcDensitiesBySum(vms):
 
 def sortCloudletsByType(cloudlets, reverse):
     sortedCloudlets = copy.deepcopy(cloudlets)
-    sortedCloudlets.sort(key=lambda x: x.id, reverse=reverse)
+    sortedCloudlets.sort(key=lambda x: x.cId, reverse=reverse)
     return sortedCloudlets
 
 def userFits(user, occupation):

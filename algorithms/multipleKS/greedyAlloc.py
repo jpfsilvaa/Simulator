@@ -1,7 +1,7 @@
 import json, math
 import time
 import sys
-import alloc_utils as utils
+import algorithms.multipleKS.alloc_utils as utils
 
 def greedyAlloc(cloudlets, vms):
     sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
@@ -29,7 +29,7 @@ def greedyAlloc(cloudlets, vms):
         cloudletPointer += 1
     
     print('num allocated users:', len(allocatedUsers))
-    print('allocated users:', [(allocTup[0].id, allocTup[0].vmType, allocTup[1].id) for allocTup in allocatedUsers])
+    print('allocated users:', [(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers])
     return [socialWelfare, allocatedUsers, D]
 
 def pricing(winners, densities):
@@ -39,7 +39,7 @@ def pricing(winners, densities):
         winner = winners[i]
         j = 0
         while utils.userFits(winner, occupation) and j < len(densities):
-                if densities[j][0].id != winner.id and utils.userFits(densities[j][0], occupation):
+                if densities[j][0].uId != winner.uId and utils.userFits(densities[j][0], occupation):
                         utils.allocate(densities[j][0], occupation)
                 j += 1
         if j == len(densities):
@@ -49,11 +49,11 @@ def pricing(winners, densities):
         printResults(winner, densities[j-1][1])
         i += 1
 
-    return [{user.id: (user.bid, str(user.price).replace('.', ','))} for user in winners]
+    return [{user.uId: (user.bid, str(user.price).replace('.', ','))} for user in winners]
 
 def printResults(winner, criticalValue):
     print('-----------')
-    print('user id ->', winner.id)
+    print('user id ->', winner.uId)
     print('vmType ->', winner.vmType)
     print('critical value (b_j/w_j)->', criticalValue)
     print('winner density (b_i/w_i)->', winner.bid/winner.maxReq)

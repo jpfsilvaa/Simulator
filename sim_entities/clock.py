@@ -15,10 +15,10 @@ class TimerSingleton:
 
     def incrementTimer(self, i = 1):
         self.timer += i
-        return timer
+        return self.timer
     
     def getTimerValue(self):
         return self.timer
     
     def getDelta(self):
-        return delta
+        return self.delta
