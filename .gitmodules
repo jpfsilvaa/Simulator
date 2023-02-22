@@ -1,0 +1,3 @@
+[submodule "GraphGen"]
+	path = GraphGen
+	url = https://github.com/jpfsilvaa/GraphGen
