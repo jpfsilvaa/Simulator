@@ -24,3 +24,6 @@ class HeapSingleton:
 
     def getHeapSize(self):
         return len(self.heapQueue)
+    
+    def curretEventsOnHep(self):
+        return [(e[0], e[1], e[2]) for e in self.heapQueue]

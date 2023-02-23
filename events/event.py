@@ -3,6 +3,11 @@ from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
 from algorithms.multipleKS import greedyAlloc as alg
+from OsmToRoadGraph.utils import geo_tools
+from sim_entities.cloudlets import CloudletsListSingleton
+from sim_entities.users import UsersListSingleton
+
+TAG = 'event.py:'
 
 class Event(Enum):
     MOVE_USER = 0
@@ -13,21 +18,23 @@ class Event(Enum):
 
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     @classmethod
-    def execEvent(self, simClock, heapSing, users, cloudlets, eTuple):
+    def execEvent(self, simClock, heapSing, eTuple):
+        print(TAG, 'execEvent')
         eventType = eTuple[2]
         simClock.incrementTimer(eTuple[0])
         if eventType == Event.MOVE_USER:
-            moveUser(heapSing, users, cloudlets, eTuple)
+            moveUser(heapSing, eTuple)
         elif eventType == Event.ALLOCATE_USER:
             allocateUser(eTuple)
         elif eventType == Event.INITIAL_ALLOCATION:
-            initialAlloc(simClock, heapSing, users, cloudlets, eTuple)
+            initialAlloc(simClock, heapSing, eTuple)
         elif eventType == Event.CALL_OPT:
-            optimizeAlloc(simClock, heapSing, users, cloudlets, eTuple)
+            optimizeAlloc(simClock, heapSing, eTuple)
         elif eventType == Event.CALL_PRICE:
             pass # TODO: PHASE 3 or 4
 
-def moveUser(heapSing, users, cloudlets, eTuple):
+def moveUser(heapSing, eTuple):
+    print(TAG, 'moveUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (User, Node, graph)
     user = eTuple[3][0]
@@ -35,62 +42,62 @@ def moveUser(heapSing, users, cloudlets, eTuple):
     user.currNode = Node
     user.currLatency = latencyFunction(user, eTuple[3][2])
     # TODO: TRIGGER ONE MORE MOVE_USER EVENT FOR THIS USER
-    
-
-def latencyFunction(user, mainGraph):
-    # TODO: vou precisar descobrir como saber a distancia fisica do mapa entre os nós (não necessariamente pelos arcos...)
-    distance = checkDistance(user, user.currNode, user.allocatedCloudlet, mainGraph)
-    return distance * 0.01
 
 def allocateUser(eTuple):
+    print(TAG, 'allocateUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (User, Cloudlet, graphs)
-    user = eTuple[3][0]
+    # contentSubtuple: (userId, cloudletId, graph)
+    user = UsersListSingleton().findById(eTuple[3][0])
     oldCloudlet = user.allocatedCloudlet
-    newCloudlet = eTuple[3][1]
+    newCloudlet = CloudletsListSingleton().findById(eTuple[3][1])
     
-    oldCloudlet.resources.cpu += user.reqs.cpu
-    oldCloudlet.resources.ram += user.reqs.ram
-    oldCloudlet.resources.storage += user.reqs.storage
-    oldCloudlet.currUsersAllocated.remove(user)
+    if oldCloudlet != None: # first allocation
+        oldCloudlet.resources.cpu += user.reqs.cpu
+        oldCloudlet.resources.ram += user.reqs.ram
+        oldCloudlet.resources.storage += user.reqs.storage
+        oldCloudlet.currUsersAllocated.remove(user)
 
     newCloudlet.resources.cpu -= user.reqs.cpu
     newCloudlet.resources.ram -= user.reqs.ram
     newCloudlet.resources.storage -= user.reqs.storage
     newCloudlet.currUsersAllocated.append(user)
 
-    user.latency = latencyFunction(user, eTuple[3][2][0])
     user.allocatedCloudlet = newCloudlet
+    user.latency = latencyFunction(user, eTuple[3][2])
 
-def initialAlloc(simClock, heapSing, usersObjs, cloudletsObjs, eTuple):
+def latencyFunction(user, mainGraph):
+    print(TAG, 'latencyFunction')    
+    print(user.description)
+    distance = geo_tools.distance(mainGraph.findNodeById(user.currNodeId).posX, 
+                                    mainGraph.findNodeById(user.currNodeId).posY, 
+                                    mainGraph.findNodeById(user.allocatedCloudlet.nodeId).posX, 
+                                    mainGraph.findNodeById(user.allocatedCloudlet.nodeId).posY)
+    return distance * 0.01
+
+def initialAlloc(simClock, heapSing, eTuple):
+    print(TAG, 'initialAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (graphs)
-    result = alg.greedyAlloc(cloudletsObjs, usersObjs)
-    for alloc in result[1]:
-        user = alloc[0]
-        cloudlet = alloc[1]
-        eventSubtuple = (user, cloudlet, eTuple)
+    # contentSubtuple: (graph)
+    usersSing = UsersListSingleton()
+    cloudletsSing = CloudletsListSingleton()
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    for allocs in result[1]:
+        userId = allocs[0].uId
+        cloudletId = allocs[1].cId
+        eventSubtuple = (userId, cloudletId, eTuple[3][0])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
+    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (graph))
 
-def optimizeAlloc(simClock, usersObjs, cloudletsObjs, eTuple):
+def optimizeAlloc(simClock, eTuple):
+    print(TAG, 'optimizeAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (graphs)
-    result = alg.greedyAlloc(cloudletsObjs, usersObjs)
+    # contentSubtuple: (graph)
+    usersSing = UsersListSingleton()
+    cloudletsSing = CloudletsListSingleton()
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     for alloc in result[1]:
-        user = alloc[0]
-        cloudlet = alloc[1]
-        eventSubtuple = (user, cloudlet, eTuple)
+        userId = alloc[0].uId
+        cloudletId = alloc[1].cId
+        eventSubtuple = (userId, cloudletId, eTuple)
         heapSing.insertEvent(simClock.getTimetValue(), Event.ALLOCATE_USER, eventSubtuple)
-    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (usersObjs, cloudletsObjs, graph))
-
-def checkDistance(u, srcNodeID, dstNodeID, graph):
-    distSum = 0
-    count = 0
-    countCurrID = 0
-    userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
-    subGraph = graph.getSubgraph(userRouteNodes)
-    while userRouteNodes[countCurrID] != dstNodeID:
-        distSum += subGraph.adjList[u.route[countCurrID]][u.route[countCurrID+1]]
-        count += 1
-        countCurrID += 1
-    return distSum
+    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (graph))

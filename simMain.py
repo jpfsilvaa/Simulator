@@ -1,22 +1,34 @@
 from sim_entities.heap import HeapSingleton
 from sim_entities.clock import TimerSingleton
+from sim_entities.users import UsersListSingleton
+from sim_entities.cloudlets import CloudletsListSingleton
 from events.event import Event
 from GraphGen import instanceGen as instGen
 import sys
 
-TAG = 'simMain'
+TAG = 'simMain.py:'
 
-def initialAllocation(heapSing, usersObjs, cloudletsObjs, graph):
+def initialAllocation(heapSing, graph):
     print(TAG, 'initialAllocation')
-    heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (usersObjs, cloudletsObjs, graph))
+    heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (graph))
 
 def initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graph):
     print(TAG, 'initRoutine')
-    # initCloudlets(inGraph) # TODO: PHASE 2
-    # initUsers(inGraph) # TODO: PHASE 2
-    initialAllocation(heapSing, usersObjs, cloudletsObjs, graph)
-    triggerUserPathEvents(heapSing, usersObjs, cloudletsObjs, graph)
-    timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing)
+    initCloudlets(cloudletsObjs)
+    initUsers(usersObjs)
+    initialAllocation(heapSing, graph)
+    triggerUserPathEvents(heapSing, graph)
+    timingRoutine(simClock, heapSing)
+
+def initCloudlets(cloudlets):
+    clList = CloudletsListSingleton()
+    for c in cloudlets:
+        clList.insertCloudlet(c)
+
+def initUsers(users):
+    uList = UsersListSingleton()
+    for u in users:
+        uList.insertUser(u)
 
 def initHeap():
     print(TAG, 'initHeap')
@@ -28,42 +40,40 @@ def initSimClock():
     simClock = TimerSingleton()
     return simClock
 
-def timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing):
+def timingRoutine(simClock, heapSing):
     print(TAG, 'timingRoutine')
     nextEvent = heapSing.nextEvent()
-    invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, nextEvent)
+    invokeRoutine(simClock, heapSing, nextEvent)
 
-def invokeRoutine(usersObjs, cloudletsObjs, simClock, heapSing, eTuple):
+def invokeRoutine(simClock, heapSing, eTuple):
     print(TAG, 'invokeRoutine')
     print("CALLING EVENT", eTuple[2])
-    Event.execEvent(simClock, heapSing, usersObjs, cloudletsObjs, eTuple)
+    Event.execEvent(simClock, heapSing, eTuple)
     # statsStoring.writeStats(usersObjs, cloudletsObjs, simClock.getTimerValue(), eTuple)
 
-def triggerUserPathEvents(heapSing, usersObjs, cloudletsObjs, graph):
+def triggerUserPathEvents(heapSing, graph):
     print(TAG, 'triggerUserPathEvents')
-    for u in usersObjs:
+    for u in UsersListSingleton().getList():
         userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
-        currSg = graph.getSubgraph(userRouteNodes)
-        heapSing.insertEvent(calcTimeToExec(u, currSg, userRouteNodes[0]), Event.MOVE_USER, (u, userRouteNodes[0], graph))
-        heapSing.insertEvent(calcTimeToExec(u, currSg, userRouteNodes[1]), Event.MOVE_USER, (u, userRouteNodes[1], graph))
+        heapSing.insertEvent(calcTimeToExec(u, u.route, graph, userRouteNodes[0]), 
+                                        Event.MOVE_USER, (u, userRouteNodes[0], graph))
+        heapSing.insertEvent(calcTimeToExec(u, u.route, graph, userRouteNodes[1]), 
+                                        Event.MOVE_USER, (u, userRouteNodes[1], graph))
 
-def calcTimeToExec(user, routeSubgraph, destNode):
+def calcTimeToExec(user, routeIds, mainGraph, destNode):
     print(TAG, 'calcTimeToExec')
     # TODO: USAR O GEOTOOLS (LIB DA LIB DO OSM)
-    distance = getDistSum(routeSubgraph, destNode)
+    distance = getDistSum(routeIds, mainGraph, destNode)
     arrivalTime = distance // user.avgSpeed
     return arrivalTime + user.initTime
 
-def getDistSum(routeSubgraph, destNode):
-    # todo: FIX
+def getDistSum(routeIds, mainGraph, destNode):
     print(TAG, 'getDistSum')
     distSum = 0
     cont = 0
-    node = routeSubgraph.nodes[cont]
-    while node.nId != destNode.nId:
-        distSum += routeSubgraph.adjList[node.nId][destNode.nId]
+    while routeIds[cont] != destNode.nId:
+        distSum += mainGraph.adjList[routeIds[cont]][routeIds[cont+1]]
         cont += 1
-        node = routeSubgraph.nodes[cont]
     return distSum
 
 def startSimulation(cloudletsObjs, usersObjs, graph):
