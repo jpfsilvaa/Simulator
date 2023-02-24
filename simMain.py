@@ -1,9 +1,10 @@
 from sim_entities.heap import HeapSingleton
 from sim_entities.clock import TimerSingleton
-from sim_entities.users import UsersListSingleton
-from sim_entities.cloudlets import CloudletsListSingleton
 from events.event import Event
 from GraphGen import instanceGen as instGen
+from sim_entities.cloudlets import CloudletsListSingleton
+from sim_entities.users import UsersListSingleton
+import sim_utils as utils
 import sys
 
 TAG = 'simMain.py:'
@@ -55,36 +56,20 @@ def triggerUserPathEvents(heapSing, graph):
     print(TAG, 'triggerUserPathEvents')
     for u in UsersListSingleton().getList():
         userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
-        heapSing.insertEvent(calcTimeToExec(u, u.route, graph, userRouteNodes[0]), 
-                                        Event.MOVE_USER, (u, userRouteNodes[0], graph))
-        heapSing.insertEvent(calcTimeToExec(u, u.route, graph, userRouteNodes[1]), 
-                                        Event.MOVE_USER, (u, userRouteNodes[1], graph))
-
-def calcTimeToExec(user, routeIds, mainGraph, destNode):
-    print(TAG, 'calcTimeToExec')
-    # TODO: USAR O GEOTOOLS (LIB DA LIB DO OSM)
-    distance = getDistSum(routeIds, mainGraph, destNode)
-    arrivalTime = distance // user.avgSpeed
-    return arrivalTime + user.initTime
-
-def getDistSum(routeIds, mainGraph, destNode):
-    print(TAG, 'getDistSum')
-    distSum = 0
-    cont = 0
-    while routeIds[cont] != destNode.nId:
-        distSum += mainGraph.adjList[routeIds[cont]][routeIds[cont+1]]
-        cont += 1
-    return distSum
+        heapSing.insertEvent(utils.calcTimeToExec(u, u.route, graph, userRouteNodes[0]), 
+                                        Event.MOVE_USER, (u, 0, graph))
 
 def startSimulation(cloudletsObjs, usersObjs, graph):
-    print(TAG, 'startSimulation')
+    print(TAG, TimerSingleton().getTimerValue() + 'startSimulation')
     # statsStoring = Stats() TODO: PHASE 2
     heapSing = initHeap()
     simClock = initSimClock()
     initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graph)
-    while heapSing.getHeapSize() > 0: # TODO: PHASE 2: Actually the end should be when there're no more users to move (MOVE_USER event)
+    while UsersListSingleton().getUsersListSize() > 0:
         print('HEAP SIZE: ', heapSing.getHeapSize())
-        timingRoutine(usersObjs, cloudletsObjs, simClock, heapSing)
+        print('USERS LIST SIZE: ', UsersListSingleton().getUsersListSize())
+        timingRoutine(simClock, heapSing)
+    print('SIMULATION FINISHED')
     # statsStoring.writeReport() # TODO: PHASE 2
 
 def main(jsonFilePath, graphFilePath):

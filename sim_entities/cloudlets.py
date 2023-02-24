@@ -16,16 +16,16 @@ class CloudletsListSingleton:
         return self.cloudlets
     
     def insertCloudlet(self, cloudlet):
-        self.users.append(cloudlet)
+        self.cloudlets.append(cloudlet)
 
     def removeCloudlet(self, cloudlet):
-        self.users.remove(cloudlet)
+        self.cloudlets.remove(cloudlet)
 
     def getCloudletsListSize(self):
         return len(self.cloudlets)
 
     def findById(self, cId):
-        for c in self.users:
+        for c in self.cloudlets:
             if c.cId == cId:
                 return c
         return None

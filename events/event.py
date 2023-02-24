@@ -6,6 +6,7 @@ from algorithms.multipleKS import greedyAlloc as alg
 from OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
+import sim_utils as utils
 
 TAG = 'event.py:'
 
@@ -36,12 +37,20 @@ class Event(Enum):
 def moveUser(heapSing, eTuple):
     print(TAG, 'moveUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (User, Node, graph)
+    # contentSubtuple: (User, idxFromRoute, graph)
     user = eTuple[3][0]
-    Node = eTuple[3][1]
-    user.currNode = Node
-    user.currLatency = latencyFunction(user, eTuple[3][2])
-    # TODO: TRIGGER ONE MORE MOVE_USER EVENT FOR THIS USER
+    idxFromRoute = eTuple[3][1]
+    mainGraph = eTuple[3][2]
+    user.currNode = user.route[idxFromRoute]
+    user.currLatency = latencyFunction(user, mainGraph)
+    idxFromRoute += 1
+    
+    if idxFromRoute >= len(user.route):
+        UsersListSingleton().removeUser(user)
+    else:
+        userRouteNodes = [mainGraph.findNodeById(routeNode) for routeNode in user.route]
+        heapSing.insertEvent(utils.calcTimeToExec(user, user.route, mainGraph, userRouteNodes[0]), 
+                                        Event.MOVE_USER, (user, idxFromRoute, mainGraph))
 
 def allocateUser(eTuple):
     print(TAG, 'allocateUser')
@@ -67,7 +76,6 @@ def allocateUser(eTuple):
 
 def latencyFunction(user, mainGraph):
     print(TAG, 'latencyFunction')    
-    print(user.description)
     distance = geo_tools.distance(mainGraph.findNodeById(user.currNodeId).posX, 
                                     mainGraph.findNodeById(user.currNodeId).posY, 
                                     mainGraph.findNodeById(user.allocatedCloudlet.nodeId).posX, 
@@ -84,11 +92,11 @@ def initialAlloc(simClock, heapSing, eTuple):
     for allocs in result[1]:
         userId = allocs[0].uId
         cloudletId = allocs[1].cId
-        eventSubtuple = (userId, cloudletId, eTuple[3][0])
+        eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
-    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (graph))
+    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
-def optimizeAlloc(simClock, eTuple):
+def optimizeAlloc(simClock, heapSing, eTuple):
     print(TAG, 'optimizeAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graph)
@@ -98,6 +106,6 @@ def optimizeAlloc(simClock, eTuple):
     for alloc in result[1]:
         userId = alloc[0].uId
         cloudletId = alloc[1].cId
-        eventSubtuple = (userId, cloudletId, eTuple)
-        heapSing.insertEvent(simClock.getTimetValue(), Event.ALLOCATE_USER, eventSubtuple)
-    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (graph))
+        eventSubtuple = (userId, cloudletId, eTuple[3])
+        heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
+    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
