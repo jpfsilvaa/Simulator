@@ -3,7 +3,7 @@ import threading
 class TimerSingleton:
     _instance = None
     _lock = threading.Lock()
-    delta = 120 # seconds
+    delta = 10 # seconds
     timer = 0
 
     def __new__(cls):

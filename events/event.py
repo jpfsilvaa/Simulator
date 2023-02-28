@@ -7,8 +7,9 @@ from OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
 import sim_utils as utils
+import logging
 
-TAG = 'event.py:'
+TAG = 'event.py'
 
 class Event(Enum):
     MOVE_USER = 0
@@ -20,7 +21,7 @@ class Event(Enum):
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     @classmethod
     def execEvent(self, simClock, heapSing, eTuple):
-        print(TAG, 'execEvent')
+        utils.log(TAG, 'execEvent')
         eventType = eTuple[2]
         simClock.incrementTimer(eTuple[0])
         if eventType == Event.MOVE_USER:
@@ -35,7 +36,7 @@ class Event(Enum):
             pass # TODO: PHASE 3 or 4
 
 def moveUser(heapSing, eTuple):
-    print(TAG, 'moveUser')
+    utils.log(TAG, 'moveUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (User, idxFromRoute, graph)
     user = eTuple[3][0]
@@ -49,11 +50,11 @@ def moveUser(heapSing, eTuple):
         UsersListSingleton().removeUser(user)
     else:
         userRouteNodes = [mainGraph.findNodeById(routeNode) for routeNode in user.route]
-        heapSing.insertEvent(utils.calcTimeToExec(user, user.route, mainGraph, userRouteNodes[0]), 
+        heapSing.insertEvent(utils.calcTimeToExec(user, user.route, mainGraph, userRouteNodes[idxFromRoute]), 
                                         Event.MOVE_USER, (user, idxFromRoute, mainGraph))
 
 def allocateUser(eTuple):
-    print(TAG, 'allocateUser')
+    utils.log(TAG, 'allocateUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (userId, cloudletId, graph)
     user = UsersListSingleton().findById(eTuple[3][0])
@@ -75,7 +76,7 @@ def allocateUser(eTuple):
     user.latency = latencyFunction(user, eTuple[3][2])
 
 def latencyFunction(user, mainGraph):
-    print(TAG, 'latencyFunction')    
+    utils.log(TAG, 'latencyFunction')    
     distance = geo_tools.distance(mainGraph.findNodeById(user.currNodeId).posX, 
                                     mainGraph.findNodeById(user.currNodeId).posY, 
                                     mainGraph.findNodeById(user.allocatedCloudlet.nodeId).posX, 
@@ -83,7 +84,7 @@ def latencyFunction(user, mainGraph):
     return distance * 0.01
 
 def initialAlloc(simClock, heapSing, eTuple):
-    print(TAG, 'initialAlloc')
+    utils.log(TAG, 'initialAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
@@ -97,7 +98,7 @@ def initialAlloc(simClock, heapSing, eTuple):
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def optimizeAlloc(simClock, heapSing, eTuple):
-    print(TAG, 'optimizeAlloc')
+    utils.log(TAG, 'optimizeAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()

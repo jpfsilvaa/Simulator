@@ -2,8 +2,13 @@ import json, math
 import time
 import sys
 import algorithms.multipleKS.alloc_utils as utils
+import sim_utils
+import logging
+
+TAG = 'greedyAlloc.py'
 
 def greedyAlloc(cloudlets, vms):
+    sim_utils.log(TAG, 'greedyAlloc')
     sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
     normalVms = utils.normalize(sortedCloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
@@ -28,11 +33,12 @@ def greedyAlloc(cloudlets, vms):
                 userPointer += 1
         cloudletPointer += 1
     
-    print('num allocated users:', len(allocatedUsers))
-    print('allocated users:', [(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers])
+    sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)}')
+    sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers, D]
 
 def pricing(winners, densities):
+    sim_utils.log(TAG, 'pricing')
     i = 0
     while i < len(winners):
         occupation = utils.Resources(0, 0, 0) # for identical cloudlets, this is ok, but not for different cloudlets
@@ -52,7 +58,7 @@ def pricing(winners, densities):
     return [{user.uId: (user.bid, str(user.price).replace('.', ','))} for user in winners]
 
 def printResults(winner, criticalValue):
-    print('-----------')
+    sim_utils.log(TAG, 'pricingResults')
     print('user id ->', winner.uId)
     print('vmType ->', winner.vmType)
     print('critical value (b_j/w_j)->', criticalValue)
@@ -60,6 +66,7 @@ def printResults(winner, criticalValue):
     print('winner bid (b_i)->', winner.bid)
     print('winner maxCoord (w_i)->', winner.maxReq)
     print('winner price->', winner.price)
+    print('-----------')
 
 def main(jsonFilePath):
     data = utils.readJSONData(jsonFilePath)
@@ -69,8 +76,8 @@ def main(jsonFilePath):
     result = greedyAlloc(cloudlets, userVms)
     endTime = time.time()
 
-    print('social welfare:', result[0])
-    print('execution time:', str(endTime-startTime).replace('.', ','))
+    sim_utils.log(TAG, f'social welfare: {result[0]}')
+    sim_utils.log(f"execution time: {str(endTime-startTime).replace('.', ',')}")
     #  print('\nprices (user: (bid, price)) : ', pricing(winners=result[1], densities=result[2]))
 
 if __name__ == "__main__":

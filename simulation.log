@@ -1,0 +1,528 @@
+2023-02-27 15:08:46,279 simMain.py: time-step:0 main
+2023-02-27 15:08:46,279 instanceGen.py:: time-step:0 main
+2023-02-27 15:08:46,279 instanceGen.py:: time-step:0 createGraph
+2023-02-27 15:08:46,299 simMain.py: time-step:0 startSimulation
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initHeap
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initSimClock
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initRoutine
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initCloudlets
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initUsers
+2023-02-27 15:08:46,299 simMain.py: time-step:0 initialAllocation
+2023-02-27 15:08:46,299 simMain.py: time-step:0 triggerUserPathEvents
+2023-02-27 15:08:46,304 sim_utils.py: time-step:0 calcTimeToExec
+2023-02-27 15:08:46,304 sim_utils.py: time-step:0 getDistSum
+2023-02-27 15:08:46,304 sim_utils.py0, 10, 0
+2023-02-27 15:08:46,304 simMain.py: time-step:0 timingRoutine
+2023-02-27 15:08:46,304 simMain.py: time-step:0 invokeRoutine
+2023-02-27 15:08:46,304 simMain.py: time-step:0 CALLING EVENT  Event.INITIAL_ALLOCATION
+2023-02-27 15:08:46,304 event.py: time-step:0 execEvent
+2023-02-27 15:08:46,305 event.py: time-step:0 initialAlloc
+2023-02-27 15:08:46,305 greedyAlloc.py: time-step:0 greedyAlloc
+2023-02-27 15:08:46,305 greedyAlloc.py: time-step:0 num allocated users: 1
+2023-02-27 15:08:46,305 greedyAlloc.py: time-step:0 allocated users: [('v0', 'gp1', 'cA_3')]
+2023-02-27 15:08:46,305 simMain.py: time-step:0 HEAP SIZE: 3
+2023-02-27 15:08:46,305 simMain.py: time-step:0 HEAP: [(0, 3, <Event.ALLOCATE_USER: 1>), (1, 2, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,305 simMain.py: time-step:0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,305 simMain.py: time-step:0 timingRoutine
+2023-02-27 15:08:46,305 simMain.py: time-step:0 invokeRoutine
+2023-02-27 15:08:46,305 simMain.py: time-step:0 CALLING EVENT  Event.ALLOCATE_USER
+2023-02-27 15:08:46,305 event.py: time-step:0 execEvent
+2023-02-27 15:08:46,305 event.py: time-step:0 allocateUser
+2023-02-27 15:08:46,305 event.py: time-step:0 latencyFunction
+2023-02-27 15:08:46,306 simMain.py: time-step:0 HEAP SIZE: 2
+2023-02-27 15:08:46,306 simMain.py: time-step:0 HEAP: [(1, 2, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,306 simMain.py: time-step:0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,306 simMain.py: time-step:0 timingRoutine
+2023-02-27 15:08:46,306 simMain.py: time-step:0 invokeRoutine
+2023-02-27 15:08:46,306 simMain.py: time-step:0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,306 event.py: time-step:0 execEvent
+2023-02-27 15:08:46,306 event.py: time-step:1 moveUser
+2023-02-27 15:08:46,306 event.py: time-step:1 latencyFunction
+2023-02-27 15:08:46,313 sim_utils.py: time-step:1 calcTimeToExec
+2023-02-27 15:08:46,313 sim_utils.py: time-step:1 getDistSum
+2023-02-27 15:08:46,313 sim_utils.py15.23, 10, 1.0
+2023-02-27 15:08:46,313 simMain.py: time-step:1 HEAP SIZE: 2
+2023-02-27 15:08:46,313 simMain.py: time-step:1 HEAP: [(2.0, 5, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,313 simMain.py: time-step:1 USERS LIST SIZE: 1
+2023-02-27 15:08:46,313 simMain.py: time-step:1 timingRoutine
+2023-02-27 15:08:46,313 simMain.py: time-step:1 invokeRoutine
+2023-02-27 15:08:46,313 simMain.py: time-step:1 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,313 event.py: time-step:1 execEvent
+2023-02-27 15:08:46,313 event.py: time-step:3.0 moveUser
+2023-02-27 15:08:46,313 event.py: time-step:3.0 latencyFunction
+2023-02-27 15:08:46,318 sim_utils.py: time-step:3.0 calcTimeToExec
+2023-02-27 15:08:46,318 sim_utils.py: time-step:3.0 getDistSum
+2023-02-27 15:08:46,318 sim_utils.py23.759999999999998, 10, 2.0
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 HEAP SIZE: 2
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 HEAP: [(3.0, 6, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 timingRoutine
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 invokeRoutine
+2023-02-27 15:08:46,318 simMain.py: time-step:3.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,318 event.py: time-step:3.0 execEvent
+2023-02-27 15:08:46,318 event.py: time-step:6.0 moveUser
+2023-02-27 15:08:46,318 event.py: time-step:6.0 latencyFunction
+2023-02-27 15:08:46,325 sim_utils.py: time-step:6.0 calcTimeToExec
+2023-02-27 15:08:46,325 sim_utils.py: time-step:6.0 getDistSum
+2023-02-27 15:08:46,325 sim_utils.py39.589999999999996, 10, 3.0
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 HEAP SIZE: 2
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 HEAP: [(4.0, 7, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 timingRoutine
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 invokeRoutine
+2023-02-27 15:08:46,325 simMain.py: time-step:6.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,325 event.py: time-step:6.0 execEvent
+2023-02-27 15:08:46,325 event.py: time-step:10.0 moveUser
+2023-02-27 15:08:46,325 event.py: time-step:10.0 latencyFunction
+2023-02-27 15:08:46,333 sim_utils.py: time-step:10.0 calcTimeToExec
+2023-02-27 15:08:46,333 sim_utils.py: time-step:10.0 getDistSum
+2023-02-27 15:08:46,334 sim_utils.py58.86, 10, 5.0
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 HEAP SIZE: 2
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 HEAP: [(6.0, 8, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 timingRoutine
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 invokeRoutine
+2023-02-27 15:08:46,334 simMain.py: time-step:10.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,334 event.py: time-step:10.0 execEvent
+2023-02-27 15:08:46,334 event.py: time-step:16.0 moveUser
+2023-02-27 15:08:46,334 event.py: time-step:16.0 latencyFunction
+2023-02-27 15:08:46,341 sim_utils.py: time-step:16.0 calcTimeToExec
+2023-02-27 15:08:46,341 sim_utils.py: time-step:16.0 getDistSum
+2023-02-27 15:08:46,341 sim_utils.py65.46, 10, 6.0
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 HEAP SIZE: 2
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 HEAP: [(7.0, 9, <Event.MOVE_USER: 0>), (10, 4, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 timingRoutine
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 invokeRoutine
+2023-02-27 15:08:46,342 simMain.py: time-step:16.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,342 event.py: time-step:16.0 execEvent
+2023-02-27 15:08:46,342 event.py: time-step:23.0 moveUser
+2023-02-27 15:08:46,342 event.py: time-step:23.0 latencyFunction
+2023-02-27 15:08:46,350 sim_utils.py: time-step:23.0 calcTimeToExec
+2023-02-27 15:08:46,350 sim_utils.py: time-step:23.0 getDistSum
+2023-02-27 15:08:46,350 sim_utils.py93.67999999999999, 10, 9.0
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 HEAP SIZE: 2
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 HEAP: [(10, 4, <Event.CALL_OPT: 3>), (10.0, 10, <Event.MOVE_USER: 0>)]
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 timingRoutine
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 invokeRoutine
+2023-02-27 15:08:46,350 simMain.py: time-step:23.0 CALLING EVENT  Event.CALL_OPT
+2023-02-27 15:08:46,350 event.py: time-step:23.0 execEvent
+2023-02-27 15:08:46,351 event.py: time-step:33.0 optimizeAlloc
+2023-02-27 15:08:46,351 greedyAlloc.py: time-step:33.0 greedyAlloc
+2023-02-27 15:08:46,351 greedyAlloc.py: time-step:33.0 num allocated users: 1
+2023-02-27 15:08:46,351 greedyAlloc.py: time-step:33.0 allocated users: [('v0', 'gp1', 'cA_3')]
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 HEAP SIZE: 3
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 HEAP: [(10.0, 10, <Event.MOVE_USER: 0>), (33.0, 11, <Event.ALLOCATE_USER: 1>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 timingRoutine
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 invokeRoutine
+2023-02-27 15:08:46,351 simMain.py: time-step:33.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,351 event.py: time-step:33.0 execEvent
+2023-02-27 15:08:46,351 event.py: time-step:43.0 moveUser
+2023-02-27 15:08:46,351 event.py: time-step:43.0 latencyFunction
+2023-02-27 15:08:46,358 sim_utils.py: time-step:43.0 calcTimeToExec
+2023-02-27 15:08:46,358 sim_utils.py: time-step:43.0 getDistSum
+2023-02-27 15:08:46,358 sim_utils.py103.67999999999999, 10, 10.0
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 HEAP SIZE: 3
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 HEAP: [(11.0, 13, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 timingRoutine
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 invokeRoutine
+2023-02-27 15:08:46,358 simMain.py: time-step:43.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,358 event.py: time-step:43.0 execEvent
+2023-02-27 15:08:46,358 event.py: time-step:54.0 moveUser
+2023-02-27 15:08:46,358 event.py: time-step:54.0 latencyFunction
+2023-02-27 15:08:46,367 sim_utils.py: time-step:54.0 calcTimeToExec
+2023-02-27 15:08:46,367 sim_utils.py: time-step:54.0 getDistSum
+2023-02-27 15:08:46,367 sim_utils.py114.05999999999999, 10, 11.0
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 HEAP SIZE: 3
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 HEAP: [(12.0, 14, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 timingRoutine
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 invokeRoutine
+2023-02-27 15:08:46,367 simMain.py: time-step:54.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,368 event.py: time-step:54.0 execEvent
+2023-02-27 15:08:46,368 event.py: time-step:66.0 moveUser
+2023-02-27 15:08:46,368 event.py: time-step:66.0 latencyFunction
+2023-02-27 15:08:46,374 sim_utils.py: time-step:66.0 calcTimeToExec
+2023-02-27 15:08:46,374 sim_utils.py: time-step:66.0 getDistSum
+2023-02-27 15:08:46,374 sim_utils.py147.81, 10, 14.0
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 HEAP SIZE: 3
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 HEAP: [(15.0, 15, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 timingRoutine
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 invokeRoutine
+2023-02-27 15:08:46,374 simMain.py: time-step:66.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,374 event.py: time-step:66.0 execEvent
+2023-02-27 15:08:46,374 event.py: time-step:81.0 moveUser
+2023-02-27 15:08:46,374 event.py: time-step:81.0 latencyFunction
+2023-02-27 15:08:46,381 sim_utils.py: time-step:81.0 calcTimeToExec
+2023-02-27 15:08:46,381 sim_utils.py: time-step:81.0 getDistSum
+2023-02-27 15:08:46,381 sim_utils.py149.87, 10, 14.0
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 HEAP SIZE: 3
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 HEAP: [(15.0, 16, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 timingRoutine
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 invokeRoutine
+2023-02-27 15:08:46,382 simMain.py: time-step:81.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,382 event.py: time-step:81.0 execEvent
+2023-02-27 15:08:46,382 event.py: time-step:96.0 moveUser
+2023-02-27 15:08:46,382 event.py: time-step:96.0 latencyFunction
+2023-02-27 15:08:46,390 sim_utils.py: time-step:96.0 calcTimeToExec
+2023-02-27 15:08:46,390 sim_utils.py: time-step:96.0 getDistSum
+2023-02-27 15:08:46,390 sim_utils.py155.09, 10, 15.0
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 HEAP SIZE: 3
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 HEAP: [(16.0, 17, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 timingRoutine
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 invokeRoutine
+2023-02-27 15:08:46,390 simMain.py: time-step:96.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,390 event.py: time-step:96.0 execEvent
+2023-02-27 15:08:46,390 event.py: time-step:112.0 moveUser
+2023-02-27 15:08:46,390 event.py: time-step:112.0 latencyFunction
+2023-02-27 15:08:46,393 sim_utils.py: time-step:112.0 calcTimeToExec
+2023-02-27 15:08:46,393 sim_utils.py: time-step:112.0 getDistSum
+2023-02-27 15:08:46,393 sim_utils.py161.86, 10, 16.0
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 HEAP SIZE: 3
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 HEAP: [(17.0, 18, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 timingRoutine
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 invokeRoutine
+2023-02-27 15:08:46,393 simMain.py: time-step:112.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,393 event.py: time-step:112.0 execEvent
+2023-02-27 15:08:46,393 event.py: time-step:129.0 moveUser
+2023-02-27 15:08:46,393 event.py: time-step:129.0 latencyFunction
+2023-02-27 15:08:46,395 sim_utils.py: time-step:129.0 calcTimeToExec
+2023-02-27 15:08:46,395 sim_utils.py: time-step:129.0 getDistSum
+2023-02-27 15:08:46,395 sim_utils.py175.93, 10, 17.0
+2023-02-27 15:08:46,395 simMain.py: time-step:129.0 HEAP SIZE: 3
+2023-02-27 15:08:46,396 simMain.py: time-step:129.0 HEAP: [(18.0, 19, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,396 simMain.py: time-step:129.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,396 simMain.py: time-step:129.0 timingRoutine
+2023-02-27 15:08:46,396 simMain.py: time-step:129.0 invokeRoutine
+2023-02-27 15:08:46,396 simMain.py: time-step:129.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,396 event.py: time-step:129.0 execEvent
+2023-02-27 15:08:46,396 event.py: time-step:147.0 moveUser
+2023-02-27 15:08:46,396 event.py: time-step:147.0 latencyFunction
+2023-02-27 15:08:46,398 sim_utils.py: time-step:147.0 calcTimeToExec
+2023-02-27 15:08:46,398 sim_utils.py: time-step:147.0 getDistSum
+2023-02-27 15:08:46,398 sim_utils.py185.95000000000002, 10, 18.0
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 HEAP SIZE: 3
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 HEAP: [(19.0, 20, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 timingRoutine
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 invokeRoutine
+2023-02-27 15:08:46,398 simMain.py: time-step:147.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,398 event.py: time-step:147.0 execEvent
+2023-02-27 15:08:46,398 event.py: time-step:166.0 moveUser
+2023-02-27 15:08:46,398 event.py: time-step:166.0 latencyFunction
+2023-02-27 15:08:46,401 sim_utils.py: time-step:166.0 calcTimeToExec
+2023-02-27 15:08:46,401 sim_utils.py: time-step:166.0 getDistSum
+2023-02-27 15:08:46,401 sim_utils.py210.71, 10, 21.0
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 HEAP SIZE: 3
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 HEAP: [(22.0, 21, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 timingRoutine
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 invokeRoutine
+2023-02-27 15:08:46,401 simMain.py: time-step:166.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,401 event.py: time-step:166.0 execEvent
+2023-02-27 15:08:46,401 event.py: time-step:188.0 moveUser
+2023-02-27 15:08:46,401 event.py: time-step:188.0 latencyFunction
+2023-02-27 15:08:46,404 sim_utils.py: time-step:188.0 calcTimeToExec
+2023-02-27 15:08:46,404 sim_utils.py: time-step:188.0 getDistSum
+2023-02-27 15:08:46,404 sim_utils.py214.73000000000002, 10, 21.0
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 HEAP SIZE: 3
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 HEAP: [(22.0, 22, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 timingRoutine
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 invokeRoutine
+2023-02-27 15:08:46,404 simMain.py: time-step:188.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,404 event.py: time-step:188.0 execEvent
+2023-02-27 15:08:46,404 event.py: time-step:210.0 moveUser
+2023-02-27 15:08:46,404 event.py: time-step:210.0 latencyFunction
+2023-02-27 15:08:46,406 sim_utils.py: time-step:210.0 calcTimeToExec
+2023-02-27 15:08:46,406 sim_utils.py: time-step:210.0 getDistSum
+2023-02-27 15:08:46,406 sim_utils.py225.47000000000003, 10, 22.0
+2023-02-27 15:08:46,406 simMain.py: time-step:210.0 HEAP SIZE: 3
+2023-02-27 15:08:46,407 simMain.py: time-step:210.0 HEAP: [(23.0, 23, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,407 simMain.py: time-step:210.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,407 simMain.py: time-step:210.0 timingRoutine
+2023-02-27 15:08:46,407 simMain.py: time-step:210.0 invokeRoutine
+2023-02-27 15:08:46,407 simMain.py: time-step:210.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,407 event.py: time-step:210.0 execEvent
+2023-02-27 15:08:46,407 event.py: time-step:233.0 moveUser
+2023-02-27 15:08:46,407 event.py: time-step:233.0 latencyFunction
+2023-02-27 15:08:46,409 sim_utils.py: time-step:233.0 calcTimeToExec
+2023-02-27 15:08:46,409 sim_utils.py: time-step:233.0 getDistSum
+2023-02-27 15:08:46,409 sim_utils.py234.42000000000002, 10, 23.0
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 HEAP SIZE: 3
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 HEAP: [(24.0, 24, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 timingRoutine
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 invokeRoutine
+2023-02-27 15:08:46,409 simMain.py: time-step:233.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,409 event.py: time-step:233.0 execEvent
+2023-02-27 15:08:46,409 event.py: time-step:257.0 moveUser
+2023-02-27 15:08:46,409 event.py: time-step:257.0 latencyFunction
+2023-02-27 15:08:46,412 sim_utils.py: time-step:257.0 calcTimeToExec
+2023-02-27 15:08:46,412 sim_utils.py: time-step:257.0 getDistSum
+2023-02-27 15:08:46,412 sim_utils.py248.09, 10, 24.0
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 HEAP SIZE: 3
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 HEAP: [(25.0, 25, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 timingRoutine
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 invokeRoutine
+2023-02-27 15:08:46,412 simMain.py: time-step:257.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,412 event.py: time-step:257.0 execEvent
+2023-02-27 15:08:46,412 event.py: time-step:282.0 moveUser
+2023-02-27 15:08:46,412 event.py: time-step:282.0 latencyFunction
+2023-02-27 15:08:46,414 sim_utils.py: time-step:282.0 calcTimeToExec
+2023-02-27 15:08:46,414 sim_utils.py: time-step:282.0 getDistSum
+2023-02-27 15:08:46,414 sim_utils.py267.11, 10, 26.0
+2023-02-27 15:08:46,414 simMain.py: time-step:282.0 HEAP SIZE: 3
+2023-02-27 15:08:46,415 simMain.py: time-step:282.0 HEAP: [(27.0, 26, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,415 simMain.py: time-step:282.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,415 simMain.py: time-step:282.0 timingRoutine
+2023-02-27 15:08:46,415 simMain.py: time-step:282.0 invokeRoutine
+2023-02-27 15:08:46,415 simMain.py: time-step:282.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,415 event.py: time-step:282.0 execEvent
+2023-02-27 15:08:46,415 event.py: time-step:309.0 moveUser
+2023-02-27 15:08:46,415 event.py: time-step:309.0 latencyFunction
+2023-02-27 15:08:46,417 sim_utils.py: time-step:309.0 calcTimeToExec
+2023-02-27 15:08:46,417 sim_utils.py: time-step:309.0 getDistSum
+2023-02-27 15:08:46,417 sim_utils.py271.55, 10, 27.0
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 HEAP SIZE: 3
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 HEAP: [(28.0, 27, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 timingRoutine
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 invokeRoutine
+2023-02-27 15:08:46,417 simMain.py: time-step:309.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,417 event.py: time-step:309.0 execEvent
+2023-02-27 15:08:46,417 event.py: time-step:337.0 moveUser
+2023-02-27 15:08:46,417 event.py: time-step:337.0 latencyFunction
+2023-02-27 15:08:46,420 sim_utils.py: time-step:337.0 calcTimeToExec
+2023-02-27 15:08:46,420 sim_utils.py: time-step:337.0 getDistSum
+2023-02-27 15:08:46,420 sim_utils.py296.94, 10, 29.0
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 HEAP SIZE: 3
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 HEAP: [(30.0, 28, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 timingRoutine
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 invokeRoutine
+2023-02-27 15:08:46,420 simMain.py: time-step:337.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,420 event.py: time-step:337.0 execEvent
+2023-02-27 15:08:46,420 event.py: time-step:367.0 moveUser
+2023-02-27 15:08:46,420 event.py: time-step:367.0 latencyFunction
+2023-02-27 15:08:46,422 sim_utils.py: time-step:367.0 calcTimeToExec
+2023-02-27 15:08:46,422 sim_utils.py: time-step:367.0 getDistSum
+2023-02-27 15:08:46,422 sim_utils.py305.91, 10, 30.0
+2023-02-27 15:08:46,422 simMain.py: time-step:367.0 HEAP SIZE: 3
+2023-02-27 15:08:46,422 simMain.py: time-step:367.0 HEAP: [(31.0, 29, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 11, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,423 simMain.py: time-step:367.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,423 simMain.py: time-step:367.0 timingRoutine
+2023-02-27 15:08:46,423 simMain.py: time-step:367.0 invokeRoutine
+2023-02-27 15:08:46,423 simMain.py: time-step:367.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,423 event.py: time-step:367.0 execEvent
+2023-02-27 15:08:46,423 event.py: time-step:398.0 moveUser
+2023-02-27 15:08:46,423 event.py: time-step:398.0 latencyFunction
+2023-02-27 15:08:46,425 sim_utils.py: time-step:398.0 calcTimeToExec
+2023-02-27 15:08:46,425 sim_utils.py: time-step:398.0 getDistSum
+2023-02-27 15:08:46,425 sim_utils.py325.87, 10, 32.0
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 HEAP SIZE: 3
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 HEAP: [(33.0, 11, <Event.ALLOCATE_USER: 1>), (43.0, 12, <Event.CALL_OPT: 3>), (33.0, 30, <Event.MOVE_USER: 0>)]
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 timingRoutine
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 invokeRoutine
+2023-02-27 15:08:46,425 simMain.py: time-step:398.0 CALLING EVENT  Event.ALLOCATE_USER
+2023-02-27 15:08:46,425 event.py: time-step:398.0 execEvent
+2023-02-27 15:08:46,425 event.py: time-step:431.0 allocateUser
+2023-02-27 15:08:46,425 event.py: time-step:431.0 latencyFunction
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 HEAP SIZE: 2
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 HEAP: [(33.0, 30, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 timingRoutine
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 invokeRoutine
+2023-02-27 15:08:46,426 simMain.py: time-step:431.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,426 event.py: time-step:431.0 execEvent
+2023-02-27 15:08:46,426 event.py: time-step:464.0 moveUser
+2023-02-27 15:08:46,426 event.py: time-step:464.0 latencyFunction
+2023-02-27 15:08:46,428 sim_utils.py: time-step:464.0 calcTimeToExec
+2023-02-27 15:08:46,428 sim_utils.py: time-step:464.0 getDistSum
+2023-02-27 15:08:46,428 sim_utils.py340.15, 10, 34.0
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 HEAP SIZE: 2
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 HEAP: [(35.0, 31, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 timingRoutine
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 invokeRoutine
+2023-02-27 15:08:46,428 simMain.py: time-step:464.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,428 event.py: time-step:464.0 execEvent
+2023-02-27 15:08:46,428 event.py: time-step:499.0 moveUser
+2023-02-27 15:08:46,428 event.py: time-step:499.0 latencyFunction
+2023-02-27 15:08:46,431 sim_utils.py: time-step:499.0 calcTimeToExec
+2023-02-27 15:08:46,431 sim_utils.py: time-step:499.0 getDistSum
+2023-02-27 15:08:46,431 sim_utils.py354.46999999999997, 10, 35.0
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 HEAP SIZE: 2
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 HEAP: [(36.0, 32, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 timingRoutine
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 invokeRoutine
+2023-02-27 15:08:46,431 simMain.py: time-step:499.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,431 event.py: time-step:499.0 execEvent
+2023-02-27 15:08:46,431 event.py: time-step:535.0 moveUser
+2023-02-27 15:08:46,431 event.py: time-step:535.0 latencyFunction
+2023-02-27 15:08:46,433 sim_utils.py: time-step:535.0 calcTimeToExec
+2023-02-27 15:08:46,433 sim_utils.py: time-step:535.0 getDistSum
+2023-02-27 15:08:46,433 sim_utils.py372.14, 10, 37.0
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 HEAP SIZE: 2
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 HEAP: [(38.0, 33, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 timingRoutine
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 invokeRoutine
+2023-02-27 15:08:46,434 simMain.py: time-step:535.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,434 event.py: time-step:535.0 execEvent
+2023-02-27 15:08:46,434 event.py: time-step:573.0 moveUser
+2023-02-27 15:08:46,434 event.py: time-step:573.0 latencyFunction
+2023-02-27 15:08:46,436 sim_utils.py: time-step:573.0 calcTimeToExec
+2023-02-27 15:08:46,436 sim_utils.py: time-step:573.0 getDistSum
+2023-02-27 15:08:46,436 sim_utils.py383.36, 10, 38.0
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 HEAP SIZE: 2
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 HEAP: [(39.0, 34, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 timingRoutine
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 invokeRoutine
+2023-02-27 15:08:46,436 simMain.py: time-step:573.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,436 event.py: time-step:573.0 execEvent
+2023-02-27 15:08:46,436 event.py: time-step:612.0 moveUser
+2023-02-27 15:08:46,436 event.py: time-step:612.0 latencyFunction
+2023-02-27 15:08:46,439 sim_utils.py: time-step:612.0 calcTimeToExec
+2023-02-27 15:08:46,439 sim_utils.py: time-step:612.0 getDistSum
+2023-02-27 15:08:46,439 sim_utils.py401.86, 10, 40.0
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 HEAP SIZE: 2
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 HEAP: [(41.0, 35, <Event.MOVE_USER: 0>), (43.0, 12, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 timingRoutine
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 invokeRoutine
+2023-02-27 15:08:46,439 simMain.py: time-step:612.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,439 event.py: time-step:612.0 execEvent
+2023-02-27 15:08:46,439 event.py: time-step:653.0 moveUser
+2023-02-27 15:08:46,439 event.py: time-step:653.0 latencyFunction
+2023-02-27 15:08:46,442 sim_utils.py: time-step:653.0 calcTimeToExec
+2023-02-27 15:08:46,442 sim_utils.py: time-step:653.0 getDistSum
+2023-02-27 15:08:46,442 sim_utils.py433.84000000000003, 10, 43.0
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 HEAP SIZE: 2
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 HEAP: [(43.0, 12, <Event.CALL_OPT: 3>), (44.0, 36, <Event.MOVE_USER: 0>)]
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 timingRoutine
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 invokeRoutine
+2023-02-27 15:08:46,442 simMain.py: time-step:653.0 CALLING EVENT  Event.CALL_OPT
+2023-02-27 15:08:46,442 event.py: time-step:653.0 execEvent
+2023-02-27 15:08:46,442 event.py: time-step:696.0 optimizeAlloc
+2023-02-27 15:08:46,442 greedyAlloc.py: time-step:696.0 greedyAlloc
+2023-02-27 15:08:46,442 greedyAlloc.py: time-step:696.0 num allocated users: 1
+2023-02-27 15:08:46,442 greedyAlloc.py: time-step:696.0 allocated users: [('v0', 'gp1', 'cA_3')]
+2023-02-27 15:08:46,442 simMain.py: time-step:696.0 HEAP SIZE: 3
+2023-02-27 15:08:46,442 simMain.py: time-step:696.0 HEAP: [(44.0, 36, <Event.MOVE_USER: 0>), (696.0, 37, <Event.ALLOCATE_USER: 1>), (706.0, 38, <Event.CALL_OPT: 3>)]
+2023-02-27 15:08:46,442 simMain.py: time-step:696.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,442 simMain.py: time-step:696.0 timingRoutine
+2023-02-27 15:08:46,442 simMain.py: time-step:696.0 invokeRoutine
+2023-02-27 15:08:46,443 simMain.py: time-step:696.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,443 event.py: time-step:696.0 execEvent
+2023-02-27 15:08:46,443 event.py: time-step:740.0 moveUser
+2023-02-27 15:08:46,443 event.py: time-step:740.0 latencyFunction
+2023-02-27 15:08:46,445 sim_utils.py: time-step:740.0 calcTimeToExec
+2023-02-27 15:08:46,445 sim_utils.py: time-step:740.0 getDistSum
+2023-02-27 15:08:46,445 sim_utils.py452.1, 10, 45.0
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 HEAP SIZE: 3
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 HEAP: [(46.0, 39, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 timingRoutine
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 invokeRoutine
+2023-02-27 15:08:46,445 simMain.py: time-step:740.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,445 event.py: time-step:740.0 execEvent
+2023-02-27 15:08:46,445 event.py: time-step:786.0 moveUser
+2023-02-27 15:08:46,445 event.py: time-step:786.0 latencyFunction
+2023-02-27 15:08:46,448 sim_utils.py: time-step:786.0 calcTimeToExec
+2023-02-27 15:08:46,448 sim_utils.py: time-step:786.0 getDistSum
+2023-02-27 15:08:46,448 sim_utils.py464.98, 10, 46.0
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 HEAP SIZE: 3
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 HEAP: [(47.0, 40, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 timingRoutine
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 invokeRoutine
+2023-02-27 15:08:46,448 simMain.py: time-step:786.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,448 event.py: time-step:786.0 execEvent
+2023-02-27 15:08:46,448 event.py: time-step:833.0 moveUser
+2023-02-27 15:08:46,448 event.py: time-step:833.0 latencyFunction
+2023-02-27 15:08:46,450 sim_utils.py: time-step:833.0 calcTimeToExec
+2023-02-27 15:08:46,450 sim_utils.py: time-step:833.0 getDistSum
+2023-02-27 15:08:46,450 sim_utils.py484.66, 10, 48.0
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 HEAP SIZE: 3
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 HEAP: [(49.0, 41, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 timingRoutine
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 invokeRoutine
+2023-02-27 15:08:46,450 simMain.py: time-step:833.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,451 event.py: time-step:833.0 execEvent
+2023-02-27 15:08:46,451 event.py: time-step:882.0 moveUser
+2023-02-27 15:08:46,451 event.py: time-step:882.0 latencyFunction
+2023-02-27 15:08:46,453 sim_utils.py: time-step:882.0 calcTimeToExec
+2023-02-27 15:08:46,453 sim_utils.py: time-step:882.0 getDistSum
+2023-02-27 15:08:46,453 sim_utils.py496.5, 10, 49.0
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 HEAP SIZE: 3
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 HEAP: [(50.0, 42, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 timingRoutine
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 invokeRoutine
+2023-02-27 15:08:46,453 simMain.py: time-step:882.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,453 event.py: time-step:882.0 execEvent
+2023-02-27 15:08:46,453 event.py: time-step:932.0 moveUser
+2023-02-27 15:08:46,453 event.py: time-step:932.0 latencyFunction
+2023-02-27 15:08:46,456 sim_utils.py: time-step:932.0 calcTimeToExec
+2023-02-27 15:08:46,456 sim_utils.py: time-step:932.0 getDistSum
+2023-02-27 15:08:46,456 sim_utils.py510.81, 10, 51.0
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 HEAP SIZE: 3
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 HEAP: [(52.0, 43, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 timingRoutine
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 invokeRoutine
+2023-02-27 15:08:46,456 simMain.py: time-step:932.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,456 event.py: time-step:932.0 execEvent
+2023-02-27 15:08:46,456 event.py: time-step:984.0 moveUser
+2023-02-27 15:08:46,456 event.py: time-step:984.0 latencyFunction
+2023-02-27 15:08:46,458 sim_utils.py: time-step:984.0 calcTimeToExec
+2023-02-27 15:08:46,458 sim_utils.py: time-step:984.0 getDistSum
+2023-02-27 15:08:46,458 sim_utils.py530.91, 10, 53.0
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 HEAP SIZE: 3
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 HEAP: [(54.0, 44, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 timingRoutine
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 invokeRoutine
+2023-02-27 15:08:46,459 simMain.py: time-step:984.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,459 event.py: time-step:984.0 execEvent
+2023-02-27 15:08:46,459 event.py: time-step:1038.0 moveUser
+2023-02-27 15:08:46,459 event.py: time-step:1038.0 latencyFunction
+2023-02-27 15:08:46,461 sim_utils.py: time-step:1038.0 calcTimeToExec
+2023-02-27 15:08:46,461 sim_utils.py: time-step:1038.0 getDistSum
+2023-02-27 15:08:46,461 sim_utils.py562.29, 10, 56.0
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 HEAP SIZE: 3
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 HEAP: [(57.0, 45, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 timingRoutine
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 invokeRoutine
+2023-02-27 15:08:46,461 simMain.py: time-step:1038.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,461 event.py: time-step:1038.0 execEvent
+2023-02-27 15:08:46,461 event.py: time-step:1095.0 moveUser
+2023-02-27 15:08:46,461 event.py: time-step:1095.0 latencyFunction
+2023-02-27 15:08:46,464 sim_utils.py: time-step:1095.0 calcTimeToExec
+2023-02-27 15:08:46,464 sim_utils.py: time-step:1095.0 getDistSum
+2023-02-27 15:08:46,464 sim_utils.py597.99, 10, 59.0
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 HEAP SIZE: 3
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 HEAP: [(60.0, 46, <Event.MOVE_USER: 0>), (706.0, 38, <Event.CALL_OPT: 3>), (696.0, 37, <Event.ALLOCATE_USER: 1>)]
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 USERS LIST SIZE: 1
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 timingRoutine
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 invokeRoutine
+2023-02-27 15:08:46,464 simMain.py: time-step:1095.0 CALLING EVENT  Event.MOVE_USER
+2023-02-27 15:08:46,464 event.py: time-step:1095.0 execEvent
+2023-02-27 15:08:46,464 event.py: time-step:1155.0 moveUser
+2023-02-27 15:08:46,464 event.py: time-step:1155.0 latencyFunction
+2023-02-27 15:08:46,464 simMain.py: time-step:1155.0 SIMULATION FINISHED
