@@ -7,7 +7,6 @@ def calcTimeToExec(user, routeIds, mainGraph, destNode):
     log(TAG, 'calcTimeToExec')
     distance = getDistSum(routeIds, mainGraph, destNode)
     arrivalTime = distance // user.avgSpeed
-    logging.info(TAG + f'{distance}, {user.avgSpeed}, {arrivalTime}')
     return arrivalTime + user.initTime
 
 def getDistSum(routeIds, mainGraph, destNode):

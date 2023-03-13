@@ -6,6 +6,7 @@ from algorithms.multipleKS import greedyAlloc as alg
 from OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
+from prediction import AllocPrediction
 import sim_utils as utils
 import logging
 
@@ -103,7 +104,14 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
+
+    prediction = AllocPrediction(usersSing, cloudletsSing, eTuple[3])
+    predictionRes = prediction.predictAll()
+    # TODO: put that in the statistics log
+
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    # TODO: put that in the statistics log
+
     for alloc in result[1]:
         userId = alloc[0].uId
         cloudletId = alloc[1].cId
