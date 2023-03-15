@@ -8,7 +8,7 @@ class AllocPrediction:
         self.seed = seed
 
     def predict(self, user):
-        probabilities = getProbabilities()
+        probabilities = getProbabilities(user)
         mc = Markov(self.cloudlets, probabilities, self.seed)
         return mc.nextState(user.allocatedCloudlet)
 
@@ -20,6 +20,12 @@ class AllocPrediction:
         return mainResult
 
     def getProbabilities(self):
+        probabilities = dict()
         # TODO: A METHOD TO IDENTIFY THE CLOUDLETS IN A RADIUS OF X METERS FROM ONE SOURCE CLOUDLET 
-        # (IT WILL BE THE CONNECTED CLOUDLETS IN THE GRAPH)
-        pass
+        cloudletsNearby = getCloudlets(user.allocatedCloudlet) 
+
+        for c in cloudletsNearby:
+            probabilities[c] = 0 # t_chapeau(user, allCloudlets)
+
+        # TODO: fill the probabilities dict with the other cloudlets apart from the getCLoudlets method with probability values as zero
+        return probabilities

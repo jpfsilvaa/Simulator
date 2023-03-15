@@ -75,6 +75,7 @@ def allocateUser(eTuple):
 
     user.allocatedCloudlet = newCloudlet
     user.latency = latencyFunction(user, eTuple[3][2])
+    user.pastCloudlets.append(oldCloudlet)
 
 def latencyFunction(user, mainGraph):
     utils.log(TAG, 'latencyFunction')    
