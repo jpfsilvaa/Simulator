@@ -1,4 +1,7 @@
 import copy
+from prediction.utils import getPastCloudlets
+from prediction.utils import getFuturePath
+from prediction.utils import calcTChapeau
 
 class T_Chapeau:
 
@@ -6,17 +9,9 @@ class T_Chapeau:
         self.graph = graph
         self.users = users # maybe I can just use the singleton
         self.cloudlets = cloudlets # maybe I can just use the singleton
-    
+
     def predict(self, user, clToCalcPredict):
-        # Take the last two past cloudlet from the user
-        pastPath = list()
-        if len(self.users.pastCloudlets) > 2:
-            # TODO: take the last two cloudlets
-            pastPath.append(self.users[-1])
-            pastPath.append(self.users[-2])
-        else:
-            # IN THIS CASE, DO WE JUST NOT CONSIDER THE PAST?
-            pass
+        pastPath = getPastCloudlets(user)
 
         # Add the current cloudlet of the user in the path
         pastPath.append(clToCalcPredict)
@@ -24,39 +19,24 @@ class T_Chapeau:
         # Take all T_chapeau of every "possible future": 
         # the last two past cloudlets of the user -> the current -> (possibilities according to the neighbors of the curr cloudlet)
         neighborCloudlets = getNeighborCloudlets(3*clToCalcPredict.coverageArea, clToCalcPredict)
+        futurePaths = getFuturePath(pastPath, neighborCloudlets)
         
-        futurePaths = list()
-        for i in range(len(neighborCloudlets)):
-            futurePaths.append(copy.deepcopy(pastPath))
-            futurePaths[i].append(neighborCloudlets[i])
-
         # Count how many users did each of these possible paths (i.e., calc each T_chapeau)
-        t_chapeau_1 = dict()
-        for p in futurePaths:
-            t_chapeau_1[p] = 0
-            for u in self.users:
-                if isIn(p, u.pastCloudlets):
-                    t_chapeau_1[p] += 1
+        t_chapeau_numerator = calcTChapeau(futurePaths)
 
         # Take all T_chapeau of every "possible future^2" (now including two hopes in the future): 
         # the last two past cloudlets of the user -> the current -> (possibilities) -> (possibilities)^2
         secFuturePaths = list()
         for j in range(len(futurePaths)):
             # taking the neighbors of the first possible future cloudlet in the possible future path
-            # (which is the last element of each list inside the futurePaths list)
+            # (which is the last element of each list inside the futurePaths list ([-1]))
             secNeighbors = getNeighborCloudlets(3*futurePaths[j][-1].coverageArea, futurePaths[j][-1])
-            for k in range(len(secNeighbors)):
-                secFuturePaths.append(copy.deepcopy(futurePaths[j]))
-                secFuturePaths[k].append(secNeighbors[k])
+            secFuturePaths = getFuturePath(futurePaths[j], secNeighbors)
         
         # Count how many users did each of these possible paths (i.e., calc each T_chapeau)
-        t_chapeau_2 = dict()
-        for p in secFuturePaths:
-            t_chapeau_2[p] = 0
-            for u in self.users:
-                if isIn(p, u.pastCloudlets):
-                    t_chapeau_1[p] += 1
-        return sum(t_chapeau_1.values())/sum(t_chapeau_2.values())
+        t_chapeau_denominator = calcTChapeau(secFuturePaths)
+
+        return sum(t_chapeau_numerator.values())/sum(t_chapeau_denominator.values())
 
     def getNeighborCloudlets(self, radius, centerCl):
         result = list()

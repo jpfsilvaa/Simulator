@@ -16,7 +16,7 @@ class AllocPrediction:
         mainResult = []
         for u in self.users:
             result = predict(u)
-            mainResult.append(result)
+            mainResult.append((u, result))
         return mainResult
 
     def getProbabilities(self):
