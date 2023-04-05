@@ -26,4 +26,5 @@ class HeapSingleton:
         return len(self.heapQueue)
     
     def curretEventsOnHep(self):
+        # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
         return [(e[0], e[1], e[2]) for e in self.heapQueue]

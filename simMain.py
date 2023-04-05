@@ -14,10 +14,10 @@ def initialAllocation(heapSing, graph):
     utils.log(TAG, 'initialAllocation')
     heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (graph))
 
-def initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graph):
+def initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph):
     utils.log(TAG, 'initRoutine')
     initCloudlets(cloudletsObjs)
-    initUsers(usersObjs)
+    initUsers(usersObjs, subtraces)
     initialAllocation(heapSing, graph)
     triggerUserPathEvents(heapSing, graph)
     timingRoutine(simClock, heapSing)
@@ -28,9 +28,10 @@ def initCloudlets(cloudlets):
     for c in cloudlets:
         clList.insertCloudlet(c)
 
-def initUsers(users):
+def initUsers(users, subtraces):
     utils.log(TAG, 'initUsers')
     uList = UsersListSingleton()
+    uList.insertSubtraces(subtraces)
     for u in users:
         uList.insertUser(u)
 
@@ -62,12 +63,12 @@ def triggerUserPathEvents(heapSing, graph):
         heapSing.insertEvent(utils.calcTimeToExec(u, u.route, graph, userRouteNodes[0]), 
                                         Event.MOVE_USER, (u, 0, graph))
 
-def startSimulation(cloudletsObjs, usersObjs, graph):
+def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
     utils.log(TAG, 'startSimulation')
     # statsStoring = Stats() TODO: PHASE 2
     heapSing = initHeap()
     simClock = initSimClock()
-    initRoutine(usersObjs, cloudletsObjs, simClock, heapSing, graph)
+    initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph)
     while UsersListSingleton().getUsersListSize() > 0:
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
@@ -78,8 +79,8 @@ def startSimulation(cloudletsObjs, usersObjs, graph):
 
 def main(jsonFilePath, graphFilePath):
     utils.log(TAG, 'main')
-    cloudletsObjs, usersObjs, graph = instGen.main(jsonFilePath, graphFilePath)
-    startSimulation(cloudletsObjs, usersObjs, graph)
+    cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath)    
+    startSimulation(cloudletsObjs, usersObjs, graph, subtraces)
 
 if __name__ == '__main__':
     jsonFilePath = sys.argv[1:][0]

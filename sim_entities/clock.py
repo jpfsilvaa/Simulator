@@ -14,7 +14,7 @@ class TimerSingleton:
         return cls._instance
 
     def incrementTimer(self, i = 1):
-        self.timer += i
+        self.timer = i
         return self.timer
     
     def getTimerValue(self):

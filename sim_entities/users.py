@@ -4,6 +4,7 @@ class UsersListSingleton:
     _instance = None
     _lock = threading.Lock()
     users = []
+    subtraces = []
 
     def __new__(cls):
         if cls._instance is None: 
@@ -32,3 +33,9 @@ class UsersListSingleton:
     
     def currentUsers(self):
         return [u.uId for u in self.users]
+    
+    def insertSubtraces(self, subtraces):
+        self.subtraces = subtraces
+    
+    def getSubtraces(self):
+        return self.subtraces
