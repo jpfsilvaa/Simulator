@@ -24,7 +24,8 @@ def greedyAlloc(cloudlets, vms):
 
         while (utils.isNotFull(occupation)) and userPointer < len(D):
             chosenUser = D[userPointer][0]
-            if utils.userFits(chosenUser, occupation):
+            if (utils.userFits(chosenUser, occupation) 
+                    and utils.checkLatencyThreshold(chosenUser, sortedCloudlets[cloudletPointer])):
                 utils.allocate(chosenUser, occupation)
                 allocatedUsers.append((chosenUser, sortedCloudlets[cloudletPointer]))
                 socialWelfare += chosenUser.bid

@@ -3,38 +3,24 @@ import copy
 from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
+import sim_utils as utils
 
-""" class Resources:
-    def __init__(self, cpu, ram, storage):
-        self.cpu = cpu
-        self.ram = ram
-        self.storage = storage
-
-class UserVM:
-    def __init__(self, id, vmType, bid, reqs):
-        self.id = id
-        self.vmType = vmType
-        self.bid = bid
-        self.price = 0
-        self.maxReq = 0
-        self.reqs = reqs
-        self.reqsSum = 0
-
-class Cloudlet:
-    def __init__(self, id, resources):
-        self.id = id
-        self.resources = resources """
+def checkLatencyThreshold(user, cloudlet):
+    distance = utils.calcDistance((user.position[0], user.position[1]), 
+                                        (cloudlet.position[0], cloudlet.position[1]))
+    return distance * 0.001 <= user.latencyThresholdForAllocate                                        
 
 def normalize(cloudlet, vms):
     normalized = []
     for v in vms:
-        # uId, vmType, bid, avgSpeed, initTime, route, reqs
-        normalized.append(UserVM(v.uId, v.vmType, v.bid, v.avgSpeed, v.initTime,
+        # uId, vmType, bid, avgSpeed, initTime, route, reqs, position
+        nUser = UserVM(v.uId, v.vmType, v.bid, v.avgSpeed, v.initTime,
             v.route, Resources(
             v.reqs.cpu/cloudlet.resources.cpu,
             v.reqs.ram/cloudlet.resources.ram,
-            v.reqs.storage/cloudlet.resources.storage
-        )))
+            v.reqs.storage/cloudlet.resources.storage))
+        nUser.position = v.position
+        normalized.append(nUser)
     return normalized
 
 def calcDensitiesByMax(vms):

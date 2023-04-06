@@ -6,6 +6,7 @@ from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
 import sim_utils as utils
 import sys
+import time
 import logging
 
 TAG = 'simMain.py'
@@ -60,11 +61,12 @@ def triggerUserPathEvents(heapSing, graph):
     utils.log(TAG, 'triggerUserPathEvents')
     for u in UsersListSingleton().getList():
         userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
-        heapSing.insertEvent(utils.calcTimeToExec(u, u.route, graph, userRouteNodes[0]), 
+        heapSing.insertEvent(utils.calcTimeToExec(u, graph, userRouteNodes[0]), 
                                         Event.MOVE_USER, (u, 0, graph))
 
 def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
     utils.log(TAG, 'startSimulation')
+    startTime = time.time()
     # statsStoring = Stats() TODO: PHASE 2
     heapSing = initHeap()
     simClock = initSimClock()
@@ -73,8 +75,16 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
         utils.log(TAG, f'USERS LIST SIZE: {UsersListSingleton().getUsersListSize()}')
+
+        maxLatency = max([u.currLatency for u in UsersListSingleton().getList()])
+        minLatency = min([u.currLatency for u in UsersListSingleton().getList()])
+        avgLatency = sum([u.currLatency for u in UsersListSingleton().getList()]) / len([u.currLatency for u in UsersListSingleton().getList()])
+        utils.log(TAG, f'USERS LATENCY: {maxLatency}, {minLatency}, {avgLatency}')
+
         timingRoutine(simClock, heapSing)
+    endTime = time.time()
     utils.log(TAG, 'SIMULATION FINISHED')
+    utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
     # statsStoring.writeReport() # TODO: PHASE 2
 
 def main(jsonFilePath, graphFilePath):

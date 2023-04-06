@@ -55,11 +55,10 @@ def moveUser(heapSing, eTuple):
         UsersListSingleton().removeUser(user)
     else:
         userRouteNodes = [mainGraph.findNodeById(routeNode) for routeNode in user.route]
-        heapSing.insertEvent(utils.calcTimeToExec(user, user.route, mainGraph, userRouteNodes[idxFromRoute]), 
+        heapSing.insertEvent(utils.calcTimeToExec(user, mainGraph, userRouteNodes[idxFromRoute]), 
                                         Event.MOVE_USER, (user, idxFromRoute, mainGraph))
 
 def getAvgSpeed(dest, src, mainGraph):
-    TAG = 'simMain.py'
     DEFAULT_SPEED = 16
     if dest == src:
         return DEFAULT_SPEED
@@ -87,27 +86,31 @@ def allocateUser(eTuple):
 
     user.allocatedCloudlet = newCloudlet
     user.latency = latencyFunction(user, eTuple[3][2])
+    utils.log(TAG, f'----> USER LATENCY: {user.uId}: {user.latency}')
     user.pastCloudlets.append(oldCloudlet)
 
 def latencyFunction(user, mainGraph):
     utils.log(TAG, 'latencyFunction')
-    userCurrPosition = findUserPosition(user, mainGraph)
-    distance = geo_tools.distance(userCurrPosition[0], userCurrPosition[1], 
-                                    user.allocatedCloudlet.position[0], 
-                                    user.allocatedCloudlet.position[1])
-    return distance * 0.01
+    if user.allocatedCloudlet == None: 
+        return 999999
+    else: 
+        userCurrPosition = findUserPosition(user, mainGraph)
+        distance = utils.calcDistance((userCurrPosition[0], userCurrPosition[1]), 
+                                            (user.allocatedCloudlet.position[0], user.allocatedCloudlet.position[1]))        
+        return distance * 0.001
 
 def findUserPosition(user, mainGraph):
     utils.log(TAG, 'findUserPosition')
     deltaTime = TimerSingleton().getTimerValue() - user.lastMove[0]
     if deltaTime >= 0 and user.lastMove[1] != user.currNodeId:
         distance = user.avgSpeed * deltaTime
-        jumpsToSubPoints = int(distance/50) # 50m is the distance between subpoints
+        jumpsToSubPoints = int(distance/50) # 50m is the aproximated distance between subpoints
         currLinkId = f'{user.lastMove[1]}-{user.currNodeId}'
         currSubtrace = UsersListSingleton().getSubtraces()[currLinkId]
         if jumpsToSubPoints >= len(currSubtrace): jumpsToSubPoints = len(currSubtrace) - 1
         return (float(currSubtrace[jumpsToSubPoints][0]), float(currSubtrace[jumpsToSubPoints][1]))
-    else: # user didn't move yet
+    else: 
+        # user didn't move yet
         return (mainGraph.findNodeById(user.currNodeId).posX, mainGraph.findNodeById(user.currNodeId).posY)
 
 def initialAlloc(simClock, heapSing, eTuple):
@@ -116,6 +119,9 @@ def initialAlloc(simClock, heapSing, eTuple):
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
+
+    detectAllUsersPosition(eTuple[3])
+
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     for allocs in result[1]:
         userId = allocs[0].uId
@@ -124,12 +130,18 @@ def initialAlloc(simClock, heapSing, eTuple):
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
+def detectAllUsersPosition(mainGraph):
+    for u in UsersListSingleton().getList():
+        u.position = findUserPosition(u, mainGraph)
+
 def optimizeAlloc(simClock, heapSing, eTuple):
     utils.log(TAG, 'optimizeAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
+
+    detectAllUsersPosition(eTuple[3])
 
     # prediction = AllocPrediction(usersSing, cloudletsSing, eTuple[3])
     # predictionRes = prediction.predictAll()
