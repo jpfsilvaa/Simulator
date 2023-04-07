@@ -1,4 +1,5 @@
 import threading
+import sim_utils as utils
 
 class TimerSingleton:
     _instance = None
@@ -14,6 +15,8 @@ class TimerSingleton:
         return cls._instance
 
     def incrementTimer(self, i = 1):
+        if i < self.getTimerValue():
+            raise ValueError('Timer cannot be decremented')
         self.timer = i
         return self.timer
     

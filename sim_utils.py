@@ -18,10 +18,12 @@ def calcDistance(point_1, point_2):
 
 def calcTimeToExec(user, mainGraph, destNode):
     log(TAG, 'calcTimeToExec')
-    print(user.lastMove[1], destNode.nId)
-    dist = mainGraph.adjList[user.lastMove[1]][destNode.nId][0]
-    arrivalTime = dist // user.avgSpeed # A VELOCIMEDIA SE ALTERA! NÃO DÁ PRA CONTAR DESDE O PRIMEIRO NÓ...
-    return arrivalTime + user.initTime + 2
+    if user.currNodeId == destNode.nId:
+        dist = 0
+    else:
+        dist = mainGraph.adjList[user.currNodeId][destNode.nId][0]
+    arrivalTime = dist // user.avgSpeed
+    return arrivalTime + user.lastMove[0] + 2
 
 def log(fileName, msg):
     logging.info(f'{fileName}: time-step:{TimerSingleton().getTimerValue()} {msg}')
