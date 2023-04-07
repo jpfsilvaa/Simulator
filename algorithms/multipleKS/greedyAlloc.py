@@ -79,7 +79,7 @@ def main(jsonFilePath):
 
     sim_utils.log(TAG, f'social welfare: {result[0]}')
     sim_utils.log(f"execution time: {str(endTime-startTime).replace('.', ',')}")
-    #  print('\nprices (user: (bid, price)) : ', pricing(winners=result[1], densities=result[2]))
+    # print('\nprices (user: (bid, price)) : ', pricing(winners=result[1], densities=result[2]))
 
 if __name__ == "__main__":
     inputFilePath = sys.argv[1:][0]

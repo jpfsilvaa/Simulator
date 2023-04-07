@@ -7,6 +7,7 @@ from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
 from sim_entities.predictions import PredictionsSingleton
+from stats.sim_stats import SimStatistics
 from sim_entities.clock import TimerSingleton
 # from prediction import AllocPrediction
 import sim_utils as utils
@@ -19,7 +20,7 @@ class Event(Enum):
     ALLOCATE_USER = 1
     INITIAL_ALLOCATION = 2
     CALL_OPT = 3
-    CALL_PRICE = 4
+    WRITE_STATISTICS = 4
 
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     @classmethod
@@ -35,8 +36,18 @@ class Event(Enum):
             initialAlloc(simClock, heapSing, eTuple)
         elif eventType == Event.CALL_OPT:
             optimizeAlloc(simClock, heapSing, eTuple)
-        elif eventType == Event.CALL_PRICE:
-            pass # TODO: PHASE 3 or 4
+        elif eventType == Event.WRITE_STATISTICS:
+            writeStats(simClock, heapSing, eTuple)
+
+def writeStats(simClock, heapSing, eTuple):
+    utils.log(TAG, 'writeStats')
+    # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
+    # contentSubtuple: ()
+    stats = SimStatistics()
+    stats.writeLatencyStats(eTuple[0])
+    stats.writeSocialWelfareStats(eTuple[0])
+    stats.writePricesStats(eTuple[0])
+    stats.writeCloudletsUsageStats(eTuple[0])
 
 def moveUser(heapSing, eTuple):
     utils.log(TAG, 'moveUser')
@@ -86,7 +97,7 @@ def allocateUser(eTuple):
 
     user.allocatedCloudlet = newCloudlet
     user.latency = latencyFunction(user, eTuple[3][2])
-    utils.log(TAG, f'----> USER LATENCY: {user.uId}: {user.latency}')
+    utils.log(TAG, f'ALLOCATED USER LATENCY: {user.uId}: {user.latency}')
     user.pastCloudlets.append(oldCloudlet)
 
 def latencyFunction(user, mainGraph):
@@ -119,15 +130,16 @@ def initialAlloc(simClock, heapSing, eTuple):
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
-
     detectAllUsersPosition(eTuple[3])
-
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+
     for allocs in result[1]:
         userId = allocs[0].uId
         cloudletId = allocs[1].cId
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
+
+    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ())
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def detectAllUsersPosition(mainGraph):
@@ -140,20 +152,14 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     # contentSubtuple: (graph)
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
-
     detectAllUsersPosition(eTuple[3])
-
-    # prediction = AllocPrediction(usersSing, cloudletsSing, eTuple[3])
-    # predictionRes = prediction.predictAll()
-    # TODO: put that in the statistics log
-
-    result = alg.greedyAlloc(cloudletsSing.getListFullValues(), usersSing.getList())
-    # PredictionsSingleton().storePredictions(simClock, predictionRes, result)
-    # TODO: put that in the statistics log
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
 
     for alloc in result[1]:
         userId = alloc[0].uId
         cloudletId = alloc[1].cId
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
+
+    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ())
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))

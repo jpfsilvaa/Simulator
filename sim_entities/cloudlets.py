@@ -5,7 +5,6 @@ class CloudletsListSingleton:
     _instance = None
     _lock = threading.Lock()
     cloudlets = []
-    cloudletsFullValues = []
 
     def __new__(cls):
         if cls._instance is None: 
@@ -16,13 +15,9 @@ class CloudletsListSingleton:
     
     def getList(self):
         return self.cloudlets
-
-    def getListFullValues(self):
-        return self.cloudletsFullValues
     
     def insertCloudlet(self, cloudlet):
         self.cloudlets.append(cloudlet)
-        self.cloudletsFullValues.append(copy.deepcopy(cloudlet))
 
     def removeCloudlet(self, cloudlet):
         self.cloudlets.remove(cloudlet)

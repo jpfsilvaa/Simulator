@@ -16,9 +16,9 @@ def normalize(cloudlet, vms):
         # uId, vmType, bid, avgSpeed, initTime, route, reqs, position
         nUser = UserVM(v.uId, v.vmType, v.bid, v.avgSpeed, v.initTime,
             v.route, Resources(
-            v.reqs.cpu/cloudlet.resources.cpu,
-            v.reqs.ram/cloudlet.resources.ram,
-            v.reqs.storage/cloudlet.resources.storage))
+            v.reqs.cpu/cloudlet.resourcesFullValues.cpu,
+            v.reqs.ram/cloudlet.resourcesFullValues.ram,
+            v.reqs.storage/cloudlet.resourcesFullValues.storage))
         nUser.position = v.position
         normalized.append(nUser)
     return normalized

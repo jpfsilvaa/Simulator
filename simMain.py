@@ -4,6 +4,7 @@ from events.event import Event
 from GraphGen import instanceGen as instGen
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
+from stats.sim_stats import SimStatistics
 import sim_utils as utils
 import sys
 import time
@@ -67,7 +68,7 @@ def triggerUserPathEvents(heapSing, graph):
 def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
     utils.log(TAG, 'startSimulation')
     startTime = time.time()
-    # statsStoring = Stats() TODO: PHASE 2
+    stats = SimStatistics()
     heapSing = initHeap()
     simClock = initSimClock()
     initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph)
@@ -75,17 +76,11 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
         utils.log(TAG, f'USERS LIST SIZE: {UsersListSingleton().getUsersListSize()}')
-
-        maxLatency = max([u.currLatency for u in UsersListSingleton().getList()])
-        minLatency = min([u.currLatency for u in UsersListSingleton().getList()])
-        avgLatency = sum([u.currLatency for u in UsersListSingleton().getList()]) / len([u.currLatency for u in UsersListSingleton().getList()])
-        utils.log(TAG, f'USERS LATENCY: {maxLatency}, {minLatency}, {avgLatency}')
-
         timingRoutine(simClock, heapSing)
     endTime = time.time()
     utils.log(TAG, 'SIMULATION FINISHED')
     utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
-    # statsStoring.writeReport() # TODO: PHASE 2
+    stats.writeReport()
 
 def main(jsonFilePath, graphFilePath):
     utils.log(TAG, 'main')
@@ -95,5 +90,5 @@ def main(jsonFilePath, graphFilePath):
 if __name__ == '__main__':
     jsonFilePath = sys.argv[1:][0]
     graphFilePath = sys.argv[1:][1]
-    logging.basicConfig(filename='simulation.log', filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
+    logging.basicConfig(filename='logfiles/simulation.log', filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
     main(jsonFilePath, graphFilePath)
