@@ -3,6 +3,9 @@ import time
 import sys
 import alloc_utils as utils
 
+# Algorithm from the paper: https://doi.org/10.1145/3278721.3278757
+# The thing here is that they use the sum of the resources to calculate the densities.
+# Here they don't provide info about the bins sorting, so I'm defining it as decreasing.
 def greedyMMD(cloudlets, vms):
     sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
     normalVms = utils.normalize(sortedCloudlets[0], vms)
@@ -32,6 +35,8 @@ def greedyMMD(cloudlets, vms):
     print('allocated users:', [(allocTup[0].id, allocTup[0].vmType, allocTup[1].id) for allocTup in allocatedUsers])
     return [socialWelfare, allocatedUsers, D]
 
+# As this paper doesn't provide a pricing method (because it's not 
+# for Edge Computing context), I'm using the same as ours.
 def pricing(winners, densities):
     i = 0
     while i < len(winners):

@@ -3,6 +3,9 @@ import time
 import sys
 import alloc_utils as utils
 
+# Algorithm from the paper: https://doi.org/10.1016/j.comcom.2021.09.035
+# The thing here is that they use the sum of the resources to calculate the densities,
+# but also, they sort the cloudlets by type in decreasing order
 def greedyMMD(cloudlets, vms):
     sortedCloudlets = utils.sortCloudletsByType(cloudlets, reverse=False)
     print('------------', [c.id for c in sortedCloudlets])
@@ -33,10 +36,13 @@ def greedyMMD(cloudlets, vms):
     print('allocated users:', [(allocTup[0].id, allocTup[0].vmType, allocTup[1].id) for allocTup in allocatedUsers])
     return [socialWelfare, allocatedUsers, D]
 
+# They have their own pricing method, but it's also
+# using the concept of critical pricing.
+# TODO: Implement their pricing method
 def pricing(winners, densities):
     i = 0
     while i < len(winners):
-        occupation = utils.Resources(0, 0, 0) # for identical cloudlets, this is ok, but not for different cloudlets
+        occupation = utils.Resources(0, 0, 0)
         winner = winners[i]
         j = 0
         while utils.userFits(winner, occupation) and j < len(densities):

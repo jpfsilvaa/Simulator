@@ -132,6 +132,8 @@ def initialAlloc(simClock, heapSing, eTuple):
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    prices = alg.pricing(result[1], result[2])
+    print(prices)
 
     for allocs in result[1]:
         userId = allocs[0].uId
@@ -154,6 +156,8 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    prices = alg.pricing(result[1], result[2])
+    print(prices)
 
     for alloc in result[1]:
         userId = alloc[0].uId

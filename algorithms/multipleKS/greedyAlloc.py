@@ -43,20 +43,19 @@ def pricing(winners, densities):
     i = 0
     while i < len(winners):
         occupation = utils.Resources(0, 0, 0) # for identical cloudlets, this is ok, but not for different cloudlets
-        winner = winners[i]
+        winner = winners[i][0]
         j = 0
         while utils.userFits(winner, occupation) and j < len(densities):
                 if densities[j][0].uId != winner.uId and utils.userFits(densities[j][0], occupation):
                         utils.allocate(densities[j][0], occupation)
                 j += 1
         if j == len(densities):
-            winner.price = 0
+            winner.price = 0 # It means the user always fits
         else:
             winner.price = densities[j-1][1]*winner.maxReq
-        printResults(winner, densities[j-1][1])
         i += 1
 
-    return [{user.uId: (user.bid, str(user.price).replace('.', ','))} for user in winners]
+    return [{user[0].uId: (user[0].bid, str(user[0].price).replace('.', ','))} for user in winners]
 
 def printResults(winner, criticalValue):
     sim_utils.log(TAG, 'pricingResults')
