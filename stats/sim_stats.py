@@ -11,6 +11,7 @@ LAT_FILENAME = 'latencies.csv'
 SOCIAL_WELFARE_FILENAME = 'social_welfare.csv'
 PRICES_FILENAME = 'prices.csv'
 CLOUDLETS_USAGE_FILENAME = 'cloudlets_usage.csv'
+EXEC_TIME_FILENAME = 'exec_time.csv'
 
 class SimStatistics:
     _instance = None
@@ -20,6 +21,7 @@ class SimStatistics:
     totalSocialWelfares = {}
     totalPrices = {}
     clUsages = {}
+    execTimes = {}
 
     def __new__(cls):
         if cls._instance is None: 
@@ -43,7 +45,9 @@ class SimStatistics:
         self.writeFile(timeString, LAT_FILENAME, 'latencies', self.avgLatencies)
         self.writeFile(timeString, SOCIAL_WELFARE_FILENAME, 'social welfare', self.totalSocialWelfares)
         self.writeFile(timeString, PRICES_FILENAME, 'prices', self.totalPrices)
-        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, 'cloudlets usage', self.clUsages) #TEST
+        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, 'cloudlets usage', self.clUsages)
+        self.writeFile(timeString, EXEC_TIME_FILENAME, 'execution time', self.execTimes)
+
 
     def writeLatencyStats(self, timeStep):
         utils.log(TAG, 'writeLatencyStats')
@@ -78,4 +82,7 @@ class SimStatistics:
         self.clUsages[timeStep] = ( 100 - (cpuUsage / len(cloudlets)), 
                                     100 - (storageUsage / len(cloudlets)), 
                                     100 -(ramUsage / len(cloudlets)))
-            
+    
+    def writeExecTimeStats(self, timeStep, execTime):
+        utils.log(TAG, 'writeExecTimeStats')
+        self.execTimes[timeStep] = execTime

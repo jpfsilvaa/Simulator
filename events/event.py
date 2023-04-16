@@ -12,6 +12,7 @@ from sim_entities.clock import TimerSingleton
 # from prediction import AllocPrediction
 import sim_utils as utils
 import logging
+import time
 
 TAG = 'event.py'
 
@@ -103,7 +104,7 @@ def allocateUser(eTuple):
 def latencyFunction(user, mainGraph):
     utils.log(TAG, 'latencyFunction')
     if user.allocatedCloudlet == None: 
-        return 999999
+        return 30
     else: 
         userCurrPosition = findUserPosition(user, mainGraph)
         distance = utils.calcDistance((userCurrPosition[0], userCurrPosition[1]), 
@@ -131,9 +132,13 @@ def initialAlloc(simClock, heapSing, eTuple):
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
+    startTime = time.time()
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    endTime = time.time()
+    SimStatistics().writeExecTimeStats(timeStep, (len(UsersListSingleton().getList()), endTime - startTime))
+
     prices = alg.pricing(result[1], result[2])
-    print(prices)
+    # print(prices)
 
     for allocs in result[1]:
         userId = allocs[0].uId
@@ -157,7 +162,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     detectAllUsersPosition(eTuple[3])
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     prices = alg.pricing(result[1], result[2])
-    print(prices)
+    # print(prices)
 
     for alloc in result[1]:
         userId = alloc[0].uId
