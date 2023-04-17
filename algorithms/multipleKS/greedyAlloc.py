@@ -4,13 +4,17 @@ import sys
 import algorithms.multipleKS.alloc_utils as utils
 import sim_utils
 import logging
+import copy
 
 TAG = 'greedyAlloc.py'
 
 def greedyAlloc(cloudlets, vms):
     sim_utils.log(TAG, 'greedyAlloc')
-    sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
-    normalVms = utils.normalize(sortedCloudlets[0], vms)
+    # For homogeneous cloudlets, the step below is not necessary
+    # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
+    # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
+
+    normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
 
@@ -18,29 +22,30 @@ def greedyAlloc(cloudlets, vms):
     socialWelfare = 0
     cloudletPointer = 0
 
-    while cloudletPointer < len(sortedCloudlets):
+    while cloudletPointer < len(cloudlets):
         userPointer = 0
         occupation = utils.Resources(0, 0, 0)
 
         while (utils.isNotFull(occupation)) and userPointer < len(D):
             chosenUser = D[userPointer][0]
             if (utils.userFits(chosenUser, occupation) 
-                    and utils.checkLatencyThreshold(chosenUser, sortedCloudlets[cloudletPointer])):
+                    and utils.checkLatencyThreshold(chosenUser, cloudlets[cloudletPointer])):
                 utils.allocate(chosenUser, occupation)
-                allocatedUsers.append((chosenUser, sortedCloudlets[cloudletPointer]))
+                allocatedUsers.append((chosenUser, cloudlets[cloudletPointer]))
                 socialWelfare += chosenUser.bid
                 del D[userPointer]
             else:
                 userPointer += 1
         cloudletPointer += 1
     
-    sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)}')
+    sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
-    return [socialWelfare, allocatedUsers, D]
+    return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]
 
 def pricing(winners, densities):
     sim_utils.log(TAG, 'pricing')
     i = 0
+    densities.sort(key=lambda a: a[1], reverse=True)
     while i < len(winners):
         occupation = utils.Resources(0, 0, 0) # for identical cloudlets, this is ok, but not for different cloudlets
         winner = winners[i][0]

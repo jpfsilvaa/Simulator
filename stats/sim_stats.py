@@ -42,47 +42,55 @@ class SimStatistics:
         currTime = time.localtime()
         timeString = time.strftime("%d%m%Y_%H%M%S", currTime)
 
-        self.writeFile(timeString, LAT_FILENAME, 'latencies', self.avgLatencies)
-        self.writeFile(timeString, SOCIAL_WELFARE_FILENAME, 'social welfare', self.totalSocialWelfares)
-        self.writeFile(timeString, PRICES_FILENAME, 'prices', self.totalPrices)
-        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, 'cloudlets usage', self.clUsages)
-        self.writeFile(timeString, EXEC_TIME_FILENAME, 'execution time', self.execTimes)
+        self.writeFile(timeString, LAT_FILENAME, '(number of users, latencies)', self.avgLatencies)
+        self.writeFile(timeString, SOCIAL_WELFARE_FILENAME, '(number of users, social welfare)', self.totalSocialWelfares)
+        self.writeFile(timeString, PRICES_FILENAME, '(number of users, prices)', self.totalPrices)
+        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, '(number of users, used cloudlets, cloudlets usage)', self.clUsages)
+        self.writeFile(timeString, EXEC_TIME_FILENAME, '(number of users, execution time)', self.execTimes)
 
 
     def writeLatencyStats(self, timeStep):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
         avgLatency = sum([u.currLatency for u in users]) / len(users)
-        self.avgLatencies[timeStep] = avgLatency
+        self.avgLatencies[timeStep] = (len(users), avgLatency)
 
     def writeSocialWelfareStats(self, timeStep):
         utils.log(TAG, 'writeSocialWelfareStats')
         users = UsersListSingleton().getList()
         socialWelfare = sum([u.bid for u in users])
-        self.totalSocialWelfares[timeStep] = socialWelfare
+        self.totalSocialWelfares[timeStep] = (len(users), socialWelfare)
 
     def writePricesStats(self, timeStep):
         utils.log(TAG, 'writePricesStats')
         users = UsersListSingleton().getList()
         prices = sum([u.price for u in users])
-        self.totalPrices[timeStep] = prices
+        self.totalPrices[timeStep] = (len(users), prices)
 
     def writeCloudletsUsageStats(self, timeStep):
         utils.log(TAG, 'writeCloudletsUsageStats')
         cloudlets = CloudletsListSingleton().getList()
+        users = UsersListSingleton().getList()
         cpuUsage = 0
         storageUsage = 0
         ramUsage = 0
 
         for c in cloudlets:
-            cpuUsage += c.resources.cpu/c.resourcesFullValues.cpu * 100
-            storageUsage += c.resources.storage/c.resourcesFullValues.storage * 100
-            ramUsage += c.resources.ram/c.resourcesFullValues.ram * 100
+            # taking into account only the cloudlets that are being used
+            usedCloudlets = 0
+            if c.resources.cpu != c.resourcesFullValues.cpu or \
+                c.resources.storage != c.resourcesFullValues.storage or \
+                    c.resources.ram != c.resourcesFullValues.ram:
+                usedCloudlets += 1
+                cpuUsage += c.resources.cpu/c.resourcesFullValues.cpu * 100
+                storageUsage += c.resources.storage/c.resourcesFullValues.storage * 100
+                ramUsage += c.resources.ram/c.resourcesFullValues.ram * 100
         
-        self.clUsages[timeStep] = ( 100 - (cpuUsage / len(cloudlets)), 
+        self.clUsages[timeStep] = (len(users), usedCloudlets, ( 100 - (cpuUsage / len(cloudlets)), 
                                     100 - (storageUsage / len(cloudlets)), 
-                                    100 -(ramUsage / len(cloudlets)))
+                                    100 -(ramUsage / len(cloudlets))))
     
     def writeExecTimeStats(self, timeStep, execTime):
         utils.log(TAG, 'writeExecTimeStats')
-        self.execTimes[timeStep] = execTime
+        users = UsersListSingleton().getList()
+        self.execTimes[timeStep] = (len(users), execTime)

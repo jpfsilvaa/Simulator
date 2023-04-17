@@ -81,25 +81,30 @@ def allocateUser(eTuple):
     utils.log(TAG, 'allocateUser')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
     # contentSubtuple: (userId, cloudletId, graph)
-    user = UsersListSingleton().findById(eTuple[3][0])
-    oldCloudlet = user.allocatedCloudlet
-    newCloudlet = CloudletsListSingleton().findById(eTuple[3][1])
     
-    if oldCloudlet != None: # first allocation
-        oldCloudlet.resources.cpu += user.reqs.cpu
-        oldCloudlet.resources.ram += user.reqs.ram
-        oldCloudlet.resources.storage += user.reqs.storage
-        oldCloudlet.currUsersAllocated.remove(user)
+    # If the user is not in the list, he means that it has already finished its route
+    user = UsersListSingleton().findById(eTuple[3][0])
+    if user != None:
+        oldCloudlet = user.allocatedCloudlet
+        newCloudlet = CloudletsListSingleton().findById(eTuple[3][1])
+        
+        if oldCloudlet != None: # first allocation
+            oldCloudlet.resources.cpu += user.reqs.cpu
+            oldCloudlet.resources.ram += user.reqs.ram
+            oldCloudlet.resources.storage += user.reqs.storage
+            oldCloudlet.currUsersAllocated.remove(user)
 
-    newCloudlet.resources.cpu -= user.reqs.cpu
-    newCloudlet.resources.ram -= user.reqs.ram
-    newCloudlet.resources.storage -= user.reqs.storage
-    newCloudlet.currUsersAllocated.append(user)
+        newCloudlet.resources.cpu -= user.reqs.cpu
+        newCloudlet.resources.ram -= user.reqs.ram
+        newCloudlet.resources.storage -= user.reqs.storage
+        newCloudlet.currUsersAllocated.append(user)
 
-    user.allocatedCloudlet = newCloudlet
-    user.latency = latencyFunction(user, eTuple[3][2])
-    utils.log(TAG, f'ALLOCATED USER LATENCY: {user.uId}: {user.latency}')
-    user.pastCloudlets.append(oldCloudlet)
+        user.allocatedCloudlet = newCloudlet
+        user.latency = latencyFunction(user, eTuple[3][2])
+        utils.log(TAG, f'ALLOCATED USER LATENCY: {user.uId}: {user.latency}')
+        user.pastCloudlets.append(oldCloudlet)
+    else:
+        utils.log(TAG, f'User {eTuple[3][0]} has already finished its route')
 
 def latencyFunction(user, mainGraph):
     utils.log(TAG, 'latencyFunction')
@@ -135,7 +140,7 @@ def initialAlloc(simClock, heapSing, eTuple):
     startTime = time.time()
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     endTime = time.time()
-    SimStatistics().writeExecTimeStats(timeStep, (len(UsersListSingleton().getList()), endTime - startTime))
+    SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
 
     prices = alg.pricing(result[1], result[2])
     # print(prices)
@@ -160,7 +165,10 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
+    startTime = time.time()
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    endTime = time.time()
+    SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
     prices = alg.pricing(result[1], result[2])
     # print(prices)
 

@@ -56,7 +56,6 @@ def invokeRoutine(simClock, heapSing, eTuple):
     utils.log(TAG, 'invokeRoutine')
     utils.log(TAG, f"CALLING EVENT  {eTuple[2]}")
     Event.execEvent(simClock, heapSing, eTuple)
-    # statsStoring.writeStats(usersObjs, cloudletsObjs, simClock.getTimerValue(), eTuple)
 
 def triggerUserPathEvents(heapSing, graph):
     utils.log(TAG, 'triggerUserPathEvents')

@@ -6,7 +6,7 @@ from geopy import distance
 TAG = 'sim_utils.py'
 
 def calcDistance(point_1, point_2):
-    #Sao Paulo's zone number and zone letter
+    # Sao Paulo's zone number and zone letter
     zone_number = 23
     zone_letter = 'K'
 
