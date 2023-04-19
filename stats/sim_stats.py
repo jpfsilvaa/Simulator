@@ -42,17 +42,17 @@ class SimStatistics:
         currTime = time.localtime()
         timeString = time.strftime("%d%m%Y_%H%M%S", currTime)
 
-        self.writeFile(timeString, LAT_FILENAME, '(number of users, latencies)', self.avgLatencies)
+        self.writeFile(timeString, LAT_FILENAME, '(number of users, avg latency (for the allocated))', self.avgLatencies)
         self.writeFile(timeString, SOCIAL_WELFARE_FILENAME, '(number of users, social welfare)', self.totalSocialWelfares)
         self.writeFile(timeString, PRICES_FILENAME, '(number of users, prices)', self.totalPrices)
-        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, '(number of users, used cloudlets, cloudlets usage)', self.clUsages)
+        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, '(number of users, used cloudlets, used cloudlets usage)', self.clUsages)
         self.writeFile(timeString, EXEC_TIME_FILENAME, '(number of users, execution time)', self.execTimes)
 
 
     def writeLatencyStats(self, timeStep):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
-        avgLatency = sum([u.currLatency for u in users]) / len(users)
+        avgLatency = sum([u.currLatency for u in users if u.currLatency < 1]) / len(users) # avgLatency only for users that have were allocated (<1)
         self.avgLatencies[timeStep] = (len(users), avgLatency)
 
     def writeSocialWelfareStats(self, timeStep):
@@ -74,10 +74,10 @@ class SimStatistics:
         cpuUsage = 0
         storageUsage = 0
         ramUsage = 0
+        usedCloudlets = 0
 
         for c in cloudlets:
             # taking into account only the cloudlets that are being used
-            usedCloudlets = 0
             if c.resources.cpu != c.resourcesFullValues.cpu or \
                 c.resources.storage != c.resourcesFullValues.storage or \
                     c.resources.ram != c.resourcesFullValues.ram:
