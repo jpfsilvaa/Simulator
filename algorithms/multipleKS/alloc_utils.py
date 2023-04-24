@@ -4,6 +4,9 @@ from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
 import sim_utils as utils
+from algorithms.multipleKS.quadTree import Point, QuadNode
+import utm
+from geopy import distance
 
 def checkLatencyThreshold(user, cloudlet):
     distance = utils.calcDistance((user.position[0], user.position[1]), 
@@ -85,3 +88,35 @@ def buildUserVms(jsonData):
                             )
                         )
     return vmsList
+
+def buildQuadtree(cloudlets, vms):
+    maxX = 112000
+    maxY = 112000
+    quadtree = QuadNode(maxX/2, maxY/2, maxX, maxY)
+    for cloudlet in cloudlets:
+        lat_, long_ = convertUTMtoLatLong(cloudlet.position)
+        quadtree.insert(Point(lat_, long_, cloudlet))
+    for vm in vms:
+        lat_, long_ = convertUTMtoLatLong(vm.position)
+        quadtree.insert(Point(lat_, long_, vm))
+    return quadtree
+
+def detectCloudletsFromQT(user, quadtree):
+    cloudlets = []
+    radius = user.latencyThresholdForAllocate * 1000
+    print("Radius: ", radius)
+    result = quadtree.query(user.position[0], user.position[1], radius)
+    filteredResult = []
+    for point in result:
+        if isinstance(point.entity, Cloudlet):
+            filteredResult.append(point)
+    print("Cloudlets found: ", len(filteredResult))
+    return filteredResult
+
+def convertUTMtoLatLong(point):
+    # Sao Paulo's zone number and zone letter
+    zone_number = 23
+    zone_letter = 'K'
+
+    lat_, long_ = utm.to_latlon(point[0], point[1], zone_number, zone_letter)
+    return lat_, long_

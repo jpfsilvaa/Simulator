@@ -20,20 +20,25 @@ def greedyAlloc(cloudlets, vms):
 
     allocatedUsers = []
     socialWelfare = 0
-    cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
-    quadtree = utils.buildQuadtree(cloudlets, vms)
+    cloudletPointer = 0
 
-    for d in D:
-        detectedCloudlets = utils.detectCloudletsFromQT(d[0], quadtree)
-        for c in detectedCloudlets:
-            if utils.userFits(d[0], cloudletsOccupation[c.cId]):
-                utils.allocate(d[0], cloudletsOccupation[c.cId])
-                allocatedUsers.append((d[0], c))
-                socialWelfare += d[0].bid
+    while cloudletPointer < len(cloudlets):
+        userPointer = 0
+        occupation = utils.Resources(0, 0, 0)
+
+        while (utils.isNotFull(occupation)) and userPointer < len(D):
+            chosenUser = D[userPointer][0]
+            if (utils.userFits(chosenUser, occupation) 
+                    and utils.checkLatencyThreshold(chosenUser, cloudlets[cloudletPointer])):
+                utils.allocate(chosenUser, occupation)
+                allocatedUsers.append((chosenUser, cloudlets[cloudletPointer]))
+                socialWelfare += chosenUser.bid
                 del D[userPointer]
-                break
+            else:
+                userPointer += 1
+        cloudletPointer += 1
     
-    sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
+    sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]
 

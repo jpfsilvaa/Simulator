@@ -139,16 +139,16 @@ def initialAlloc(simClock, heapSing, eTuple):
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
     startTime = time.time()
-    # result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
-    result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
     endTime = time.time()
     SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
 
     # resetUserPrices()
-    userPrices = crossEdgeAlg.pricing(result[1], cloudletsSing.getList())
-    for up in userPrices:
-        user = usersSing.findById(up.uId)
-        user.price = up.price
+    # userPrices = crossEdgeAlg.pricing(result[1], cloudletsSing.getList())
+    # for up in userPrices:
+    #    user = usersSing.findById(up.uId)
+    #    user.price = up.price
 
     for allocs in result[1]:
         userId = allocs[0].uId
