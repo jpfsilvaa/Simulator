@@ -101,17 +101,6 @@ def buildQuadtree(cloudlets, vms):
         quadtree.insert(Point(lat_, long_, vm))
     return quadtree
 
-# def detectCloudletsFromQT(user, quadtree):
-#     cloudlets = []
-#     radius = user.latencyThresholdForAllocate * 1000
-#     lat_, long_ = convertUTMtoLatLong(user.position)
-#     result = quadtree.query(lat_, long_, radius)
-#     filteredResult = []
-#     for point in result:
-#         if isinstance(point.entity, Cloudlet):
-#             filteredResult.append(point)
-#     return filteredResult
-
 def detectCloudletsFromQT(users, quadtree):
     finalResult = {}
     for user in users:
