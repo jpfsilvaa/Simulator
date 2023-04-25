@@ -13,7 +13,7 @@ def greedyAlloc(cloudlets, vms):
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
     # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
-
+    initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
@@ -22,38 +22,42 @@ def greedyAlloc(cloudlets, vms):
     socialWelfare = 0
     cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
     quadtree = utils.buildQuadtree(cloudlets, vms)
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(vms, quadtree) # dict: uId -> list of cloudlets
 
+    initTimeLoop = time.time()
     for d in D:
-        detectedCloudlets = utils.detectCloudletsFromQT(d[0], quadtree)
-        for c in detectedCloudlets:
-            if utils.userFits(d[0], cloudletsOccupation[c.cId]):
-                utils.allocate(d[0], cloudletsOccupation[c.cId])
-                allocatedUsers.append((d[0], c))
+        timeToDetect = time.time()
+        cloudlets = detectedCloudletsPerUser[d[0].uId]
+        for c in cloudlets:
+            if utils.userFits(d[0], cloudletsOccupation[c.entity.cId]):
+                utils.allocate(d[0], cloudletsOccupation[c.entity.cId])
+                allocatedUsers.append((d[0], c.entity))
                 socialWelfare += d[0].bid
-                del D[userPointer]
                 break
-    
+    finalTime = time.time()
+    sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
+    sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
     sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
-    return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]
+    return [socialWelfare, allocatedUsers, detectedCloudletsPerUser]
 
-def pricing(winners, cloudlets):
+# TODO: NEED FIX ACCORDING TO THE QUADTREE APPROACH
+def pricing(winners, cloudlets, detectedCloudletsPerUser):
     sim_utils.log(TAG, 'pricing')
 
     for w in winners:
-        normalizedCls = [utils.Resources(0, 0, 0) for c in cloudlets]
+        cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
         w[0].price = float('inf')
         winners_ = [winner for winner in winners if winner[0].uId != w[0].uId]
         D_ = utils.calcDensitiesBySum([w[0] for w in winners_])
         D_.sort(key=lambda a: a[1], reverse=True)
         j = 0
         while j < len(D_):
-            for cloudletIdx in range(len(cloudlets)):
+            for cloudletIdx in range(len(detectedCloudletsPerUser[D_[j][0].uId])):
                 if j < len(D_):
                     currentUser = D_[j][0]
-                    if utils.userFits(currentUser, normalizedCls[cloudletIdx]) \
-                        and utils.checkLatencyThreshold(currentUser, cloudlets[cloudletIdx]):
-                        utils.allocate(currentUser, normalizedCls[cloudletIdx])
+                    if utils.userFits(currentUser, cloudletsOccupation[cloudletIdx]):
+                        utils.allocate(currentUser, cloudletsOccupation[cloudletIdx])
                         w[0].price = min(w[0].price, D_[j][1]*w[0].maxReq)
                         # This increment is not in the paper's pseudocode, but it is necessary 
                         # to avoid allocating the same user to multiple cloudlets
@@ -61,6 +65,7 @@ def pricing(winners, cloudlets):
                 else:
                     break
             j += 1
+    sim_utils.log(TAG, f'price > bid: {user[0].price > user[0].bid}')
     sim_utils.log(TAG, [{user[0].uId: (user[0].bid, str(user[0].price).replace('.', ','))} for user in winners])
     return [allocTuple[0] for allocTuple in winners]
 

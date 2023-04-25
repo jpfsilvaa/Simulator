@@ -1,435 +1,223 @@
-2023-04-24 14:48:26,527 simMain.py: time-step:0 main
-2023-04-24 14:48:26,527 instanceGen.py:: time-step:0 main
-2023-04-24 14:48:26,527 instanceGen.py:: time-step:0 createGraph
-2023-04-24 14:48:27,415 simMain.py: time-step:0 startSimulation
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initHeap
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initSimClock
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initRoutine
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initCloudlets
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initUsers
-2023-04-24 14:48:27,416 simMain.py: time-step:0 initialAllocation
-2023-04-24 14:48:27,416 simMain.py: time-step:0 triggerUserPathEvents
-2023-04-24 14:48:27,433 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,456 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,471 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,489 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,515 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,529 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,550 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,573 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,593 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,603 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,617 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,645 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,653 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,673 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,686 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,696 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,723 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,731 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,766 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,795 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,818 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,827 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,835 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,847 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,860 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,872 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,897 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,912 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,930 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,952 sim_utils.py: time-step:0 calcTimeToExec
-2023-04-24 14:48:27,953 simMain.py: time-step:0 timingRoutine
-2023-04-24 14:48:27,953 simMain.py: time-step:0 invokeRoutine
-2023-04-24 14:48:27,953 simMain.py: time-step:0 CALLING EVENT  Event.INITIAL_ALLOCATION
-2023-04-24 14:48:27,953 event.py: time-step:0 execEvent
-2023-04-24 14:48:27,953 event.py: time-step:0 initialAlloc
-2023-04-24 14:48:27,953 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,955 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,957 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,959 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,961 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,962 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,964 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,966 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,968 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,969 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,971 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,973 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,975 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,977 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,978 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,980 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,982 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,984 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,986 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,987 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,989 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,991 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,993 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,995 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,997 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:27,999 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:28,000 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:28,002 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:28,004 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:28,006 event.py: time-step:0 findUserPosition
-2023-04-24 14:48:28,010 greedyAlloc.py: time-step:0 greedyAlloc
-2023-04-24 14:48:28,016 greedyAlloc.py: time-step:0 allocated users / total users: 0 / 30
-2023-04-24 14:48:28,016 greedyAlloc.py: time-step:0 allocated users: []
-2023-04-24 14:48:28,016 sim_stats.py: time-step:0 writeExecTimeStats
-2023-04-24 14:48:28,016 simMain.py: time-step:0 HEAP SIZE: 32
-2023-04-24 14:48:28,016 simMain.py: time-step:0 HEAP: [(1, 32, <Event.WRITE_STATISTICS: 4>), (2, 4, <Event.MOVE_USER: 0>), (2, 2, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 5, <Event.MOVE_USER: 0>), (2, 6, <Event.MOVE_USER: 0>), (2, 3, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>)]
-2023-04-24 14:48:28,016 simMain.py: time-step:0 USERS LIST SIZE: 30
-2023-04-24 14:48:28,016 simMain.py: time-step:0 timingRoutine
-2023-04-24 14:48:28,016 simMain.py: time-step:0 invokeRoutine
-2023-04-24 14:48:28,016 simMain.py: time-step:0 CALLING EVENT  Event.WRITE_STATISTICS
-2023-04-24 14:48:28,017 event.py: time-step:0 execEvent
-2023-04-24 14:48:28,017 event.py: time-step:1 writeStats
-2023-04-24 14:48:28,017 sim_stats.py: time-step:1 writeLatencyStats
-2023-04-24 14:48:28,017 sim_stats.py: time-step:1 writeSocialWelfareStats
-2023-04-24 14:48:28,017 sim_stats.py: time-step:1 writePricesStats
-2023-04-24 14:48:28,017 sim_stats.py: time-step:1 writeCloudletsUsageStats
-2023-04-24 14:48:28,017 simMain.py: time-step:1 HEAP SIZE: 31
-2023-04-24 14:48:28,017 simMain.py: time-step:1 HEAP: [(2, 2, <Event.MOVE_USER: 0>), (2, 4, <Event.MOVE_USER: 0>), (2, 3, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 5, <Event.MOVE_USER: 0>), (2, 6, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>)]
-2023-04-24 14:48:28,017 simMain.py: time-step:1 USERS LIST SIZE: 30
-2023-04-24 14:48:28,017 simMain.py: time-step:1 timingRoutine
-2023-04-24 14:48:28,017 simMain.py: time-step:1 invokeRoutine
-2023-04-24 14:48:28,017 simMain.py: time-step:1 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,017 event.py: time-step:1 execEvent
-2023-04-24 14:48:28,017 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,017 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,038 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,038 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,038 simMain.py: time-step:2 HEAP: [(2, 3, <Event.MOVE_USER: 0>), (2, 4, <Event.MOVE_USER: 0>), (2, 6, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 5, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,038 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,038 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,039 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,039 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,039 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,039 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,039 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,065 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,065 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,065 simMain.py: time-step:2 HEAP: [(2, 4, <Event.MOVE_USER: 0>), (2, 5, <Event.MOVE_USER: 0>), (2, 6, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,065 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,065 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,065 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,065 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,065 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,065 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,065 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,082 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,082 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,082 simMain.py: time-step:2 HEAP: [(2, 5, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 6, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,082 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,082 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,082 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,082 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,082 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,082 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,082 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,104 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,104 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,104 simMain.py: time-step:2 HEAP: [(2, 6, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 7, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,104 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,104 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,104 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,104 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,104 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,104 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,104 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,123 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,123 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,123 simMain.py: time-step:2 HEAP: [(2, 7, <Event.MOVE_USER: 0>), (2, 8, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,123 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,123 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,124 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,124 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,124 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,124 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,124 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,142 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,142 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,143 simMain.py: time-step:2 HEAP: [(2, 8, <Event.MOVE_USER: 0>), (2, 9, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,143 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,143 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,143 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,143 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,143 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,143 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,143 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,167 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,167 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,167 simMain.py: time-step:2 HEAP: [(2, 9, <Event.MOVE_USER: 0>), (2, 10, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,167 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,167 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,167 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,167 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,167 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,167 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,167 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,190 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,190 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,190 simMain.py: time-step:2 HEAP: [(2, 10, <Event.MOVE_USER: 0>), (2, 11, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,191 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,191 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,191 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,191 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,191 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,191 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,191 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,213 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,213 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,213 simMain.py: time-step:2 HEAP: [(2, 11, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 12, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,213 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,213 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,213 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,213 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,213 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,214 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,214 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,231 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,231 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,231 simMain.py: time-step:2 HEAP: [(2, 12, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 13, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,231 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,231 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,231 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,232 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,232 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,232 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,232 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,250 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,250 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,250 simMain.py: time-step:2 HEAP: [(2, 13, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 14, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,250 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,250 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,250 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,250 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,250 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,250 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,250 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,280 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,280 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,280 simMain.py: time-step:2 HEAP: [(2, 14, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 15, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,280 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,280 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,280 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,280 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,280 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,280 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,280 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,289 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,289 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,289 simMain.py: time-step:2 HEAP: [(2, 15, <Event.MOVE_USER: 0>), (2, 16, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,289 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,290 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,290 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,290 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,290 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,290 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,290 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,310 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,310 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,310 simMain.py: time-step:2 HEAP: [(2, 16, <Event.MOVE_USER: 0>), (2, 17, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,310 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,310 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,310 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,310 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,310 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,310 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,310 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,323 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,324 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,324 simMain.py: time-step:2 HEAP: [(2, 17, <Event.MOVE_USER: 0>), (2, 18, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,324 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,324 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,324 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,324 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,324 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,324 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,324 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,334 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,334 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,334 simMain.py: time-step:2 HEAP: [(2, 18, <Event.MOVE_USER: 0>), (2, 19, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,334 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,334 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,334 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,334 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,335 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,335 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,335 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,361 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,361 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,361 simMain.py: time-step:2 HEAP: [(2, 19, <Event.MOVE_USER: 0>), (2, 20, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,361 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,361 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,361 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,361 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,361 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,362 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,362 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,369 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,369 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,369 simMain.py: time-step:2 HEAP: [(2, 20, <Event.MOVE_USER: 0>), (2, 21, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,369 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,369 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,369 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,369 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,369 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,369 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,369 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,397 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,397 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,397 simMain.py: time-step:2 HEAP: [(2, 21, <Event.MOVE_USER: 0>), (2, 22, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,397 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,397 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,397 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,397 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,397 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,397 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,398 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,421 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,421 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,421 simMain.py: time-step:2 HEAP: [(2, 22, <Event.MOVE_USER: 0>), (2, 23, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,421 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,421 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,421 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,421 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,421 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,421 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,421 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,440 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,441 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,441 simMain.py: time-step:2 HEAP: [(2, 23, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 24, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 26, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,441 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,441 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,441 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,441 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,441 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,441 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,441 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,449 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,449 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,449 simMain.py: time-step:2 HEAP: [(2, 24, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 25, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 27, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,449 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,449 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,449 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,449 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,449 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,449 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,449 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,457 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,457 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,457 simMain.py: time-step:2 HEAP: [(2, 25, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 26, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,457 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,457 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,457 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,457 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,457 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,457 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,457 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,470 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,470 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,470 simMain.py: time-step:2 HEAP: [(2, 26, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 27, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,470 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,470 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,470 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,470 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,470 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,470 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,470 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,484 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,484 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,484 simMain.py: time-step:2 HEAP: [(2, 27, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 28, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 29, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,484 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,484 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,484 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,484 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,484 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,484 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,484 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,497 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,497 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,497 simMain.py: time-step:2 HEAP: [(2, 28, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 29, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>), (34.0, 59, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,497 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,497 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,497 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,497 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,497 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,497 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,497 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,520 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,520 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,520 simMain.py: time-step:2 HEAP: [(2, 29, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (2, 30, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 59, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>), (34.0, 60, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,520 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,520 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,520 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,520 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,520 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,520 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,520 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,536 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,536 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,536 simMain.py: time-step:2 HEAP: [(2, 30, <Event.MOVE_USER: 0>), (2, 31, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 59, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 60, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>), (34.0, 61, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,536 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,536 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,536 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,536 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,536 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,536 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,536 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,556 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,556 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,556 simMain.py: time-step:2 HEAP: [(2, 31, <Event.MOVE_USER: 0>), (34.0, 35, <Event.MOVE_USER: 0>), (10, 33, <Event.CALL_OPT: 3>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 61, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 59, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 60, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>), (88.0, 62, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,556 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,556 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,556 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,556 simMain.py: time-step:2 CALLING EVENT  Event.MOVE_USER
-2023-04-24 14:48:28,556 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,556 event.py: time-step:2 moveUser
-2023-04-24 14:48:28,556 event.py: time-step:2 latencyFunction
-2023-04-24 14:48:28,575 sim_utils.py: time-step:2 calcTimeToExec
-2023-04-24 14:48:28,575 simMain.py: time-step:2 HEAP SIZE: 31
-2023-04-24 14:48:28,575 simMain.py: time-step:2 HEAP: [(10, 33, <Event.CALL_OPT: 3>), (34.0, 35, <Event.MOVE_USER: 0>), (34.0, 37, <Event.MOVE_USER: 0>), (34.0, 38, <Event.MOVE_USER: 0>), (34.0, 49, <Event.MOVE_USER: 0>), (34.0, 45, <Event.MOVE_USER: 0>), (34.0, 43, <Event.MOVE_USER: 0>), (34.0, 61, <Event.MOVE_USER: 0>), (34.0, 53, <Event.MOVE_USER: 0>), (34.0, 52, <Event.MOVE_USER: 0>), (34.0, 50, <Event.MOVE_USER: 0>), (88.0, 42, <Event.MOVE_USER: 0>), (34.0, 54, <Event.MOVE_USER: 0>), (34.0, 44, <Event.MOVE_USER: 0>), (34.0, 59, <Event.MOVE_USER: 0>), (88.0, 41, <Event.MOVE_USER: 0>), (88.0, 48, <Event.MOVE_USER: 0>), (88.0, 47, <Event.MOVE_USER: 0>), (88.0, 46, <Event.MOVE_USER: 0>), (88.0, 34, <Event.MOVE_USER: 0>), (88.0, 40, <Event.MOVE_USER: 0>), (88.0, 39, <Event.MOVE_USER: 0>), (88.0, 51, <Event.MOVE_USER: 0>), (88.0, 56, <Event.MOVE_USER: 0>), (88.0, 62, <Event.MOVE_USER: 0>), (34.0, 55, <Event.MOVE_USER: 0>), (34.0, 60, <Event.MOVE_USER: 0>), (88.0, 36, <Event.MOVE_USER: 0>), (88.0, 57, <Event.MOVE_USER: 0>), (88.0, 58, <Event.MOVE_USER: 0>), (88.0, 63, <Event.MOVE_USER: 0>)]
-2023-04-24 14:48:28,575 simMain.py: time-step:2 USERS LIST SIZE: 30
-2023-04-24 14:48:28,575 simMain.py: time-step:2 timingRoutine
-2023-04-24 14:48:28,575 simMain.py: time-step:2 invokeRoutine
-2023-04-24 14:48:28,575 simMain.py: time-step:2 CALLING EVENT  Event.CALL_OPT
-2023-04-24 14:48:28,575 event.py: time-step:2 execEvent
-2023-04-24 14:48:28,575 event.py: time-step:10 optimizeAlloc
-2023-04-24 14:48:28,575 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,577 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,579 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,580 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,582 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,584 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,586 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,587 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,589 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,591 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,593 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,595 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,597 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,598 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,600 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,602 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,604 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,606 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,608 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,610 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,611 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,613 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,615 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,617 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,619 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,621 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,622 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,624 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,626 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,628 event.py: time-step:10 findUserPosition
-2023-04-24 14:48:28,630 crossEdgePaper.py: time-step:10 crossEdgeAlg
-2023-04-24 14:48:28,965 crossEdgePaper.py: time-step:10 num allocated users: 20 / 30
-2023-04-24 14:48:28,965 crossEdgePaper.py: time-step:10 allocated users: [('v28', 'gp1', 'c0'), ('v14', 'gp1', 'c0'), ('v6', 'gp1', 'c0'), ('v12', 'gp1', 'c0'), ('v17', 'gp1', 'c0'), ('v7', 'gp2', 'c0'), ('v0', 'gp2', 'c0'), ('v8', 'gp2', 'c0'), ('v29', 'cpuIntensive', 'c0'), ('v11', 'gp2', 'c51'), ('v21', 'gp2', 'c51'), ('v26', 'gp2', 'c51'), ('v3', 'gp2', 'c51'), ('v10', 'gp2', 'c51'), ('v25', 'gp2', 'c51'), ('v18', 'gp2', 'c51'), ('v15', 'cpuIntensive', 'c51'), ('v9', 'cpuIntensive', 'c52'), ('v16', 'cpuIntensive', 'c52'), ('v20', 'ramIntensive', 'c52')]
-2023-04-24 14:48:28,965 sim_stats.py: time-step:10 writeExecTimeStats
-2023-04-24 14:48:28,965 crossEdgePaper.py: time-step:10 pricing
+2023-04-25 15:23:38,080 simMain.py: time-step:0 main
+2023-04-25 15:23:38,080 instanceGen.py:: time-step:0 main
+2023-04-25 15:23:38,080 instanceGen.py:: time-step:0 createGraph
+2023-04-25 15:23:39,130 simMain.py: time-step:0 startSimulation
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initHeap
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initSimClock
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initRoutine
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initCloudlets
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initUsers
+2023-04-25 15:23:39,130 simMain.py: time-step:0 initialAllocation
+2023-04-25 15:23:39,130 simMain.py: time-step:0 triggerUserPathEvents
+2023-04-25 15:23:39,172 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,195 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,214 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,233 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,254 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,290 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,308 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,323 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,367 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,384 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,424 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,443 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,484 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,521 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,545 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,587 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,617 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,644 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,658 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,691 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,700 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,713 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,734 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,747 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,767 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,796 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,825 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,843 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,854 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,891 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,902 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,929 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:39,970 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,011 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,034 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,051 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,079 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,098 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,133 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,183 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,198 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,213 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,233 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,269 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,284 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,315 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,332 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,353 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,383 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,409 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,435 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,473 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,529 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,558 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,570 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,594 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,616 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,653 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,692 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,702 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,727 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,743 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,767 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,791 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,807 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,822 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,852 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,867 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,892 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,918 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,950 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,968 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:40,996 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,018 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,062 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,093 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,104 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,133 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,150 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,171 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,202 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,215 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,231 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,263 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,280 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,298 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,313 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,324 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,334 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,352 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,366 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,397 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,421 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,433 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,448 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,474 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,485 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,499 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,514 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,528 sim_utils.py: time-step:0 calcTimeToExec
+2023-04-25 15:23:41,528 simMain.py: time-step:0 timingRoutine
+2023-04-25 15:23:41,529 simMain.py: time-step:0 invokeRoutine
+2023-04-25 15:23:41,529 simMain.py: time-step:0 CALLING EVENT  Event.INITIAL_ALLOCATION
+2023-04-25 15:23:41,529 event.py: time-step:0 execEvent
+2023-04-25 15:23:41,529 event.py: time-step:0 initialAlloc
+2023-04-25 15:23:41,529 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,529 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,530 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,532 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,532 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,533 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,535 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,537 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,540 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,543 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,544 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,545 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,547 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,547 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,548 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,548 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,549 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,549 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,549 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,552 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,552 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,554 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,559 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,562 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,565 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,568 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,570 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,571 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,574 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,576 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,577 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,578 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,578 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,579 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,579 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,580 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,582 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,585 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,585 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,588 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,591 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,594 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,595 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,597 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,598 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,599 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,599 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,601 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,602 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,602 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,603 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,605 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,609 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,610 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,612 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,615 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,615 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,618 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,618 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,619 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,621 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,621 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,623 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,624 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,626 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,627 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,627 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,630 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,632 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,632 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,633 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,635 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,637 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,638 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,640 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,643 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,646 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,648 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,649 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,651 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,651 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,651 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,654 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,656 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,659 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,660 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,661 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,663 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,666 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,666 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,667 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,668 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,668 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,669 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,672 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,672 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,676 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,679 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,682 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,684 event.py: time-step:0 findUserPosition
+2023-04-25 15:23:41,685 greedyAlloc.py: time-step:0 greedyAlloc
+2023-04-25 15:23:47,191 greedyAlloc.py: time-step:0 elapsed loop time: 0.00020647048950195312
+2023-04-25 15:23:47,191 greedyAlloc.py: time-step:0 elapsed total time: 5.505971670150757
+2023-04-25 15:23:47,191 greedyAlloc.py: time-step:0 allocated users / total users: 78 / 100
+2023-04-25 15:23:47,191 greedyAlloc.py: time-step:0 allocated users: [('v30', 'gp1', 'c257'), ('v16', 'gp1', 'c144'), ('v63', 'gp1', 'c93'), ('v82', 'gp1', 'c208'), ('v72', 'gp1', 'c144'), ('v22', 'gp1', 'c261'), ('v93', 'gp1', 'c208'), ('v12', 'gp1', 'c257'), ('v20', 'gp1', 'c261'), ('v5', 'gp1', 'c208'), ('v87', 'gp1', 'c261'), ('v34', 'gp1', 'c41'), ('v38', 'gp1', 'c208'), ('v29', 'gp1', 'c257'), ('v79', 'gp1', 'c144'), ('v78', 'gp1', 'c261'), ('v80', 'gp1', 'c257'), ('v42', 'gp1', 'c208'), ('v83', 'gp1', 'c208'), ('v36', 'gp1', 'c93'), ('v45', 'gp1', 'c144'), ('v66', 'gp1', 'c93'), ('v69', 'gp1', 'c41'), ('v92', 'gp1', 'c257'), ('v53', 'gp1', 'c93'), ('v40', 'gp2', 'c208'), ('v94', 'gp2', 'c144'), ('v43', 'gp2', 'c257'), ('v51', 'gp2', 'c208'), ('v68', 'gp2', 'c41'), ('v89', 'gp2', 'c41'), ('v26', 'gp2', 'c257'), ('v37', 'gp2', 'c144'), ('v59', 'gp2', 'c261'), ('v7', 'gp2', 'c93'), ('v35', 'gp2', 'c208'), ('v81', 'gp2', 'c261'), ('v8', 'gp2', 'c208'), ('v46', 'gp2', 'c208'), ('v50', 'gp2', 'c208'), ('v73', 'gp2', 'c261'), ('v28', 'gp2', 'c261'), ('v39', 'gp2', 'c208'), ('v60', 'gp2', 'c144'), ('v47', 'gp2', 'c41'), ('v77', 'gp2', 'c41'), ('v75', 'gp2', 'c93'), ('v88', 'gp2', 'c257'), ('v76', 'gp2', 'c261'), ('v67', 'gp2', 'c208'), ('v71', 'gp2', 'c261'), ('v0', 'cpuIntensive', 'c257'), ('v99', 'cpuIntensive', 'c258'), ('v4', 'cpuIntensive', 'c41'), ('v10', 'cpuIntensive', 'c144'), ('v19', 'cpuIntensive', 'c145'), ('v21', 'cpuIntensive', 'c209'), ('v3', 'cpuIntensive', 'c145'), ('v97', 'cpuIntensive', 'c261'), ('v41', 'cpuIntensive', 'c42'), ('v52', 'cpuIntensive', 'c145'), ('v55', 'cpuIntensive', 'c146'), ('v84', 'cpuIntensive', 'c42'), ('v9', 'cpuIntensive', 'c42'), ('v17', 'cpuIntensive', 'c146'), ('v25', 'cpuIntensive', 'c209'), ('v56', 'cpuIntensive', 'c209'), ('v61', 'cpuIntensive', 'c262'), ('v98', 'cpuIntensive', 'c262'), ('v54', 'ramIntensive', 'c93'), ('v13', 'ramIntensive', 'c144'), ('v62', 'ramIntensive', 'c146'), ('v65', 'ramIntensive', 'c258'), ('v48', 'ramIntensive', 'c147'), ('v91', 'ramIntensive', 'c147'), ('v49', 'ramIntensive', 'c258'), ('v57', 'ramIntensive', 'c259'), ('v6', 'ramIntensive', 'c262')]
+2023-04-25 15:23:47,191 sim_stats.py: time-step:0 writeExecTimeStats
+2023-04-25 15:23:47,192 greedyAlloc.py: time-step:0 pricing

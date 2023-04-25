@@ -10,41 +10,41 @@ TAG = 'crossEdgePaper.py'
 # Algorithm from the paper: https://doi.org/10.1016/j.comcom.2021.09.035
 # The thing here is that they use the sum of the resources to calculate the densities,
 # but also, they sort the cloudlets by type in decreasing order
-def crossEdgeAlg(cloudlets, vms):
-    sim_utils.log(TAG, 'crossEdgeAlg')
+def greedyAlloc(cloudlets, vms):
+    sim_utils.log(TAG, 'greedyAlloc')
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
     # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
-
+    initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
-    D = utils.calcDensitiesBySum(normalVms)
+    D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
 
     allocatedUsers = []
     socialWelfare = 0
-    cloudletPointer = 0
+    cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
+    quadtree = utils.buildQuadtree(cloudlets, vms)
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(vms, quadtree) # dict: uId -> list of cloudlets
 
-    while cloudletPointer < len(cloudlets):
-        userPointer = 0
-        occupation = utils.Resources(0, 0, 0)
-
-        while (utils.isNotFull(occupation)) and userPointer < len(D):
-            chosenUser = D[userPointer][0]
-            if (utils.userFits(chosenUser, occupation) 
-                    and utils.checkLatencyThreshold(chosenUser, cloudlets[cloudletPointer])):
-                utils.allocate(chosenUser, occupation)
-                allocatedUsers.append((chosenUser, cloudlets[cloudletPointer]))
-                socialWelfare += chosenUser.bid
-                del D[userPointer]
-            else:
-                userPointer += 1
-        cloudletPointer += 1
-    
-    sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)} / {len(vms)}')
+    initTimeLoop = time.time()
+    for d in D:
+        timeToDetect = time.time()
+        cloudlets = detectedCloudletsPerUser[d[0].uId]
+        for c in cloudlets:
+            if utils.userFits(d[0], cloudletsOccupation[c.entity.cId]):
+                utils.allocate(d[0], cloudletsOccupation[c.entity.cId])
+                allocatedUsers.append((d[0], c.entity))
+                socialWelfare += d[0].bid
+                break
+    finalTime = time.time()
+    sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
+    sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
+    sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
-    return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]
+    return [socialWelfare, allocatedUsers, detectedCloudletsPerUser]
 
 # The paper's authors use Critical Pricing
+# TODO: NEED FIX ACCORDING TO THE QUADTREE APPROACH
 def pricing(winners, cloudlets):
     sim_utils.log(TAG, 'pricing')
 

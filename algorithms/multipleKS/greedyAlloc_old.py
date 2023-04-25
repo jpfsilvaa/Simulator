@@ -13,7 +13,7 @@ def greedyAlloc(cloudlets, vms):
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
     # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
-
+    initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
@@ -21,7 +21,7 @@ def greedyAlloc(cloudlets, vms):
     allocatedUsers = []
     socialWelfare = 0
     cloudletPointer = 0
-
+    initTimeLoop = time.time()
     while cloudletPointer < len(cloudlets):
         userPointer = 0
         occupation = utils.Resources(0, 0, 0)
@@ -37,7 +37,9 @@ def greedyAlloc(cloudlets, vms):
             else:
                 userPointer += 1
         cloudletPointer += 1
-    
+    finalTime = time.time()
+    sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
+    sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
     sim_utils.log(TAG, f'num allocated users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]

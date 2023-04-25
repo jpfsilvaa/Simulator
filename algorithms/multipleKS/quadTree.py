@@ -1,12 +1,12 @@
+from geopy import distance
+
 class Point:
     def __init__(self, x, y, entity):
-        degreeToMeter = 111139
-        latNorm = 24
-        longNorm = 47
-        self.x = (x + latNorm) * degreeToMeter
-        self.y = (y + longNorm) * degreeToMeter
+        latNorm = 90
+        longNorm = 180
+        self.x = (x + latNorm)
+        self.y = (y + longNorm)
         self.entity = entity
-
 
 class QuadNode:
     def __init__(self, x, y, width, height, depth=0, capacity=4):
@@ -39,7 +39,6 @@ class QuadNode:
     def query(self, x, y, radius):
         result = []
         if self._intersects_circle(x, y, radius):
-            print("Intersects circle")
             for point in self.points:
                 if self._distance(x, y, point.x, point.y) <= radius:
                     result.append(point)
@@ -69,8 +68,8 @@ class QuadNode:
         return corner_distance_sq <= (radius ** 2)
 
     def _distance(self, x1, y1, x2, y2):
-        print(((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5)
-        return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+        distanceRes = distance.distance((x1, y1), (x2-90, y2-180)).meters
+        return distanceRes
     
     def _split(self):
         half_width = self.width / 2
@@ -87,6 +86,8 @@ class QuadNode:
                 if child.insert(point):
                     break
         self.points = []
+
+
 
 """ if __name__ == '__main__':
     import random

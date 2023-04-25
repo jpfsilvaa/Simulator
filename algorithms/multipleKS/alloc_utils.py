@@ -90,9 +90,9 @@ def buildUserVms(jsonData):
     return vmsList
 
 def buildQuadtree(cloudlets, vms):
-    maxX = 112000
-    maxY = 112000
-    quadtree = QuadNode(maxX/2, maxY/2, maxX, maxY)
+    maxX = 180
+    maxY = 360
+    quadtree = QuadNode(0, 0, maxX, maxY)
     for cloudlet in cloudlets:
         lat_, long_ = convertUTMtoLatLong(cloudlet.position)
         quadtree.insert(Point(lat_, long_, cloudlet))
@@ -101,22 +101,34 @@ def buildQuadtree(cloudlets, vms):
         quadtree.insert(Point(lat_, long_, vm))
     return quadtree
 
-def detectCloudletsFromQT(user, quadtree):
-    cloudlets = []
-    radius = user.latencyThresholdForAllocate * 1000
-    print("Radius: ", radius)
-    result = quadtree.query(user.position[0], user.position[1], radius)
-    filteredResult = []
-    for point in result:
-        if isinstance(point.entity, Cloudlet):
-            filteredResult.append(point)
-    print("Cloudlets found: ", len(filteredResult))
-    return filteredResult
+# def detectCloudletsFromQT(user, quadtree):
+#     cloudlets = []
+#     radius = user.latencyThresholdForAllocate * 1000
+#     lat_, long_ = convertUTMtoLatLong(user.position)
+#     result = quadtree.query(lat_, long_, radius)
+#     filteredResult = []
+#     for point in result:
+#         if isinstance(point.entity, Cloudlet):
+#             filteredResult.append(point)
+#     return filteredResult
+
+def detectCloudletsFromQT(users, quadtree):
+    finalResult = {}
+    for user in users:
+        cloudlets = []
+        radius = user.latencyThresholdForAllocate * 1000
+        lat_, long_ = convertUTMtoLatLong(user.position)
+        result = quadtree.query(lat_, long_, radius)
+        filteredResult = []
+        for point in result:
+            if isinstance(point.entity, Cloudlet):
+                filteredResult.append(point)
+        finalResult[user.uId] = filteredResult
+    return finalResult
 
 def convertUTMtoLatLong(point):
     # Sao Paulo's zone number and zone letter
     zone_number = 23
     zone_letter = 'K'
-
     lat_, long_ = utm.to_latlon(point[0], point[1], zone_number, zone_letter)
     return lat_, long_

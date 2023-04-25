@@ -3,6 +3,7 @@ from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
 from algorithms.multipleKS import greedyAlloc as alg
+from algorithms.multipleKS import greedyAlloc_old as alg_old
 from algorithms.multipleKS import crossEdgePaper as crossEdgeAlg
 from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
@@ -128,7 +129,7 @@ def findUserPosition(user, mainGraph):
         if jumpsToSubPoints >= len(currSubtrace): jumpsToSubPoints = len(currSubtrace) - 1
         return (float(currSubtrace[jumpsToSubPoints][0]), float(currSubtrace[jumpsToSubPoints][1]))
     else: 
-        # user didn't move yet
+        # user haven't move yet
         return (mainGraph.findNodeById(user.currNodeId).posX, mainGraph.findNodeById(user.currNodeId).posY)
 
 def initialAlloc(simClock, heapSing, eTuple):
@@ -140,15 +141,16 @@ def initialAlloc(simClock, heapSing, eTuple):
     detectAllUsersPosition(eTuple[3])
     startTime = time.time()
     result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    # result = alg_old.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
     endTime = time.time()
     SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
 
-    # resetUserPrices()
-    # userPrices = crossEdgeAlg.pricing(result[1], cloudletsSing.getList())
-    # for up in userPrices:
-    #    user = usersSing.findById(up.uId)
-    #    user.price = up.price
+    resetUserPrices()
+    userPrices = alg.pricing(result[1], cloudletsSing.getList(), result[2])
+    for up in userPrices:
+        user = usersSing.findById(up.uId)
+        user.price = up.price
 
     for allocs in result[1]:
         userId = allocs[0].uId
@@ -175,13 +177,14 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
     startTime = time.time()
-    # result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
-    result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    # result = alg_old.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
     endTime = time.time()
     SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
     
-    # resetUserPrices()
-    userPrices = crossEdgeAlg.pricing(result[1], cloudletsSing.getList())
+    resetUserPrices()
+    userPrices = alg.pricing(result[1], cloudletsSing.getList(), result[2])
     for up in userPrices:
         user = usersSing.findById(up.uId)
         user.price = up.price
