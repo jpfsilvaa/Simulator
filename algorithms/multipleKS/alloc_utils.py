@@ -115,6 +115,20 @@ def detectCloudletsFromQT(users, quadtree):
         finalResult[user.uId] = filteredResult
     return finalResult
 
+def detectUsersFromQT(cloudlets, winner, quadtree):
+    finalResult = {}
+    radius = winner.latencyThresholdForAllocate * 1000
+    for cloudlet in cloudlets:
+        users = []
+        lat_, long_ = convertUTMtoLatLong(cloudlet.position)
+        result = quadtree.query(lat_, long_, radius)
+        filteredResult = []
+        for point in result:
+            if isinstance(point.entity, UserVM):
+                filteredResult.append(point.entity)
+        finalResult[cloudlet.cId] = filteredResult
+    return finalResult
+
 def convertUTMtoLatLong(point):
     # Sao Paulo's zone number and zone letter
     zone_number = 23
