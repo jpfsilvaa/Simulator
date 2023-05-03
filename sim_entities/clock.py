@@ -4,7 +4,7 @@ import sim_utils as utils
 class TimerSingleton:
     _instance = None
     _lock = threading.Lock()
-    delta = 10 # seconds
+    delta = 60 # seconds
     timer = 0
 
     def __new__(cls):
