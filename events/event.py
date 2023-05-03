@@ -36,7 +36,7 @@ class Event(Enum):
         elif eventType == Event.ALLOCATE_USER:
             allocateUser(eTuple)
         elif eventType == Event.INITIAL_ALLOCATION:
-            initialAlloc(simClock, heapSing, eTuple)
+            optimizeAlloc(simClock, heapSing, eTuple)
         elif eventType == Event.CALL_OPT:
             optimizeAlloc(simClock, heapSing, eTuple)
         elif eventType == Event.WRITE_STATISTICS:
@@ -132,35 +132,6 @@ def findUserPosition(user, mainGraph):
         # user haven't move yet
         return (mainGraph.findNodeById(user.currNodeId).posX, mainGraph.findNodeById(user.currNodeId).posY)
 
-def initialAlloc(simClock, heapSing, eTuple):
-    utils.log(TAG, 'initialAlloc')
-    # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (graph)
-    usersSing = UsersListSingleton()
-    cloudletsSing = CloudletsListSingleton()
-    detectAllUsersPosition(eTuple[3])
-    startTime = time.time()
-    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
-    # result = alg_old.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
-    # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
-    endTime = time.time()
-    SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
-
-    resetUserPrices()
-    userPrices = alg.pricing(result[1], cloudletsSing.getList(), result[2])
-    for up in userPrices:
-        user = usersSing.findById(up.uId)
-        user.price = up.price
-
-    for allocs in result[1]:
-        userId = allocs[0].uId
-        cloudletId = allocs[1].cId
-        eventSubtuple = (userId, cloudletId, eTuple[3])
-        heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
-
-    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ())
-    heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
-
 def resetUserPrices():
     for u in UsersListSingleton().getList():
         u.price = 0
@@ -176,15 +147,23 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     usersSing = UsersListSingleton()
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
+    
+    # Pre-processing quadtree
+    quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
+
     startTime = time.time()
-    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
+    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser)
     # result = alg_old.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
     # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
     endTime = time.time()
     SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
+
+    quadtree = None
+    detectedCloudletsPerUser = None
     
     resetUserPrices()
-    userPrices = alg.pricing(result[1], cloudletsSing.getList(), result[2])
+    userPrices = alg.pricing(result[1], cloudletsSing.getList())
     for up in userPrices:
         user = usersSing.findById(up.uId)
         user.price = up.price
