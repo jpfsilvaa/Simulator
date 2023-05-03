@@ -2,16 +2,18 @@ from enum import Enum
 from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
-from algorithms.multipleKS import greedyAlloc as alg
-from algorithms.multipleKS import greedyAlloc_old as alg_old
-from algorithms.multipleKS import crossEdgePaper as crossEdgeAlg
+
+from algorithms.multipleKS import greedyAlloc_QT as g_QT
+from algorithms.multipleKS import greedyAlloc_noQT as g_noQT
+from algorithms.multipleKS import crossEdgePaper_QT as crossEdge_QT
+from algorithms.multipleKS import crossEdgePaper_noQT as crossEdge_noQT
+
 from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
 from sim_entities.predictions import PredictionsSingleton
 from stats.sim_stats import SimStatistics
 from sim_entities.clock import TimerSingleton
-# from prediction import AllocPrediction
 import sim_utils as utils
 import logging
 import time
@@ -45,11 +47,12 @@ class Event(Enum):
 def writeStats(simClock, heapSing, eTuple):
     utils.log(TAG, 'writeStats')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: ()
+    # contentSubtuple: (winners, execution time)
     stats = SimStatistics()
     stats.writeLatencyStats(eTuple[0])
-    stats.writeSocialWelfareStats(eTuple[0])
-    stats.writePricesStats(eTuple[0])
+    stats.writeSocialWelfareStats(eTuple[0], eTuple[3][0])
+    stats.writeExecTimeStats(eTuple[0], eTuple[3][1])
+    stats.writePricesStats(eTuple[0], eTuple[3][0])
     stats.writeCloudletsUsageStats(eTuple[0])
 
 def moveUser(heapSing, eTuple):
@@ -66,6 +69,10 @@ def moveUser(heapSing, eTuple):
     idxFromRoute += 1
     
     if idxFromRoute >= len(user.route):
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.cpu += user.reqs.cpu
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.ram += user.reqs.ram
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.storage += user.reqs.storage
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).currUsersAllocated.remove(user)
         UsersListSingleton().removeUser(user)
     else:
         userRouteNodes = [mainGraph.findNodeById(routeNode) for routeNode in user.route]
@@ -151,19 +158,18 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     # Pre-processing quadtree
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
+    algorithm = cloudletsSing.getAlgorithm()
 
     startTime = time.time()
-    result = alg.greedyAlloc(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser)
-    # result = alg_old.greedyAlloc(cloudletsSing.getList(), usersSing.getList())
-    # result = crossEdgeAlg.crossEdgeAlg(cloudletsSing.getList(), usersSing.getList())
+    result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser, algorithm)
     endTime = time.time()
-    SimStatistics().writeExecTimeStats(simClock.getTimerValue() + 1, (endTime - startTime))
 
     quadtree = None
     detectedCloudletsPerUser = None
     
     resetUserPrices()
-    userPrices = alg.pricing(result[1], cloudletsSing.getList())
+    userPrices = pricingAlgorithm(result[1], cloudletsSing.getList(), algorithm)
+
     for up in userPrices:
         user = usersSing.findById(up.uId)
         user.price = up.price
@@ -174,5 +180,25 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
-    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ())
+    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ([winner[0] for winner in result[1]], (endTime - startTime)))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
+
+def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, algorithm):
+    if algorithm == 0:
+        return g_QT.greedyAlloc(cloudlets, users, detectedCloudletsPerUser)
+    elif algorithm == 1:
+        return g_noQT.greedyAlloc(cloudlets, users)
+    elif algorithm == 2:
+        return crossEdge_QT.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser)
+    elif algorithm == 3:
+        return crossEdge_noQT.crossEdgeAlg(cloudlets, users)
+
+def pricingAlgorithm(winners, cloudlets, algorithm):
+    if algorithm == 0:
+        return g_QT.pricing(winners, cloudlets)
+    elif algorithm == 1:
+        return g_noQT.pricing(winners, cloudlets)
+    elif algorithm == 2:
+        return crossEdge_QT.pricing(winners, cloudlets)
+    elif algorithm == 3:
+        return crossEdge_noQT.pricing(winners, cloudlets)

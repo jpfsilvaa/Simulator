@@ -6,12 +6,13 @@ import time
 import csv
 
 TAG = 'sim_stats.py'
-LOG_FOLDER = 'logfiles/'
-LAT_FILENAME = 'latencies.csv'
-SOCIAL_WELFARE_FILENAME = 'social_welfare.csv'
-PRICES_FILENAME = 'prices.csv'
-CLOUDLETS_USAGE_FILENAME = 'cloudlets_usage.csv'
-EXEC_TIME_FILENAME = 'exec_time.csv'
+LOG_FOLDER = '/home/jps/GraphGenFrw/Simulator/logfiles/'
+LAT_FILENAME = 'latencies'
+SOCIAL_WELFARE_FILENAME = 'social_welfare'
+PRICES_FILENAME = 'prices'
+CLOUDLETS_USAGE_FILENAME = 'cloudlets_usage'
+EXEC_TIME_FILENAME = 'exec_time'
+CSV = '.csv'
 
 class SimStatistics:
     _instance = None
@@ -30,42 +31,67 @@ class SimStatistics:
                     cls._instance = super().__new__(cls)
         return cls._instance
 
-    def writeFile(self, timeString, fileName, colunmName, dictRes):
-        with open(f'{LOG_FOLDER + timeString}-{fileName}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', colunmName])
+    def writeFileLat(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'avg latency (for the allocated)'])
             writer.writeheader()
             for key, value in dictRes.items():
-                writer.writerow({'time-step': key, colunmName: value})
+                writer.writerow({'time-step': key, 'number of users': value[0], 'avg latency (for the allocated)': value[1]})
 
-    def writeReport(self):
+    def writeFileSW(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'social welfare'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                writer.writerow({'time-step': key, 'social welfare': value})
+
+    def writeFilePrice(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'prices'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                writer.writerow({'time-step': key, 'number of users': value[0], 'prices': value[1]})
+
+    def writeFileCl(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'used cloudlets', 'used cpu', 'used storage', 'used ram'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                writer.writerow({'time-step': key, 'number of users': value[0], 'used cloudlets': value[1], 'used cpu': value[2][0], 'used storage': value[2][1], 'used ram': value[2][2]})
+    
+    def writeFileExecTime(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'exec time'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                writer.writerow({'time-step': key, 'number of users': value[0], 'exec time': value[1]})
+
+    def writeReport(self, algorithm, nbUsers, instance):
         utils.log(TAG, 'writeReport')
-        currTime = time.localtime()
-        timeString = time.strftime("%d%m%Y_%H%M%S", currTime)
+        preTitle = f'alg{algorithm}-{nbUsers}users/'
 
-        self.writeFile(timeString, LAT_FILENAME, '(number of users, avg latency (for the allocated))', self.avgLatencies)
-        self.writeFile(timeString, SOCIAL_WELFARE_FILENAME, '(number of users, social welfare)', self.totalSocialWelfares)
-        self.writeFile(timeString, PRICES_FILENAME, '(number of users, prices)', self.totalPrices)
-        self.writeFile(timeString, CLOUDLETS_USAGE_FILENAME, '(number of users, used cloudlets, used cloudlets usage)', self.clUsages)
-        self.writeFile(timeString, EXEC_TIME_FILENAME, '(number of users, execution time)', self.execTimes)
+        self.writeFileLat(preTitle, f'{LAT_FILENAME}_{instance}', self.avgLatencies)
+        self.writeFileSW(preTitle, f'{SOCIAL_WELFARE_FILENAME}_{instance}', self.totalSocialWelfares)
+        self.writeFilePrice(preTitle, f'{PRICES_FILENAME}_{instance}', self.totalPrices)
+        self.writeFileCl(preTitle, f'{CLOUDLETS_USAGE_FILENAME}_{instance}', self.clUsages)
+        self.writeFileExecTime(preTitle, f'{EXEC_TIME_FILENAME}_{instance}', self.execTimes)
 
 
     def writeLatencyStats(self, timeStep):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
-        avgLatency = sum([u.currLatency for u in users if u.currLatency < 1]) / len(users) # avgLatency only for users that have were allocated (<1)
+        avgLatency = sum([u.currLatency for u in users if u.currLatency < 1]) / len(users) # avgLatency only of the allocated users (<1)
         self.avgLatencies[timeStep] = (len(users), avgLatency)
 
-    def writeSocialWelfareStats(self, timeStep):
+    def writeSocialWelfareStats(self, timeStep, winners):
         utils.log(TAG, 'writeSocialWelfareStats')
-        users = UsersListSingleton().getList()
-        socialWelfare = sum([u.bid for u in users])
-        self.totalSocialWelfares[timeStep] = (len(users), socialWelfare)
+        socialWelfare = sum([u.bid for u in winners])
+        self.totalSocialWelfares[timeStep] = socialWelfare
 
-    def writePricesStats(self, timeStep):
+    def writePricesStats(self, timeStep, winners):
         utils.log(TAG, 'writePricesStats')
-        users = UsersListSingleton().getList()
-        prices = sum([u.price for u in users])
-        self.totalPrices[timeStep] = (len(users), prices)
+        prices = sum([u.price for u in winners])
+        self.totalPrices[timeStep] = (len(winners), prices)
 
     def writeCloudletsUsageStats(self, timeStep):
         utils.log(TAG, 'writeCloudletsUsageStats')

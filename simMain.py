@@ -16,19 +16,20 @@ def initialAllocation(heapSing, graph):
     utils.log(TAG, 'initialAllocation')
     heapSing.insertEvent(0, Event.INITIAL_ALLOCATION, (graph))
 
-def initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph):
+def initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph, algorithm):
     utils.log(TAG, 'initRoutine')
-    initCloudlets(cloudletsObjs)
+    initCloudlets(cloudletsObjs, algorithm)
     initUsers(usersObjs, subtraces)
     initialAllocation(heapSing, graph)
     triggerUserPathEvents(heapSing, graph)
     timingRoutine(simClock, heapSing)
 
-def initCloudlets(cloudlets):
+def initCloudlets(cloudlets, algorithm):
     utils.log(TAG, 'initCloudlets')
     clList = CloudletsListSingleton()
     for c in cloudlets:
         clList.insertCloudlet(c)
+    clList.setAlgorithm(algorithm)
 
 def initUsers(users, subtraces):
     utils.log(TAG, 'initUsers')
@@ -64,13 +65,13 @@ def triggerUserPathEvents(heapSing, graph):
         heapSing.insertEvent(utils.calcTimeToExec(u, graph, userRouteNodes[0]), 
                                         Event.MOVE_USER, (u, 0, graph))
 
-def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
+def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance):
     utils.log(TAG, 'startSimulation')
     startTime = time.time()
     stats = SimStatistics()
     heapSing = initHeap()
     simClock = initSimClock()
-    initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph)
+    initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph, algorithm)
     while UsersListSingleton().getUsersListSize() > 0:
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
@@ -79,15 +80,18 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces):
     endTime = time.time()
     utils.log(TAG, 'SIMULATION FINISHED')
     utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
-    stats.writeReport()
+    stats.writeReport(algorithm, len(usersObjs), instance)
 
-def main(jsonFilePath, graphFilePath):
-    utils.log(TAG, 'main')
-    cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath)    
-    startSimulation(cloudletsObjs, usersObjs, graph, subtraces)
+def main(jsonFilePath, graphFilePath, algorithm, instance):
+    cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath)
+    startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance)
 
 if __name__ == '__main__':
-    jsonFilePath = sys.argv[1:][0]
-    graphFilePath = sys.argv[1:][1]
-    logging.basicConfig(filename='logfiles/simulation.log', filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
-    main(jsonFilePath, graphFilePath)
+    algorithm = sys.argv[1:][0]
+    nbUsers = sys.argv[1:][1]
+    instance = sys.argv[1:][2]
+    jsonFilePath = sys.argv[1:][3]
+    graphFilePath = sys.argv[1:][4]
+    filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{instance}.log'
+    logging.basicConfig(filename=filePath, filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
+    main(jsonFilePath, graphFilePath, algorithm, instance)

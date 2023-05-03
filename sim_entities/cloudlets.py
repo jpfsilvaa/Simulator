@@ -5,6 +5,7 @@ class CloudletsListSingleton:
     _instance = None
     _lock = threading.Lock()
     cloudlets = []
+    algorithm = 0
 
     def __new__(cls):
         if cls._instance is None: 
@@ -33,3 +34,9 @@ class CloudletsListSingleton:
     
     def currentCloudlets(self):
         return [c.cId for c in self.cloudlets]
+
+    def setAlgorithm(self, algorithm):
+        self.algorithm = int(algorithm)
+
+    def getAlgorithm(self):
+        return self.algorithm
