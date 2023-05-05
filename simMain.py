@@ -92,6 +92,6 @@ if __name__ == '__main__':
     instance = sys.argv[1:][2]
     jsonFilePath = sys.argv[1:][3]
     graphFilePath = sys.argv[1:][4]
-    filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{instance}.log'
+    filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{algorithm}_{instance}.log'
     logging.basicConfig(filename=filePath, filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
     main(jsonFilePath, graphFilePath, algorithm, instance)

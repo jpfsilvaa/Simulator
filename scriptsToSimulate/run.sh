@@ -6,7 +6,7 @@ do
     for j in {0..1}
     do
         nbUsersIdx=$j
-        for instance in {0..2}
+        for instance in {0..49}
         do
             python3 /home/jps/GraphGenFrw/Simulator/simMain.py \
                 ${algIdx} \

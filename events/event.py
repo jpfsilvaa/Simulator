@@ -69,15 +69,19 @@ def moveUser(heapSing, eTuple):
     idxFromRoute += 1
     
     if idxFromRoute >= len(user.route):
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.cpu += user.reqs.cpu
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.ram += user.reqs.ram
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.storage += user.reqs.storage
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).currUsersAllocated.remove(user)
-        UsersListSingleton().removeUser(user)
+        removeUser(user)
     else:
         userRouteNodes = [mainGraph.findNodeById(routeNode) for routeNode in user.route]
         heapSing.insertEvent(utils.calcTimeToExec(user, mainGraph, userRouteNodes[idxFromRoute]), 
                                         Event.MOVE_USER, (user, idxFromRoute, mainGraph))
+
+def removeUser(user):
+    if user.allocatedCloudlet != None:
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.cpu += user.reqs.cpu
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.ram += user.reqs.ram
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.storage += user.reqs.storage
+        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).currUsersAllocated.remove(user)
+    UsersListSingleton().removeUser(user)
 
 def getAvgSpeed(dest, src, mainGraph):
     DEFAULT_SPEED = 16

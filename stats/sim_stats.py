@@ -70,11 +70,11 @@ class SimStatistics:
         utils.log(TAG, 'writeReport')
         preTitle = f'alg{algorithm}-{nbUsers}users/'
 
-        self.writeFileLat(preTitle, f'{LAT_FILENAME}_{instance}', self.avgLatencies)
-        self.writeFileSW(preTitle, f'{SOCIAL_WELFARE_FILENAME}_{instance}', self.totalSocialWelfares)
-        self.writeFilePrice(preTitle, f'{PRICES_FILENAME}_{instance}', self.totalPrices)
-        self.writeFileCl(preTitle, f'{CLOUDLETS_USAGE_FILENAME}_{instance}', self.clUsages)
-        self.writeFileExecTime(preTitle, f'{EXEC_TIME_FILENAME}_{instance}', self.execTimes)
+        self.writeFileLat(preTitle, f'{LAT_FILENAME}_{algorithm}_{instance}', self.avgLatencies)
+        self.writeFileSW(preTitle, f'{SOCIAL_WELFARE_FILENAME}_{algorithm}_{instance}', self.totalSocialWelfares)
+        self.writeFilePrice(preTitle, f'{PRICES_FILENAME}_{algorithm}_{instance}', self.totalPrices)
+        self.writeFileCl(preTitle, f'{CLOUDLETS_USAGE_FILENAME}_{algorithm}_{instance}', self.clUsages)
+        self.writeFileExecTime(preTitle, f'{EXEC_TIME_FILENAME}_{algorithm}_{instance}', self.execTimes)
 
 
     def writeLatencyStats(self, timeStep):
