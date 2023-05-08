@@ -1,9 +1,16 @@
 import json, math
 import time
 import sys
-import alloc_utils as utils
+import algorithms.multipleKS.alloc_utils as utils
+import sim_utils
+import logging
 
-def greedyAlloc(cloudlet, vms):
+TAG = 'greedyAlloc_OneKS.py'
+
+def greedyAlloc_OneKS(cloudlet, vms):
+    sim_utils.log(TAG, 'greedyAlloc')
+
+    initTime = time.time()
     normalVms = utils.normalize(cloudlet, vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
@@ -13,16 +20,20 @@ def greedyAlloc(cloudlet, vms):
     socialWelfare = 0
     userPointer = 0
 
+    initTimeLoop = time.time()
     while (utils.isNotFull(occupation)) and userPointer < len(D):
         chosenUser = D[userPointer][0]
         if utils.userFits(chosenUser, occupation):
             utils.allocate(chosenUser, occupation)
-            allocatedUsers.append(chosenUser)
+            allocatedUsers.append((chosenUser, cloudlet))
             socialWelfare += chosenUser.bid
         userPointer += 1
-    
-    print('num allocated users:', len(allocatedUsers))
-    print('allocated users:', [(user.id, user.vmType) for user in allocatedUsers])
+    finalTime = time.time()
+
+    sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
+    sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
+    sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
+    sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers, D]
 
 def pricing(winners, densities):

@@ -47,25 +47,19 @@ def pricing(winners, cloudlets):
         winners_ = [winner for winner in winners if winner[0].uId != w[0].uId]
         D_ = utils.calcDensitiesByMax([w[0] for w in winners_])
         D_.sort(key=lambda a: a[1], reverse=True)
+        sim_utils.log(TAG, [d[1] for d in D_])
         j = 0
         while j < len(D_):
             for cloudletIdx in range(len(cloudlets)):
-                if j < len(D_):
-                    currentUser = D_[j][0]
-                    if utils.userFits(currentUser, normalizedCls[cloudletIdx]):
-                        utils.allocate(currentUser, normalizedCls[cloudletIdx])
-                        w[0].price = min(w[0].price, D_[j][1]*w[0].maxReq, w[0].bid)
-                        # This increment is not in the paper's pseudocode, but it is necessary 
-                        # to avoid allocating the same user to multiple cloudlets
-                        j += 1
-                else:
-                    break
+                currentUser = D_[j][0]
+                if utils.userFits(currentUser, normalizedCls[cloudletIdx]):
+                    utils.allocate(currentUser, normalizedCls[cloudletIdx])
+                    # sim_utils.log(TAG, f'j-> {j}')
+                    w[0].price = min(w[0].price, D_[j-1][1]*w[0].maxReq)
+                    # This increment is not in the paper's pseudocode, but it is necessary 
+                    # to avoid allocating the same user to multiple cloudlets
             j += 1
         # is the price bigger than the bid?
-        sim_utils.log(TAG, w[0].price > w[0].bid)
-        sim_utils.log(TAG, f'winner density-> {w[0].bid/w[0].maxReq}')
-        sim_utils.log(TAG, f'winner bid-> {w[0].bid}')
-        sim_utils.log(TAG, f'winner maxCoord-> {w[0].maxReq}')
         sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
         sim_utils.log(TAG, ' ')
     sim_utils.log(TAG, [{user[0].uId: (user[0].bid, str(user[0].price).replace('.', ','))} for user in winners])

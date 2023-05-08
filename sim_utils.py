@@ -58,9 +58,8 @@ def detectCloudletsFromQT(users, quadtree):
         finalResult[user.uId] = filteredResult
     return finalResult
 
-def detectUsersFromQT(cloudlets, winner, quadtree):
+def detectUsersFromQT(cloudlets, radius, quadtree):
     finalResult = {}
-    radius = winner.latencyThresholdForAllocate * 1000
     for cloudlet in cloudlets:
         users = []
         lat_, long_ = convertUTMtoLatLong(cloudlet.position)

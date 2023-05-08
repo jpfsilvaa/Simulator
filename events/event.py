@@ -7,6 +7,7 @@ from algorithms.multipleKS import greedyAlloc_QT as g_QT
 from algorithms.multipleKS import greedyAlloc_noQT as g_noQT
 from algorithms.multipleKS import crossEdgePaper_QT as crossEdge_QT
 from algorithms.multipleKS import crossEdgePaper_noQT as crossEdge_noQT
+from algorithms.multipleKS import twoPhases as twoPhases
 
 from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
@@ -162,10 +163,11 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     # Pre-processing quadtree
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
+    detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudletsSing.getList(), cloudletsSing.getList()[0].coverageArea, quadtree) # dict: cId -> list of users
     algorithm = cloudletsSing.getAlgorithm()
 
     startTime = time.time()
-    result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser, algorithm)
+    result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser, detectedUsersPerCloudlet, algorithm)
     endTime = time.time()
 
     quadtree = None
@@ -187,7 +189,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ([winner[0] for winner in result[1]], (endTime - startTime)))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
-def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, algorithm):
+def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, detectedUsersPerCloudlet, algorithm):
     if algorithm == 0:
         return g_QT.greedyAlloc(cloudlets, users, detectedCloudletsPerUser)
     elif algorithm == 1:
@@ -196,6 +198,8 @@ def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, algorithm):
         return crossEdge_QT.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser)
     elif algorithm == 3:
         return crossEdge_noQT.crossEdgeAlg(cloudlets, users)
+    elif algorithm == 4:
+        return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
 
 def pricingAlgorithm(winners, cloudlets, algorithm):
     if algorithm == 0:
@@ -206,3 +210,5 @@ def pricingAlgorithm(winners, cloudlets, algorithm):
         return crossEdge_QT.pricing(winners, cloudlets)
     elif algorithm == 3:
         return crossEdge_noQT.pricing(winners, cloudlets)
+    elif algorithm == 4:
+        return g_QT.pricing(winners, cloudlets)
