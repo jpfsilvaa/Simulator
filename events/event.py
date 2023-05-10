@@ -8,6 +8,7 @@ from algorithms.multipleKS import greedyAlloc_noQT as g_noQT
 from algorithms.multipleKS import crossEdgePaper_QT as crossEdge_QT
 from algorithms.multipleKS import crossEdgePaper_noQT as crossEdge_noQT
 from algorithms.multipleKS import twoPhases as twoPhases
+from prediction.pred_methods import hedge_ as hedgePrediction
 
 from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
@@ -20,6 +21,15 @@ import logging
 import time
 
 TAG = 'event.py'
+
+GREEDY_QT = 0
+GREEDY_NOQT = 1
+CROSSEDGE_QT = 2
+CROSSEDGE_NOQT = 3
+TWOPHASES = 4
+PRED_TCHAPEU = 5
+PRED_TCHAPEU_DISC = 6
+PRED_HEDGE = 7
 
 class Event(Enum):
     MOVE_USER = 0
@@ -160,14 +170,10 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     cloudletsSing = CloudletsListSingleton()
     detectAllUsersPosition(eTuple[3])
     
-    # Pre-processing quadtree
-    quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
-    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
-    detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudletsSing.getList(), cloudletsSing.getList()[0].coverageArea, quadtree) # dict: cId -> list of users
     algorithm = cloudletsSing.getAlgorithm()
 
     startTime = time.time()
-    result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), detectedCloudletsPerUser, detectedUsersPerCloudlet, algorithm)
+    result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm)
     endTime = time.time()
 
     quadtree = None
@@ -190,19 +196,45 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, detectedUsersPerCloudlet, algorithm):
-    if algorithm == 0:
+    
+    # Pre-processing quadtree
+    quadtree = utils.buildQuadtree(cloudlets, users)
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
+
+    if algorithm == GREEDY_QT:
         return g_QT.greedyAlloc(cloudlets, users, detectedCloudletsPerUser)
-    elif algorithm == 1:
+    elif algorithm == GREEDY_NO_QT:
         return g_noQT.greedyAlloc(cloudlets, users)
-    elif algorithm == 2:
+    elif algorithm == CROSS_EDGE_QT:
         return crossEdge_QT.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser)
-    elif algorithm == 3:
+    elif algorithm == CROSS_EDGE_NO_QT:
         return crossEdge_noQT.crossEdgeAlg(cloudlets, users)
-    elif algorithm == 4:
+    elif algorithm == TWO_PHASES:
+        detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
+    elif algorithm == PRED_TCHAPEU:
+        pass
+    elif algorithm == PRED_TCHAPEU_NO_QT:
+        pass
+    elif algorithm == PRED_HEDGE:
+        detectedCloudletsPerCloudlet = utils.detectCloudletsFromQT_(cloudlets, quadtree) # dict: cId -> list of cloudlets
+        for c in cloudlets:
+            usersInC = currentUsersInC(users, c)
+            hedgePrediction.hedgeAlg(c, cloudlets, usersInC, 
+                                        int(TimerSingleton().getTimerValue()/TimerSingleton().getDelta()), 
+                                        detectedCloudletsPerCloudlet)
+
+def currentUsersInC(users, c):
+    result = []
+    for u in users:
+        if u.allocatedCloudlet.cId == c.cId:
+            result.append(u)
+    return result
 
 def pricingAlgorithm(winners, users, detectedUsersPerCloudlet, cloudlets, algorithm):
-    if algorithm == 0 or algorithm == 4:
+    if algorithm == GREEDY_QT or algorithm == TWO_PHASES \
+        or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
+        or algorithm == PRED_HEDGE:
         return g_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
     elif algorithm == 1:
         return g_noQT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)

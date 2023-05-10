@@ -58,6 +58,20 @@ def detectCloudletsFromQT(users, quadtree):
         finalResult[user.uId] = filteredResult
     return finalResult
 
+def detectCloudletsFromQT_(cloudlets, quadtree):
+    finalResult = {}
+    for cloudlet in cloudlets:
+        cloudlets = []
+        radius = cloudlet.coverageArea * 2
+        lat_, long_ = convertUTMtoLatLong(cloudlet.position)
+        result = quadtree.query(lat_, long_, radius)
+        filteredResult = []
+        for point in result:
+            if isinstance(point.entity, Cloudlet):
+                filteredResult.append(point)
+        finalResult[cloudlet.cId] = filteredResult
+    return finalResult
+
 def detectUsersFromQT(cloudlets, radius, quadtree):
     finalResult = {}
     for cloudlet in cloudlets:
