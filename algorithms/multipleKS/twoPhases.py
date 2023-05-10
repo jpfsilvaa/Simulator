@@ -25,7 +25,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     sim_utils.log(TAG, '----centralized phase----')
     nonAllocated, allocatedMore = classifyAllocatedUsers(allocationPerCloudlet, vms)
     finalAlocation = usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocated, allocatedMore)
-    print(f'partial-final allocation: {len(finalAlocation)}')
     
     # separating users by type and call the matching algorithm
     userTypes = ['gp1', 'gp2', 'ramIntensive', 'cpuIntensive']
@@ -38,7 +37,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
             nbUsersInCloudlet[c.cId] = len(set([u.uId for u in moreThanOnceByType]) & set([u.uId for u in allocatedInC]))
         result = matchingAlg(cloudlets, nonAllocatedByType + moreThanOnceByType, nbUsersInCloudlet)
         finalAlocation += result
-    print(f'final-final allocation: {len(finalAlocation)}')
     return [calcSocialWelfare(finalAlocation), finalAlocation]
 
 def calcSocialWelfare(allocation):
@@ -111,6 +109,8 @@ def builgBGraph(cloudlets, users, nbUsersInCloudletDict):
             edges.append((u.uId, c.cId, {'capacity': 1, 'weight': int(sim_utils.calcDistance((u.position[0], u.position[1]), 
                                                     (c.position[0], c.position[1])))}))
 
+    G.add_node('s', bipartite=0)
+    G.add_node('t', bipartite=1)
     G.add_nodes_from(left_nodes, bipartite=0)
     G.add_nodes_from(right_nodes, bipartite=1)
     G.add_edges_from(edges)

@@ -174,11 +174,11 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     detectedCloudletsPerUser = None
     
     resetUserPrices()
-    userPrices = pricingAlgorithm(result[1], cloudletsSing.getList(), algorithm)
+    userPrices = pricingAlgorithm(result[1], usersSing.getList(), detectedUsersPerCloudlet, cloudletsSing.getList(), algorithm)
 
     for up in userPrices:
-        user = usersSing.findById(up.uId)
-        user.price = up.price
+        user = usersSing.findById(up[0].uId)
+        user.price = up[0].price
 
     for alloc in result[1]:
         userId = alloc[0].uId
@@ -201,14 +201,12 @@ def allocationAlgorithm(cloudlets, users, detectedCloudletsPerUser, detectedUser
     elif algorithm == 4:
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
 
-def pricingAlgorithm(winners, cloudlets, algorithm):
-    if algorithm == 0:
-        return g_QT.pricing(winners, cloudlets)
+def pricingAlgorithm(winners, users, detectedUsersPerCloudlet, cloudlets, algorithm):
+    if algorithm == 0 or algorithm == 4:
+        return g_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
     elif algorithm == 1:
-        return g_noQT.pricing(winners, cloudlets)
+        return g_noQT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
     elif algorithm == 2:
-        return crossEdge_QT.pricing(winners, cloudlets)
+        return crossEdge_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
     elif algorithm == 3:
-        return crossEdge_noQT.pricing(winners, cloudlets)
-    elif algorithm == 4:
-        return g_QT.pricing(winners, cloudlets)
+        return crossEdge_noQT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
