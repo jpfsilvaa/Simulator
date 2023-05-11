@@ -4,4 +4,5 @@
 /prediction/__pycache__
 /sim_entities/__pycache__
 /stats/__pycache__
+/logfiles/alg7-30users
 *.pyc

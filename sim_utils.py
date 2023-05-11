@@ -68,7 +68,7 @@ def detectCloudletsFromQT_(cloudlets, quadtree):
         filteredResult = []
         for point in result:
             if isinstance(point.entity, Cloudlet):
-                filteredResult.append(point)
+                filteredResult.append(point.entity)
         finalResult[cloudlet.cId] = filteredResult
     return finalResult
 
