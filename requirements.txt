@@ -1,0 +1,6 @@
+decorator==4.4.2
+geographiclib==1.52
+geopy==2.2.0
+networkx==2.5.1
+numpy==1.19.5
+utm==0.7.0
