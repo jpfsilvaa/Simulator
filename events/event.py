@@ -176,7 +176,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
 
     startTime = time.time()
-    if (algorithm == PRED_HEDGE or PRED_TCHAPEU or PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
+    if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
         result = randomAlloc(quadtree)
     else:
         result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree)
@@ -210,7 +210,7 @@ def initialAlloc(simClock, heapSing, eTuple):
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
 
     startTime = time.time()
-    if algorithm == PRED_HEDGE or PRED_TCHAPEU or PRED_TCHAPEU_DISC:
+    if algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC:
         result = randomAlloc(quadtree)
     else:
         result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree)
