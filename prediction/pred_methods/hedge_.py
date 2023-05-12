@@ -86,10 +86,10 @@ def drawExpert(epsilon, neighbors, cumulativeLoss, t):
     probDistribution = []
     sumOfComulativeLoss = 0
     for i in range(len(neighbors)):
-        sumOfComulativeLoss += math.exp(epsilon * cumulativeLoss[t][i])
+        sumOfComulativeLoss += math.exp(-epsilon * cumulativeLoss[t][i])
 
     for i in range(len(neighbors)):
-        probDistribution.append((math.exp(epsilon * cumulativeLoss[t][i]) / sumOfComulativeLoss))
+        probDistribution.append((math.exp(-epsilon * cumulativeLoss[t][i]) / sumOfComulativeLoss))
     
     # draw an expert 'st 'from the probability distribution of the L
     expert = np.random.choice(neighbors, 1, p=probDistribution)
