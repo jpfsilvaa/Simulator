@@ -4,6 +4,7 @@ from sim_entities.cloudlets import CloudletsListSingleton
 import sim_utils as utils
 import time
 import csv
+import numpy as np
 
 TAG = 'sim_stats.py'
 LOG_FOLDER = '/home/jps/GraphGenFrw/Simulator/logfiles/'
@@ -54,10 +55,16 @@ class SimStatistics:
 
     def writeFileCl(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'used cloudlets', 'used cpu', 'used storage', 'used ram'])
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'used cloudlets', 
+                                                        'used cpu avg', 'used cpu std', 'unused cpu', 
+                                                        'used storage avg', 'used storage std', 'unused storage', 
+                                                        'used ram avg', 'used ram std', 'unused ram'])
             writer.writeheader()
             for key, value in dictRes.items():
-                writer.writerow({'time-step': key, 'number of users': value[0], 'used cloudlets': value[1], 'used cpu': value[2][0], 'used storage': value[2][1], 'used ram': value[2][2]})
+                writer.writerow({'time-step': key, 'number of users': value[0], 'used cloudlets': value[1], 
+                                    'used cpu avg': value[2], 'used cpu std': value[3], 'unused cpu': value[4],
+                                    'used storage avg': value[5], 'used storage std': value[6], 'unused storage': value[7],
+                                    'used ram avg': value[8], 'used ram std': value[9], 'unused ram': value[10]})
     
     def writeFileExecTime(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
@@ -97,9 +104,12 @@ class SimStatistics:
         utils.log(TAG, 'writeCloudletsUsageStats')
         cloudlets = CloudletsListSingleton().getList()
         users = UsersListSingleton().getList()
-        cpuUsage = 0
-        storageUsage = 0
-        ramUsage = 0
+        cpuUsage = []
+        cpuUnused = []
+        storageUsage = []
+        storageUnused = []
+        ramUsage = []
+        ramUnused = []
         usedCloudlets = 0
 
         for c in cloudlets:
@@ -108,13 +118,38 @@ class SimStatistics:
                 c.resources.storage != c.resourcesFullValues.storage or \
                     c.resources.ram != c.resourcesFullValues.ram:
                 usedCloudlets += 1
-                cpuUsage += c.resources.cpu/c.resourcesFullValues.cpu * 100
-                storageUsage += c.resources.storage/c.resourcesFullValues.storage * 100
-                ramUsage += c.resources.ram/c.resourcesFullValues.ram * 100
+                cpuUsage.append(c.resourcesFullValues.cpu - c.resources.cpu)
+                cpuUnused.append(c.resources.cpu)
+                storageUsage.append(c.resourcesFullValues.storage - c.resources.storage)
+                storageUnused.append(c.resources.storage)
+                ramUsage.append(c.resourcesFullValues.ram - c.resources.ram)
+                ramUnused.append(c.resources.ram)
         
-        self.clUsages[timeStep] = (len(users), usedCloudlets, ( 100 - (cpuUsage / len(cloudlets)), 
-                                    100 - (storageUsage / len(cloudlets)), 
-                                    100 -(ramUsage / len(cloudlets))))
+        self.clUsages[timeStep] = (len(users), usedCloudlets, np.mean(cpuUsage), np.std(cpuUsage), sum(cpuUnused),
+                                                    np.mean(storageUsage), np.std(storageUsage), sum(storageUnused), 
+                                                    np.mean(ramUsage), np.std(ramUsage), sum(ramUnused))
+
+        """ for c in cloudlets:
+            # taking into account only the cloudlets that are being used
+            if c.resources.cpu != c.resourcesFullValues.cpu or \
+                c.resources.storage != c.resourcesFullValues.storage or \
+                    c.resources.ram != c.resourcesFullValues.ram:
+                usedCloudlets += 1
+                usedCpu = c.resourcesFullValues.cpu - c.resources.cpu
+                cpuUsage.append((usedCpu/c.resourcesFullValues.cpu) * 100)
+                cpuUnused.append((c.resources.cpu/c.resourcesFullValues.cpu) * 100)
+
+                usedStorage = c.resourcesFullValues.storage - c.resources.storage
+                storageUsage.append((usedStorage/c.resourcesFullValues.storage) * 100)
+                storageUnused.append((c.resources.storage/c.resourcesFullValues.storage) * 100)
+                
+                usedRam = c.resourcesFullValues.ram - c.resources.ram
+                ramUsage.append((usedRam/c.resourcesFullValues.ram) * 100)
+                ramUnused.append((c.resources.ram/c.resourcesFullValues.ram) * 100)
+        
+        self.clUsages[timeStep] = (len(users), usedCloudlets, np.mean(cpuUsage), np.std(cpuUsage), sum(cpuUnused),
+                                                    np.mean(storageUsage), np.std(storageUsage), sum(storageUnused), 
+                                                    np.mean(ramUsage), np.std(ramUsage), sum(ramUnused)) """
     
     def writeExecTimeStats(self, timeStep, execTime):
         utils.log(TAG, 'writeExecTimeStats')

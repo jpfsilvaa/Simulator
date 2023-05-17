@@ -100,38 +100,85 @@ def socialWelfareComparison(algorithms, users, instance):
     # plt.show()
 
 def cloudletsUsageComparison(algorithms, users, instance):
-    dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_usage_{alg[0]}_{instance}.csv')
-        df['algorithm'] = alg[1]
-        df['usage'] = df[['used cpu', 'used storage', 'used ram']].mean(axis=1)
-        print(alg[1])
-        print(df['usage'])
         df['time-step'] -= 1
         df['time-step'] /= 60
-        dataframes.append(df)
+        df['algorithm'] = alg[1]
+        buildGraphForAlg(df, alg[1])
 
-    # Merge dataframes using a common key, such as a timestamp
-    merged_df = pd.concat(dataframes)
+def buildGraphForAlg(df, alg):
+    # buildGraphForRes(df, alg, 'used cpu', 'CPU Usage Comparison')
+    # buildGraphForRes(df, alg, 'used storage', 'Storage Usage Comparison')
+    buildGraphForRes(df, alg, 'used ram', 'RAM Usage Comparison')
 
-    # Group the merged dataframe by algorithm and timestamp and calculate the mean
-    grouped_data = merged_df.groupby(['algorithm', 'time-step']).mean()
+def buildGraphForRes(df, alg, res, title):
+    # Create a figure and two axes objects
+    fig, ax = plt.subplots(figsize=(20, 10))
 
-    # Create a line plot with three lines, each representing one algorithm
-    fig, ax = plt.subplots(figsize=(8, 6))
+    # Plotting the line graph with error bars
+    ax.errorbar(df['time-step'], df['used ram avg'], yerr=df['used ram std'], fmt='-o', label='Average of used ram')
 
-    for algorithm in grouped_data.index.get_level_values('algorithm').unique():
-        data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['usage'], label=algorithm)
+    # Adding vertical bars representing 'unused cpu'
+    ax.bar(df['time-step'], df['unused ram'], alpha=0.5, label='Unused ram')
 
-    # Customize the plot
-    ax.set_xticks(merged_df['time-step'].unique())
+    # Adding labels and title to the graph
     ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
-    ax.set_ylabel('Cloudlets Usage (%)')
-    ax.set_title('Cloudlets Usage Comparison')
+    ax.set_ylabel('RAM (MB)')
+    ax.set_title('RAM usage for Greedy-Quadtree algorithm')
     ax.legend()
-    plt.savefig('cloudlets_usage_comparison.png')
+
+    # Make some labels.
+    rects = ax.patches
+    labels = [f"{i} cloudlets" for i in df['used cloudlets']]
+
+    for rect, label in zip(rects, labels):
+        height = rect.get_height()
+        ax.text(
+            rect.get_x() + rect.get_width() / 2, height + 5, label, ha="center", va="bottom"
+        )
+
+    # Display the graph
     plt.show()
+
+
+
+
+
+
+
+# def cloudletsUsageComparison(algorithms, users, instance):
+#     dataframes = []
+#     for alg in algorithms:
+#         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_usage_{alg[0]}_{instance}.csv')
+#         df['usage'] = df[['used cpu', 'used storage', 'used ram']].mean(axis=1)
+#         print(alg[1])
+#         print(df['usage'])
+#         df['time-step'] -= 1
+#         df['time-step'] /= 60
+#         dataframes.append(df)
+
+#     # Merge dataframes using a common key, such as a timestamp
+#     merged_df = pd.concat(dataframes)
+
+#     # Group the merged dataframe by algorithm and timestamp and calculate the mean
+#     grouped_data = merged_df.groupby(['algorithm', 'time-step']).mean()
+
+#     # Create a line plot with three lines, each representing one algorithm
+#     fig, ax = plt.subplots(figsize=(8, 6))
+
+#     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
+#         data = grouped_data.loc[algorithm]
+#         ax.plot(data.index.get_level_values('time-step'), data['usage'], label=algorithm)
+
+#     # Customize the plot
+#     ax.set_xticks(merged_df['time-step'].unique())
+#     ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
+#     ax.set_ylabel('Cloudlets Usage (%)')
+#     ax.set_title('Cloudlets Usage Comparison')
+#     ax.legend()
+#     plt.savefig('cloudlets_usage_comparison.png')
+#     plt.show()
 
 def pricesComparison(algorithms, users, instance):
     dataframes = []
@@ -170,8 +217,8 @@ algorithms_noQT = [(1, 'Greedy'), (3, 'Cross Edge'), (4, '2-phases')]
 users = 100
 instance = 1
 
-# cloudletsUsageComparison(algorithms, users, instance)
-latencyComparison(algorithms, users, instance)
+cloudletsUsageComparison([(0, 'Greedy with Quadtree')], 30, instance)
+# latencyComparison(algorithms, users, instance)
 # execTimeComparison(algorithms, users, instance)
 # execTimeComparison(algorithms_QT, users, instance)
 # socialWelfareComparison(algorithms, users, instance)
