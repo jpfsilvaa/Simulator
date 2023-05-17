@@ -284,13 +284,14 @@ def currentUsersInC(users, c):
 
 def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree):
     detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
     if algorithm == GREEDY_QT or algorithm == TWO_PHASES \
         or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
         or algorithm == PRED_HEDGE:
-        return g_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
+        return g_QT.pricing(winners, users, detectedCloudletsPerUser, cloudlets)
     elif algorithm == GREEDY_NO_QT:
-        return g_noQT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
+        return g_noQT.pricing(winners, users, cloudlets)
     elif algorithm == CROSS_EDGE_QT:
         return crossEdge_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
     elif algorithm == CROSS_EDGE_NO_QT:
-        return crossEdge_noQT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
+        return crossEdge_noQT.pricing(winners, users, cloudlets)

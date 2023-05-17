@@ -44,42 +44,56 @@ def greedyAlloc(cloudlets, vms):
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers, utils.calcDensitiesByMax(normalVms)]
 
-def pricing(winners, users, detectedUsersPerCloudlet, cloudlets):
+def pricing(winners, users, cloudlets):
     sim_utils.log(TAG, 'pricing')
 
-    for w in winners:
-        sim_utils.log(TAG, f'WINNER: {w[0].uId}')
-        cloudletOccupation = utils.Resources(0, 0, 0)
-        w[0].price = 0
-        possibleVms = detectedUsersPerCloudlet[w[1].cId]
-        normalVms = utils.normalize(cloudlets[0], possibleVms)
-        normalVms_ = [v for v in normalVms if v.uId != w[0].uId]    
-        D_ = utils.calcDensitiesBySum(normalVms_)
-        D_.sort(key=lambda a: a[1], reverse=True)
-        sim_utils.log(TAG, f'densities-> {[d[1] for d in D_]}')
-        allocatedUsers = []
-        
-        j = 0
-        while utils.userFits(w[0], cloudletOccupation) and j < len(D_):
-            currentUser = D_[j][0]
-            if utils.userFits(currentUser, cloudletOccupation):
-                utils.allocate(currentUser, cloudletOccupation)
-                allocatedUsers.append(j)
-            j += 1
+    normalVms = utils.normalize(cloudlets[0], users)
+    D = utils.calcDensitiesByMax(normalVms)
+    D.sort(key=lambda a: a[1], reverse=True)
 
-        sim_utils.log(TAG, f'allocated users indexes -> {allocatedUsers}')
-        if j >= len(D_):
-            sim_utils.log(TAG, f'everyone fits in cloudlet {w[1].cId}')
-            w[0].price = 0
-        else:
-            w[0].price = D_[j-1][1]*w[0].maxReq
-            sim_utils.log(TAG, f'last user allocated j->{j}')
-            sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
-            sim_utils.log(TAG, f'{w[0].price > w[0].bid}')
-            sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
-            sim_utils.log(TAG, ' ')
+    for w in winners:
+        sim_utils.log(TAG, f'pricing for user {w[0].uId}')
+        allocatedUsers = []
+        cloudletsOccupation = [utils.Resources(0, 0, 0) for c in cloudlets]
+        winnerCloudletPointer = findCloudletPointer(w[1], cloudlets)
+        cloudletPointer = 0
+        initTimeLoop = time.time()
+        priceFound = False
+        while cloudletPointer < len(cloudlets):
+            userPointer = 0
+            while (utils.isNotFull(cloudletsOccupation[cloudletPointer])) and userPointer < len(D):
+                chosenUser = D[userPointer][0]
+                if chosenUser.uId != w[0].uId:
+                    if (utils.userFits(chosenUser, cloudletsOccupation[cloudletPointer]) 
+                            and utils.checkLatencyThreshold(chosenUser, cloudlets[cloudletPointer])):
+                        utils.allocate(chosenUser, cloudletsOccupation[cloudletPointer])
+                        allocatedUsers.append((chosenUser, cloudlets[cloudletPointer]))
+                        if not utils.userFits(w[0], cloudletsOccupation[winnerCloudletPointer]):
+                            w[0].price = D[userPointer][1]*w[0].maxReq
+                            priceFound = True
+                            break
+                        del D[userPointer]
+                    else:
+                        userPointer += 1
+                else:
+                    userPointer += 1
+            if priceFound:
+                break
+            else:
+                cloudletPointer += 1
+        sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}')
+        sim_utils.log(TAG, f'w[0].bid/w[0].maxReq: {w[0].bid/w[0].maxReq}')
+        sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
+        sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
+        sim_utils.log(TAG, ' ')
     sim_utils.log(TAG, [{w[0].uId: (w[0].bid, str(w[0].price).replace('.', ','))} for w in winners])
     return [allocTuple for allocTuple in winners]
+
+def findCloudletPointer(cloudlet, cloudlets):
+    for i in range(len(cloudlets)):
+        if cloudlet.cId == cloudlets[i].cId:
+            return i
+    return -1
 
 def printResults(winner, criticalValue):
     sim_utils.log(TAG, 'pricingResults')
