@@ -18,6 +18,7 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
         if len(detectedUserPerCloudlet[c.cId]) > 0:
             allocationResult = alg.greedyAlloc_OneKS(c, detectedUserPerCloudlet[c.cId])
             allocationPerCloudlet[c.cId] = allocationResult[1]
+            defineFirstPhasePrices(allocationResult[1])
         else:
             allocationPerCloudlet[c.cId] = []
         
@@ -38,6 +39,13 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
         result = matchingAlg(cloudlets, nonAllocatedByType + moreThanOnceByType, nbUsersInCloudlet)
         finalAlocation += result
     return [calcSocialWelfare(finalAlocation), finalAlocation]
+
+def defineFirstPhasePrices(winners):
+    sim_utils.log(TAG, 'defineFirstPhasePrices')
+
+    for tupleAlloc in winners:
+        user = tupleAlloc[0]
+        UsersListSingleton().findById(user.uId).price = user.price
 
 def calcSocialWelfare(allocation):
     sim_utils.log(TAG, 'calcSocialWelfare')
@@ -62,7 +70,7 @@ def classifyAllocatedUsers(allocationPerCloudlet, vms):
                     if user.uId == vm.uId:
                         if allocated:
                             if vm not in allocatedMoreThanOnce:
-                                allocatedMoreThanOnce.append(vm)
+                                allocatedMoreThanOnce.append(user)
                         else:
                             allocated = True
         if not allocated:

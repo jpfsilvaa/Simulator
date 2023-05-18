@@ -176,6 +176,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     
     algorithm = cloudletsSing.getAlgorithm()
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
+    resetUserPrices()
 
     startTime = time.time()
     if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
@@ -184,12 +185,13 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree)
     endTime = time.time()
     
-    resetUserPrices()
+
     userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree)
 
     for up in userPrices:
         user = usersSing.findById(up[0].uId)
         user.price = up[0].price
+        user = usersSing.findById(up[0].uId)
 
     for alloc in result[1]:
         userId = alloc[0].uId
@@ -289,11 +291,11 @@ def currentUsersInC(users, c):
 def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree):
     detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
-    if algorithm == GREEDY_QT or algorithm == TWO_PHASES \
+    if algorithm == GREEDY_QT \
         or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
         or algorithm == PRED_HEDGE:
         return g_QT.pricing(winners, users, detectedCloudletsPerUser, cloudlets)
-    elif algorithm == EXACT:
+    elif algorithm == EXACT or algorithm == TWO_PHASES:
         return winners
     elif algorithm == GREEDY_NO_QT:
         return g_noQT.pricing(winners, users, cloudlets)

@@ -30,30 +30,36 @@ def greedyAlloc_OneKS(cloudlet, vms):
         userPointer += 1
     finalTime = time.time()
 
+    pricing(allocatedUsers, cloudlet, vms)
     sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
     sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
     sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
-    return [socialWelfare, allocatedUsers, D]
+    return [socialWelfare, allocatedUsers]
 
-def pricing(winners, densities):
-    i = 0
-    while i < len(winners):
+def pricing(winners, cloudlet, users):
+    sim_utils.log(TAG, 'pricing')
+
+    for w in winners:
+        normalVms = utils.normalize(cloudlet, users)
+        D = utils.calcDensitiesByMax(normalVms)
+        D.sort(key=lambda a: a[1], reverse=True)
+
         occupation = utils.Resources(0, 0, 0)
-        winner = winners[i]
-        j = 0
-        while utils.userFits(winner, occupation) and j < len(densities):
-                if densities[j][0].id != winner.id and utils.userFits(densities[j][0], occupation):
-                        utils.allocate(densities[j][0], occupation)
-                j += 1
-        if j == len(densities):
-            winner.price = 0
-        else:
-            winner.price = densities[j-1][1]*winner.maxReq
-        printResults(winner, densities[j-1][1])
-        i += 1
+        userPointer = 0
 
-    return [{user.id: (user.bid, str(user.price).replace('.', ','))} for user in winners]
+        while (utils.isNotFull(occupation)) and userPointer < len(D):
+            chosenUser = D[userPointer][0]
+            if chosenUser.uId != w[0].uId:
+                if utils.userFits(chosenUser, occupation):
+                    utils.allocate(chosenUser, occupation)
+                    if not utils.userFits(w[0], occupation):
+                        w[0].price = D[userPointer][1]*w[0].maxReq
+                        sim_utils.log(TAG, f'new price for user {w[0].uId}: {w[0].price}')
+                        sim_utils.log(TAG, f'BID < PRICE? {w[0].bid < w[0].price}')
+                        break 
+            userPointer += 1
+    return winners
 
 def printResults(winner, criticalValue):
     print('-----------')
