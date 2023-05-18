@@ -2,18 +2,20 @@ from gurobipy import *
 import sys
 import json
 import time
-import alloc_utils as utils
+import algorithms.multipleKS.alloc_utils as utils
+from sim_entities.cloudlets import CloudletsListSingleton
+from sim_entities.users import UsersListSingleton
 
-def buildVMsDict(vmsJsonData):
+def buildVMsDict(users):
     return multidict(
-        (vm['id'], [vm['vmType'], vm['bid'], vm['v_storage'], vm['v_CPU'], vm['v_RAM']])
-            for vm in vmsJsonData
+        (u.uId, [u.vmType, u.bid, u.reqs.storage, u.reqs.cpu, u.reqs.ram, u.latencyThresholdForAllocate])
+            for u in users
     )
 
-def buildCloudletsDict(cloudletsJsonData):
+def buildCloudletsDict(cloudlets):
     return multidict(
-        (cloudlet['id'], [cloudlet['c_storage'], cloudlet['c_CPU'], cloudlet['c_RAM']])
-            for cloudlet in cloudletsJsonData
+        (c.cId, [c.resources.storage, c.resources.cpu, c.resources.ram])
+            for c in cloudlets
     )
 
 # Display optimal values of decision variables
@@ -25,11 +27,16 @@ def printSolution(modelOpt, optResult, v_types):
     print("\nnum allocated users:", len(optResult.keys()))
     print("social welfare:", modelOpt.objVal)
 
-def build(jsonFilePath):
-    data = utils.readJSONData(jsonFilePath)
+def getLatency(n, v):
+    user = UsersListSingleton().findById(v)
+    cloudlet = CloudletsListSingleton().findById(n)
+    return utils.checkLatencyThreshold(user, cloudlet)
 
-    v_ids, v_types, v_bid, v_storage, v_CPU, v_RAM = buildVMsDict(data['UserVMs'])
-    c_ids, c_storage, c_CPU, c_RAM = buildCloudletsDict(data['Cloudlets'])
+def build(cloudlets, users):
+    #vdata = utils.readJSONData(jsonFilePath)
+
+    v_ids, v_types, v_bid, v_storage, v_CPU, v_RAM, v_latThreshold = buildVMsDict(users)
+    c_ids, c_storage, c_CPU, c_RAM = buildCloudletsDict(cloudlets)
 
     m = Model('Cloudlet-VM Allocation')
     m.Params.LogToConsole = 0
@@ -53,6 +60,12 @@ def build(jsonFilePath):
             quicksum(v_RAM[v]*x[n,v] for v in v_ids) <= c_RAM[n]
         ), name='RAM[%s]'%n)
 
+    # Latency constraint
+    for v in v_ids:
+        m.addConstr((
+            quicksum(getLatency(n,v)*x[n,v] for n in c_ids) <= v_latThreshold[v]
+        ), name='RAM[%s]'%n)
+
     # Allocation constraint
     for v in v_ids:
         m.addConstr((
@@ -71,10 +84,10 @@ def build(jsonFilePath):
     endTime = time.time()
     optResult = getResult(m, c_ids, v_ids)
     printSolution(m, optResult, v_types)
-    prices = pricing(m, m.ObjVal, optResult, v_bid, v_ids)
-    print('total price->', prices[1])
-    print('prices->', prices[0])
-    print('allocation execution time:', str(endTime-startTime).replace('.', ','))
+    clSing = CloudletsListSingleton()
+    usSing = UsersListSingleton()
+    allocRes = [(usSing.findById(v), clSing.findById(c)) for (v,c) in optResult.items()]
+    return [m.ObjVal, allocRes]
     
 
 def getResult(model, cloudlets, vms):

@@ -8,6 +8,7 @@ from algorithms.multipleKS import greedyAlloc_noQT as g_noQT
 from algorithms.multipleKS import crossEdgePaper_QT as crossEdge_QT
 from algorithms.multipleKS import crossEdgePaper_noQT as crossEdge_noQT
 from algorithms.multipleKS import twoPhases as twoPhases
+from algorithms.multipleKS import lp_alloc_mult as exact
 from prediction.pred_methods import hedge_ as hedgePrediction
 
 from GraphGen.OsmToRoadGraph.utils import geo_tools
@@ -31,6 +32,7 @@ TWO_PHASES = 4
 PRED_TCHAPEU = 5
 PRED_TCHAPEU_DISC = 6
 PRED_HEDGE = 7
+EXACT = 8
 
 class Event(Enum):
     MOVE_USER = 0
@@ -258,6 +260,8 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree):
     elif algorithm == TWO_PHASES:
         detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
+    elif algorithm == EXACT:
+        return exact.build(cloudlets, users)
     elif algorithm == PRED_TCHAPEU:
         pass
     elif algorithm == PRED_TCHAPEU_DISC:
@@ -289,6 +293,8 @@ def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree):
         or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
         or algorithm == PRED_HEDGE:
         return g_QT.pricing(winners, users, detectedCloudletsPerUser, cloudlets)
+    elif algorithm == EXACT:
+        return winners
     elif algorithm == GREEDY_NO_QT:
         return g_noQT.pricing(winners, users, cloudlets)
     elif algorithm == CROSS_EDGE_QT:
