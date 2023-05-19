@@ -107,7 +107,7 @@ def cloudletsUsageComparison(algorithms, users, instance):
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_usage_{alg[0]}_{instance}.csv')
         df['time-step'] -= 1
         df['time-step'] /= 60
-        df['algorithm'] = alg
+        df['algorithm'] = alg[1]
         buildGraphForAlg(df, alg)
 
 def buildGraphForAlg(df, alg):

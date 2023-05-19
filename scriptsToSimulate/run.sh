@@ -1,20 +1,13 @@
-nbUsers=(100 500)
+nbUsers=(30)
 
-for i in {0..3}
+for i in {0..5}
 do
     algIdx=$i
-    for j in {0..1}
-    do
-        nbUsersIdx=$j
-        for instance in {0..49}
-        do
-            python3 /home/jps/GraphGenFrw/Simulator/simMain.py \
-                ${algIdx} \
-                ${nbUsers[nbUsersIdx]} \
-                ${instance} \
-                /home/jps/GraphGenFrw/Simulator/GraphGen/input_files/systemInput/${nbUsers[nbUsersIdx]}users/inst_${instance}.json \
-                /home/jps/GraphGenFrw/Simulator/GraphGen/BusMovementModel/raw_data/map_20171024.xml
-            echo 'Done with instance '${instance}' for '${nbUsers[nbUsersIdx]}' users and algorithm '${algIdx}
-        done
-    done
+    python3 /home/jps/GraphGenFrw/Simulator/simMain.py \
+        ${algIdx} \
+        ${nbUsers} \
+        1 \
+        /home/jps/GraphGenFrw/Simulator/GraphGen/input_files/systemInput/test30.json \
+        /home/jps/GraphGenFrw/Simulator/GraphGen/BusMovementModel/raw_data/map_20171024.xml
+    echo 'Done with instance '${instance}' for '${nbUsers[nbUsersIdx]}' users and algorithm '${algIdx}
 done
