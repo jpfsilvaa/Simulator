@@ -3,10 +3,8 @@ from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
 
-from algorithms.multipleKS import greedyAlloc_QT as g_QT
-from algorithms.multipleKS import greedyAlloc_noQT as g_noQT
-from algorithms.multipleKS import crossEdgePaper_QT as crossEdge_QT
-from algorithms.multipleKS import crossEdgePaper_noQT as crossEdge_noQT
+from algorithms.multipleKS import greedyAlloc_QT as g_
+from algorithms.multipleKS import crossEdgePaper_QT as ce_
 from algorithms.multipleKS import twoPhases as twoPhases
 from algorithms.multipleKS import lp_alloc_mult as exact
 from prediction.pred_methods import hedge_ as hedgePrediction
@@ -29,10 +27,10 @@ GREEDY_NO_QT = 1
 CROSS_EDGE_QT = 2
 CROSS_EDGE_NO_QT = 3
 TWO_PHASES = 4
-PRED_TCHAPEU = 5
+EXACT = 5
 PRED_TCHAPEU_DISC = 6
 PRED_HEDGE = 7
-EXACT = 8
+PRED_TCHAPEU = 8
 
 class Event(Enum):
     MOVE_USER = 0
@@ -252,13 +250,13 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree):
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
 
     if algorithm == GREEDY_QT:
-        return g_QT.greedyAlloc(cloudlets, users, detectedCloudletsPerUser)
+        return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
     elif algorithm == GREEDY_NO_QT:
-        return g_noQT.greedyAlloc(cloudlets, users)
+        return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=False)
     elif algorithm == CROSS_EDGE_QT:
-        return crossEdge_QT.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser)
+        return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
     elif algorithm == CROSS_EDGE_NO_QT:
-        return crossEdge_noQT.crossEdgeAlg(cloudlets, users)
+        return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=False)
     elif algorithm == TWO_PHASES:
         detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
@@ -289,17 +287,16 @@ def currentUsersInC(users, c):
     return result
 
 def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree):
-    detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
-    if algorithm == GREEDY_QT \
+    if algorithm == GREEDY_QT:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True)
+    elif algorithm == GREEDY_NO_QT:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=False)
+    elif algorithm == CROSS_EDGE_QT:
+        return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True)
+    elif algorithm == CROSS_EDGE_NO_QT:
+        return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=False)
+    elif algorithm == EXACT or algorithm == TWO_PHASES \
         or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
         or algorithm == PRED_HEDGE:
-        return g_QT.pricing(winners, users, detectedCloudletsPerUser, cloudlets)
-    elif algorithm == EXACT or algorithm == TWO_PHASES:
         return winners
-    elif algorithm == GREEDY_NO_QT:
-        return g_noQT.pricing(winners, users, cloudlets)
-    elif algorithm == CROSS_EDGE_QT:
-        return crossEdge_QT.pricing(winners, users, detectedUsersPerCloudlet, cloudlets)
-    elif algorithm == CROSS_EDGE_NO_QT:
-        return crossEdge_noQT.pricing(winners, users, cloudlets)

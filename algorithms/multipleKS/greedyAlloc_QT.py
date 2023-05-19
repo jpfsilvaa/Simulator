@@ -8,7 +8,7 @@ import copy
 
 TAG = 'greedyAlloc_QT.py'
 
-def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser):
+def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     sim_utils.log(TAG, 'greedyAlloc')
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
@@ -24,28 +24,41 @@ def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser):
 
     initTimeLoop = time.time()
     for d in D:
-        timeToDetect = time.time()
-        cloudlets = detectedCloudletsPerUser[d[0].uId]
-        for c in cloudlets:
-            if utils.userFits(d[0], cloudletsOccupation[c.entity.cId]):
-                utils.allocate(d[0], cloudletsOccupation[c.entity.cId])
-                allocatedUsers.append((d[0], c.entity))
-                socialWelfare += d[0].bid
-                break
+        currentUser = d[0]
+        c = firstFit(currentUser, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree)
+        if c is not None:
+            utils.allocate(currentUser, cloudletsOccupation[c.cId])
+            allocatedUsers.append((currentUser, c))
+            socialWelfare += currentUser.bid
     finalTime = time.time()
+
+    printAllocation(initTimeLoop, initTime, finalTime, allocatedUsers, vms)
+    return [socialWelfare, allocatedUsers]
+
+def firstFit(user, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree):
+    if withQuadtree:
+        for c in detectedCloudletsPerUser[user.uId]:
+            if utils.userFits(user, cloudletsOccupation[c.entity.cId]):
+                return c.entity
+    else:
+        for c in cloudlets:
+            if utils.userFits(user, cloudletsOccupation[c.cId]) \
+            and utils.checkLatencyThreshold(user, c):
+                return c
+    return None
+
+def printAllocation(initTimeLoop, initTime, finalTime, allocatedUsers, vms):
     sim_utils.log(TAG, f'elapsed loop time: {finalTime - initTimeLoop}')
     sim_utils.log(TAG, f'elapsed total time: {finalTime - initTime}')
     sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
-    return [socialWelfare, allocatedUsers]
 
-def pricing(winners, users, detectedCloudletsPerUser, cloudlets):
+def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree):
     sim_utils.log(TAG, 'pricing')
 
     normalVms = utils.normalize(cloudlets[0], users)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
-
 
     for w in winners:
         allocatedUsers = []
@@ -53,28 +66,23 @@ def pricing(winners, users, detectedCloudletsPerUser, cloudlets):
         for d in D:
             if d[0].uId == w[0].uId:
                 continue
-            timeToDetect = time.time()
-            cloudletsDetected = detectedCloudletsPerUser[d[0].uId]
-            for c in cloudletsDetected:
-                if utils.userFits(d[0], cloudletsOccupation[c.entity.cId]):
-                    utils.allocate(d[0], cloudletsOccupation[c.entity.cId])
-                    allocatedUsers.append((d[0], c.entity))
-                    break
-            cloudletsWinner = detectedCloudletsPerUser[w[0].uId]
-            stillFits = False
-            for c in cloudletsWinner:
-                if utils.userFits(w[0], cloudletsOccupation[c.entity.cId]):
-                    stillFits = True
-                    break
-            if not stillFits:
-                w[0].price = d[1]*w[0].maxReq
+            currentUser = d[0]
+            c = firstFit(currentUser, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree)
+            if c is not None:
+                utils.allocate(currentUser, cloudletsOccupation[c.cId])
+            if firstFit(w[0], cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree) is None:
+                w[0].price = d[1] * w[0].maxReq
                 break
-        sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}')
-        sim_utils.log(TAG, f'w[0].bid/w[0].maxReq: {w[0].bid/w[0].maxReq}')
-        sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
-        sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
-        sim_utils.log(TAG, ' ')
+        
+        printWinnerPrice(w)
     return winners
+
+def printWinnerPrice(w):
+    sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}')
+    sim_utils.log(TAG, f'w[0].bid/w[0].maxReq: {w[0].bid/w[0].maxReq}')
+    sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
+    sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
+    sim_utils.log(TAG, ' ')
 
 def printResults(winner, criticalValue):
     sim_utils.log(TAG, 'pricingResults')
