@@ -23,7 +23,7 @@ def greedyAlloc_OneKS(cloudlet, vms):
     initTimeLoop = time.time()
     while (utils.isNotFull(occupation)) and userPointer < len(D):
         chosenUser = D[userPointer][0]
-        if utils.userFits(chosenUser, occupation):
+        if utils.userFits(chosenUser, occupation) and utils.checkLatencyThreshold(chosenUser, cloudlet):
             utils.allocate(chosenUser, occupation)
             allocatedUsers.append((chosenUser, cloudlet))
             socialWelfare += chosenUser.bid

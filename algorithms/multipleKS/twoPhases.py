@@ -26,7 +26,7 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     sim_utils.log(TAG, '----centralized phase----')
     nonAllocated, allocatedMore = classifyAllocatedUsers(allocationPerCloudlet, vms)
     finalAlocation = usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocated, allocatedMore)
-    
+    print(finalAlocation)
     # separating users by type and call the matching algorithm
     userTypes = ['gp1', 'gp2', 'ramIntensive', 'cpuIntensive']
     for userType in userTypes:
@@ -38,6 +38,7 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
             nbUsersInCloudlet[c.cId] = len(set([u.uId for u in moreThanOnceByType]) & set([u.uId for u in allocatedInC]))
         result = matchingAlg(cloudlets, nonAllocatedByType + moreThanOnceByType, nbUsersInCloudlet)
         finalAlocation += result
+    sim_utils.log(TAG, f'FINAL allocated users: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
     return [calcSocialWelfare(finalAlocation), finalAlocation]
 
 def defineFirstPhasePrices(winners):
@@ -85,7 +86,7 @@ def usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocatedUsers, allocatedMo
         if len(allocs) > 0:
             for alloc in allocs:
                 if not isIn(allocatedMoreThanOnce, alloc[0]) and not isIn(nonAllocatedUsers, alloc[0]):
-                    allocation.append(alloc[0])
+                    allocation.append(alloc)
     return allocation
 
 def isIn(list, user):
@@ -139,6 +140,8 @@ def matchingAlg(cloudlets, users, nbUsersInCloudletDict):
     for left_node in left_nodes:
         for right_node in right_nodes:
             if graph.has_edge(left_node, right_node) and flowDict[left_node][right_node] > 0:
-                pairs.append((UsersListSingleton().findById(left_node), 
-                                CloudletsListSingleton().findById(right_node)))
+                pair = (UsersListSingleton().findById(left_node), 
+                                CloudletsListSingleton().findById(right_node))
+                if pair not in pairs:
+                    pairs.append(pair)
     return pairs
