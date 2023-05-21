@@ -174,13 +174,14 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     
     algorithm = cloudletsSing.getAlgorithm()
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
     resetUserPrices()
 
     startTime = time.time()
     if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree)
+        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
     endTime = time.time()
     
 
@@ -210,12 +211,13 @@ def initialAlloc(simClock, heapSing, eTuple):
     
     algorithm = cloudletsSing.getAlgorithm()
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
 
     startTime = time.time()
     if algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree)
+        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
     endTime = time.time()
     
     resetUserPrices()
@@ -245,9 +247,8 @@ def randomAlloc(quadtree):
         result.append((u, randomCloudlet))
     return [0, result]
 
-def allocationAlgorithm(cloudlets, users, algorithm, quadtree):
+def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudletsPerUser):
     utils.log(TAG, 'allocationAlgorithm')
-    detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
 
     if algorithm == GREEDY_QT:
         return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)

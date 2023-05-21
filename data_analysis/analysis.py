@@ -25,9 +25,10 @@ def latencyComparison(algorithms, users, instance):
     # Create a line plot with three lines, each representing one algorithm
     fig, ax = plt.subplots(figsize=(10, 6))
 
+    markers = ['<', '>', 'v', '^', 'o']
     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
         data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['avg latency (for the allocated)'], label=algorithm)
+        ax.plot(data.index.get_level_values('time-step'), data['avg latency (for the allocated)'], label=algorithm, marker=markers.pop())
 
     # Customize the plot
     ax.set_xticks(merged_df['time-step'].unique())
@@ -38,7 +39,7 @@ def latencyComparison(algorithms, users, instance):
     plt.savefig('latency_comparison.png')
     # plt.show()
 
-def execTimeComparison(algorithms, users, instance):
+def execTimeComparison(algorithms, users, instance, qt):
     dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/exec_time_{alg[0]}_{instance}.csv')
@@ -56,9 +57,10 @@ def execTimeComparison(algorithms, users, instance):
     # Create a line plot with three lines, each representing one algorithm
     fig, ax = plt.subplots(figsize=(8, 6))
 
+    markers = ['<', '>', 'v', '^', 'o']
     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
         data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['exec time'], label=algorithm)
+        ax.plot(data.index.get_level_values('time-step'), data['exec time'], label=algorithm, marker=markers.pop())
 
     # Customize the plot
     ax.set_xticks(merged_df['time-step'].unique())
@@ -66,12 +68,12 @@ def execTimeComparison(algorithms, users, instance):
     ax.set_ylabel('Execution Time (seconds)')
     ax.set_title('Execution Time Comparison')
     ax.legend()
-    plt.savefig('exec_time_comparison_noQT.png')
+    plt.savefig(f'exec_time_comparison_{qt}.png')
     # plt.show()
 
 def socialWelfareComparison(algorithms, users, instance):
     dataframes = []
-    dfExact = pd.read_csv(f'{PATH}8-30users/social_welfare_8_1.csv')
+    dfExact = pd.read_csv(f'{PATH}5-30users/social_welfare_5_1.csv')
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/social_welfare_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
@@ -89,9 +91,10 @@ def socialWelfareComparison(algorithms, users, instance):
     # Create a line plot with three lines, each representing one algorithm
     fig, ax = plt.subplots(figsize=(8, 6))
 
+    markers = ['o', '>', 'v', '^', '<']
     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
         data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['social welfare'], label=algorithm)
+        ax.plot(data.index.get_level_values('time-step'), data['social welfare'], label=algorithm, marker=markers.pop())
 
     # Customize the plot
     ax.set_xticks(merged_df['time-step'].unique())
@@ -133,7 +136,7 @@ def buildGraphForRes(df, alg, res, title):
     else:
         ax.set_ylabel('CPU (Processing units)')
     
-    ax.set_title(f'title - {alg[1]}')
+    ax.set_title(f'{title} - {alg[1]}')
     ax.legend()
 
     # Make some labels.
@@ -149,48 +152,9 @@ def buildGraphForRes(df, alg, res, title):
     plt.savefig(f'{SIM_PATH}/data_analysis/res_graphs/{res}_{alg[0]}_comparison.png')
     #plt.show()
 
-
-
-
-
-
-
-# def cloudletsUsageComparison(algorithms, users, instance):
-#     dataframes = []
-#     for alg in algorithms:
-#         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_usage_{alg[0]}_{instance}.csv')
-#         df['usage'] = df[['used cpu', 'used storage', 'used ram']].mean(axis=1)
-#         print(alg[1])
-#         print(df['usage'])
-#         df['time-step'] -= 1
-#         df['time-step'] /= 60
-#         dataframes.append(df)
-
-#     # Merge dataframes using a common key, such as a timestamp
-#     merged_df = pd.concat(dataframes)
-
-#     # Group the merged dataframe by algorithm and timestamp and calculate the mean
-#     grouped_data = merged_df.groupby(['algorithm', 'time-step']).mean()
-
-#     # Create a line plot with three lines, each representing one algorithm
-#     fig, ax = plt.subplots(figsize=(8, 6))
-
-#     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
-#         data = grouped_data.loc[algorithm]
-#         ax.plot(data.index.get_level_values('time-step'), data['usage'], label=algorithm)
-
-#     # Customize the plot
-#     ax.set_xticks(merged_df['time-step'].unique())
-#     ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
-#     ax.set_ylabel('Cloudlets Usage (%)')
-#     ax.set_title('Cloudlets Usage Comparison')
-#     ax.legend()
-#     plt.savefig('cloudlets_usage_comparison.png')
-#     plt.show()
-
 def pricesComparison(algorithms, users, instance):
     dataframes = []
-    dfExact = pd.read_csv(f'{PATH}8-30users/social_welfare_8_1.csv')
+    dfExact = pd.read_csv(f'{PATH}5-30users/social_welfare_5_1.csv')
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/prices_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
@@ -208,9 +172,10 @@ def pricesComparison(algorithms, users, instance):
     # Create a line plot with three lines, each representing one algorithm
     fig, ax = plt.subplots(figsize=(8, 6))
 
+    markers = ['o', '>', 'v', '^', '<']
     for algorithm in grouped_data.index.get_level_values('algorithm').unique():
         data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['prices'], label=algorithm)
+        ax.plot(data.index.get_level_values('time-step'), data['prices'], label=algorithm, marker=markers.pop())
 
     # Customize the plot
     ax.set_xticks(merged_df['time-step'].unique())
@@ -224,12 +189,12 @@ def pricesComparison(algorithms, users, instance):
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge with QuadTree'), (3, 'Cross Edge'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
 algorithms_noQT = [(1, 'Greedy'), (3, 'Cross Edge'), (4, '2-phases')]
-users = 100
+users = 30
 instance = 1
 
 cloudletsUsageComparison(algorithms, users, instance)
 latencyComparison(algorithms, users, instance)
-execTimeComparison(algorithms_noQT, users, instance)
-execTimeComparison(algorithms_QT, users, instance)
+execTimeComparison(algorithms_noQT, users, instance, 'noQT')
+execTimeComparison(algorithms_QT, users, instance, 'QT')
 socialWelfareComparison(algorithms, users, instance)
 pricesComparison(algorithms, users, instance)
