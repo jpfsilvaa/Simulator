@@ -111,7 +111,7 @@ def cloudletsUsageComparison(algorithms, users, instance):
         df['time-step'] -= 1
         df['time-step'] /= 60
         df['algorithm'] = alg[1]
-        buildGraphForAlg(df, alg)
+        buildGraphForAlg(df, alg)   
 
 def buildGraphForAlg(df, alg):
     buildGraphForRes(df, alg, 'cpu', 'CPU Usage Comparison')
@@ -122,18 +122,16 @@ def buildGraphForRes(df, alg, res, title):
     # Create a figure and two axes objects
     fig, ax = plt.subplots(figsize=(20, 10))
 
-    # Plotting the line graph with error bars
-    ax.errorbar(df['time-step'], df[f'used {res} avg'], yerr=df[f'used {res} std'], fmt='-o', label=f'Average of used {res}')
-
-    # Adding vertical bars representing 'unused cpu'
-    ax.bar(df['time-step'], df[f'unused {res}'], alpha=0.5, label=f'Unused {res}')
-
     # Adding labels and title to the graph
     ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
     
     if res == 'ram' or res == 'storage':
-        ax.set_ylabel(f'{res.upper()} (MB)')
+        ax.errorbar(df['time-step'], df[f'used {res} avg']/1024, yerr=df[f'used {res} std']/1024, fmt='-o', label=f'Average of used {res}')
+        ax.bar(df['time-step'], df[f'unused {res}']/1024, alpha=0.5, label=f'Unused {res}')
+        ax.set_ylabel(f'{res.upper()} (GB)')
     else:
+        ax.errorbar(df['time-step'], df[f'used {res} avg'], yerr=df[f'used {res} std'], fmt='-o', label=f'Average of used {res}')
+        ax.bar(df['time-step'], df[f'unused {res}'], alpha=0.5, label=f'Unused {res}')
         ax.set_ylabel('CPU (Processing units)')
     
     ax.set_title(f'{title} - {alg[1]}')
