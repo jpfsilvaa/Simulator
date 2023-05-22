@@ -26,7 +26,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     sim_utils.log(TAG, '----centralized phase----')
     nonAllocated, allocatedMore = classifyAllocatedUsers(allocationPerCloudlet, vms)
     finalAlocation = usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocated, allocatedMore)
-    print(finalAlocation)
     # separating users by type and call the matching algorithm
     userTypes = ['gp1', 'gp2', 'ramIntensive', 'cpuIntensive']
     for userType in userTypes:

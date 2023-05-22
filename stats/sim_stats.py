@@ -41,17 +41,17 @@ class SimStatistics:
 
     def writeFileSW(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', 'social welfare'])
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'number of winners', 'social welfare'])
             writer.writeheader()
             for key, value in dictRes.items():
-                writer.writerow({'time-step': key, 'social welfare': value})
+                writer.writerow({'time-step': key, 'number of users': value[0], 'number of winners': value[1], 'social welfare': value[2]})
 
     def writeFilePrice(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'prices'])
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'number of winners', 'prices'])
             writer.writeheader()
             for key, value in dictRes.items():
-                writer.writerow({'time-step': key, 'number of users': value[0], 'prices': value[1]})
+                writer.writerow({'time-step': key, 'number of users': value[0], 'number of winners': value[1], 'prices': value[2]})
 
     def writeFileCl(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
@@ -87,18 +87,20 @@ class SimStatistics:
     def writeLatencyStats(self, timeStep):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
-        avgLatency = sum([u.currLatency for u in users]) / len(users)
+        avgLatency = sum([u.currLatency for u in users if u.currLatency < 1]) / len(users)
         self.avgLatencies[timeStep] = (len(users), avgLatency)
 
     def writeSocialWelfareStats(self, timeStep, winners):
         utils.log(TAG, 'writeSocialWelfareStats')
+        users = UsersListSingleton().getList()
         socialWelfare = sum([u.bid for u in winners])
-        self.totalSocialWelfares[timeStep] = socialWelfare
+        self.totalSocialWelfares[timeStep] = (len(users), len(winners), socialWelfare)
 
     def writePricesStats(self, timeStep, winners):
         utils.log(TAG, 'writePricesStats')
+        users = UsersListSingleton().getList()
         prices = sum([u.price for u in winners])
-        self.totalPrices[timeStep] = (len(winners), prices)
+        self.totalPrices[timeStep] = (len(users), len(winners), prices)
 
     def writeCloudletsUsageStats(self, timeStep):
         utils.log(TAG, 'writeCloudletsUsageStats')
