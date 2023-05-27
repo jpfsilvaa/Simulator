@@ -20,16 +20,16 @@ def socialWelfareComparison(algorithms, users, instance):
         algCumulative += df['social welfare']
         df['cumulative sum'] = algCumulative/exactCumulative
         df['cumulative sum']*= 100
-        df.sort_values(by=['number of users'], inplace=True)
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
-    sb.swarmplot(x="number of users", y="cumulative sum", data=merged_df, hue='algorithm')
+    g = sb.swarmplot(x="number of users", y="cumulative sum", data=merged_df, hue='algorithm')
+    g.legend_.set_title(None)
     sb.despine()
-    plt.ylabel('Ratio - social welfare achieved/optimal social welfare (%)')
-    plt.xlabel('Number of users')
+    plt.ylabel('SW achieved/optimal SW (%)')
+    plt.xlabel('number of users')
     plt.savefig('sw_comparison.png')
-    plt.show()
+    # plt.show()
 
 def cloudletsUsageComparison(algorithms, users, instance):
     for alg in algorithms:
@@ -76,39 +76,6 @@ def buildGraphForRes(df, alg, res, title):
     plt.savefig(f'{SIM_PATH}/data_analysis/res_graphs/{res}_{alg[0]}_comparison.png')
     #plt.show()
 
-    dataframes = []
-    dfExact = pd.read_csv(f'{PATH}5-30users/social_welfare_5_1.csv')
-    for alg in algorithms:
-        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/prices_{alg[0]}_{instance}.csv')
-        df['algorithm'] = alg[1]
-        df['time-step'] -= 1
-        df['time-step'] /= 60
-        df['prices'] /= dfExact['social welfare']
-        dataframes.append(df)
-
-    # Merge dataframes using a common key, such as a timestamp
-    merged_df = pd.concat(dataframes)
-
-    # Group the merged dataframe by algorithm and timestamp and calculate the mean
-    grouped_data = merged_df.groupby(['algorithm', 'time-step']).mean()
-
-    # Create a line plot with three lines, each representing one algorithm
-    fig, ax = plt.subplots(figsize=(8, 6))
-
-    markers = ['o', '>', 'v', '^', '<']
-    for algorithm in grouped_data.index.get_level_values('algorithm').unique():
-        data = grouped_data.loc[algorithm]
-        ax.plot(data.index.get_level_values('time-step'), data['prices'], label=algorithm, marker=markers.pop())
-
-    # Customize the plot
-    ax.set_xticks(merged_df['time-step'].unique())
-    ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
-    ax.set_ylabel('Ratio (profit achived/optimal social welfare)')
-    ax.set_title('Profit Comparison')
-    ax.legend()
-    plt.savefig('prices_comparison.png')
-    # plt.show()
-
 def pricesComparison(algorithms, users, instance):
     dataframes = []
     dfExact = pd.read_csv(f'{PATH}5-{users}users/social_welfare_5_{instance}.csv')
@@ -125,14 +92,15 @@ def pricesComparison(algorithms, users, instance):
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
-    sb.swarmplot(x="number of users", y="cumulative sum", data=merged_df, hue='algorithm')
+    g = sb.swarmplot(x="number of users", y="cumulative sum", data=merged_df, hue='algorithm')
+    g.legend_.set_title(None)
     sb.despine()
-    plt.ylabel('Ratio - profit achieved/optimal social welfare (%)')
-    plt.xlabel('Number of users')
+    plt.ylabel('profit achieved/optimal social welfare (%)')
+    plt.xlabel('number of users')
     plt.savefig('prices_comparison.png')
-    plt.show()
+    # plt.show()
 
-def generateGraphs(algorithms, users, instance, graphType, x, y, ylabel):
+def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
@@ -140,23 +108,39 @@ def generateGraphs(algorithms, users, instance, graphType, x, y, ylabel):
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
-    sb.swarmplot(x=x, y=y, data=merged_df, hue='algorithm')
-    sb.despine()
+    g = sb.lineplot(x=x, y=y, data=merged_df, hue='algorithm', errorbar=('ci', 1), alpha=0.6)
+    g.legend_.set_title(None)
+    
     plt.ylabel(ylabel)
-    plt.savefig(f'{graphType}_comparison.png')
+    plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
+def generateGraphs(algorithms, users, instance, graphType, x, y, ylabel, fileName):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        df.sort_values(by=x, inplace=True)
+        dataframes.append(df)
 
-algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge with QuadTree'), (3, 'Cross Edge'), (4, '2-phases')]
+    merged_df = pd.concat(dataframes)
+    g = sb.swarmplot(x=x, y=y, data=merged_df, hue='algorithm')
+    g.legend_.set_title(None)
+    sb.despine()
+    plt.ylabel(ylabel)
+    plt.savefig(f'{fileName}_comparison.png')
+    # plt.show()
+
+algorithms = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (1, 'Greedy'), (3, 'Cross Edge'), (4, '2-phases')]
 algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
-users = 30
+users = 100
 instance = 1
 
 # cloudletsUsageComparison(algorithms, users, instance)
-generateGraphs(algorithms_, users, instance, 'exec_time', 'number of users', 'exec time', 'execution time (seconds)')
-generateGraphs(algorithms_QT, users, instance, 'exec_time', 'number of users', 'exec time', 'execution time (seconds)')
-generateGraphs(algorithms_, users, instance, 'latencies', 'number of users', 'avg latency (for the allocated)', 'latency (seconds)')
-generateGraphs(algorithms_, users, instance, 'prices', 'number of users', 'number of winners', 'allocated users')
-socialWelfareComparison(algorithms_, users, instance)
-pricesComparison(algorithms_QT, users, instance)
+# generateGraphsLine(algorithms, users, instance, 'exec_time', 'number of users', 'exec time', 'execution time (seconds)', 'exec_time')
+generateGraphsLine(algorithms_QT, users, instance,  'exec_time', 'number of users', 'exec time', 'execution time (seconds)', 'exec_time_QT')
+# generateGraphs(algorithms_, users, instance, 'latencies', 'number of users', 'avg latency (for the allocated)', 'latency (seconds)', 'lat')
+# generateGraphsLine(algorithms_, users, instance, 'prices', 'number of users', 'number of winners', 'winnner users', 'winners')
+# socialWelfareComparison(algorithms_, users, instance)
+# pricesComparison(algorithms_, users, instance)

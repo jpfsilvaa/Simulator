@@ -1,617 +1,227 @@
-2023-05-19 14:54:14,955 instanceGen.py:: time-step:0 main
-2023-05-19 14:54:14,955 instanceGen.py:: time-step:0 createGraph
-2023-05-19 14:54:15,916 simMain.py: time-step:0 startSimulation
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initHeap
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initSimClock
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initRoutine
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initCloudlets
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initUsers
-2023-05-19 14:54:15,917 simMain.py: time-step:0 initialAllocation
-2023-05-19 14:54:15,917 simMain.py: time-step:0 triggerUserPathEvents
-2023-05-19 14:54:15,929 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:15,946 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:15,956 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:15,976 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:15,994 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,017 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,025 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,031 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,048 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,061 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,075 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,096 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,114 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,130 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,135 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,163 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,185 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,190 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,210 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,223 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,256 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,284 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,326 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,371 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,382 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,401 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,411 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,436 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,450 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,461 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,482 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,500 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,528 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,548 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,561 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,580 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,596 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,616 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,634 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,657 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,677 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,685 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,701 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,743 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,765 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,786 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,815 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,835 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,845 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,862 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,882 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,900 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,925 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,940 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,967 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,979 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:16,993 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,013 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,028 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,050 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,060 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,070 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,094 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,104 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,126 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,146 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,169 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,179 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,199 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,216 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,232 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,253 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,265 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,290 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,305 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,336 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,348 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,365 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,385 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,403 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,433 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,443 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,453 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,459 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,479 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,485 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,509 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,515 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,522 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,541 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,567 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,574 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,583 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,595 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,610 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,640 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,669 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,693 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,718 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,740 sim_utils.py: time-step:0 calcTimeToExec
-2023-05-19 14:54:17,740 simMain.py: time-step:0 timingRoutine
-2023-05-19 14:54:17,740 simMain.py: time-step:0 invokeRoutine
-2023-05-19 14:54:17,740 simMain.py: time-step:0 CALLING EVENT  Event.INITIAL_ALLOCATION
-2023-05-19 14:54:17,740 event.py: time-step:0 execEvent
-2023-05-19 14:54:17,740 event.py: time-step:0 optimizeAlloc
-2023-05-19 14:54:17,740 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,742 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,745 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,746 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,748 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,750 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,752 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,753 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,754 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,755 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,757 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,758 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,760 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,761 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,762 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,763 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,763 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,764 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,765 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,765 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,766 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,767 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,768 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,768 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,770 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,771 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,772 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,772 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,773 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,774 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,774 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,776 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,778 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,780 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,781 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,782 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,782 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,783 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,783 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,784 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,785 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,785 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,786 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,787 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,789 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,790 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,790 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,792 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,792 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,793 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,794 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,795 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,795 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,797 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,798 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,799 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,801 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,801 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,802 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,802 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,802 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,803 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,803 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,804 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,805 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,805 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,806 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,806 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,807 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,808 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,808 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,809 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,809 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,810 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,811 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,811 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,812 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,812 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,813 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,814 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,814 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,816 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,816 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,817 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,818 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,819 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,819 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,820 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,820 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,821 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,822 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,822 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,823 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,823 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,824 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,825 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,827 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,828 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,828 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,830 event.py: time-step:0 findUserPosition
-2023-05-19 14:54:17,854 event.py: time-step:0 allocationAlgorithm
-2023-05-19 14:54:23,614 greedyAlloc_noQT.py: time-step:0 greedyAlloc
-2023-05-19 14:54:26,748 greedyAlloc_noQT.py: time-step:0 elapsed loop time: 3.1342973709106445
-2023-05-19 14:54:26,749 greedyAlloc_noQT.py: time-step:0 elapsed total time: 3.134599208831787
-2023-05-19 14:54:26,749 greedyAlloc_noQT.py: time-step:0 num allocated users: 86 / 100
-2023-05-19 14:54:26,749 greedyAlloc_noQT.py: time-step:0 allocated users: [('v89', 'gp1', 'c0'), ('v60', 'gp1', 'c0'), ('v27', 'gp1', 'c0'), ('v85', 'gp1', 'c0'), ('v97', 'gp1', 'c0'), ('v19', 'gp1', 'c0'), ('v76', 'gp2', 'c0'), ('v56', 'gp2', 'c0'), ('v48', 'gp2', 'c0'), ('v84', 'gp2', 'c0'), ('v39', 'gp2', 'c0'), ('v40', 'cpuIntensive', 'c0'), ('v73', 'cpuIntensive', 'c1'), ('v0', 'cpuIntensive', 'c1'), ('v45', 'cpuIntensive', 'c1'), ('v86', 'cpuIntensive', 'c2'), ('v99', 'cpuIntensive', 'c2'), ('v35', 'ramIntensive', 'c2'), ('v51', 'ramIntensive', 'c58'), ('v54', 'gp1', 'c60'), ('v52', 'gp1', 'c60'), ('v49', 'gp1', 'c60'), ('v33', 'gp1', 'c60'), ('v55', 'gp1', 'c60'), ('v32', 'gp2', 'c60'), ('v3', 'gp2', 'c60'), ('v95', 'gp2', 'c60'), ('v1', 'gp2', 'c60'), ('v4', 'gp2', 'c60'), ('v46', 'gp2', 'c60'), ('v9', 'gp2', 'c60'), ('v80', 'cpuIntensive', 'c61'), ('v98', 'ramIntensive', 'c61'), ('v23', 'ramIntensive', 'c61'), ('v30', 'ramIntensive', 'c62'), ('v31', 'ramIntensive', 'c62'), ('v6', 'gp1', 'c112'), ('v7', 'gp1', 'c112'), ('v87', 'gp1', 'c112'), ('v72', 'gp1', 'c112'), ('v61', 'gp1', 'c112'), ('v29', 'gp2', 'c112'), ('v91', 'gp2', 'c112'), ('v36', 'gp2', 'c112'), ('v92', 'cpuIntensive', 'c112'), ('v26', 'cpuIntensive', 'c113'), ('v24', 'cpuIntensive', 'c113'), ('v14', 'cpuIntensive', 'c113'), ('v67', 'cpuIntensive', 'c114'), ('v2', 'cpuIntensive', 'c114'), ('v21', 'cpuIntensive', 'c114'), ('v20', 'gp1', 'c152'), ('v41', 'gp1', 'c152'), ('v13', 'gp1', 'c152'), ('v68', 'gp2', 'c152'), ('v78', 'gp2', 'c152'), ('v65', 'gp2', 'c152'), ('v42', 'cpuIntensive', 'c152'), ('v5', 'cpuIntensive', 'c152'), ('v38', 'cpuIntensive', 'c153'), ('v44', 'cpuIntensive', 'c153'), ('v96', 'cpuIntensive', 'c153'), ('v62', 'cpuIntensive', 'c154'), ('v94', 'cpuIntensive', 'c154'), ('v11', 'ramIntensive', 'c154'), ('v75', 'gp1', 'c194'), ('v71', 'gp1', 'c194'), ('v47', 'gp1', 'c194'), ('v50', 'gp2', 'c194'), ('v64', 'gp2', 'c194'), ('v25', 'gp2', 'c194'), ('v70', 'gp2', 'c194'), ('v77', 'gp2', 'c194'), ('v74', 'cpuIntensive', 'c194'), ('v34', 'gp1', 'c250'), ('v79', 'gp2', 'c250'), ('v18', 'gp2', 'c250'), ('v10', 'gp2', 'c250'), ('v59', 'gp2', 'c250'), ('v58', 'gp2', 'c250'), ('v63', 'gp2', 'c250'), ('v90', 'gp2', 'c250'), ('v22', 'cpuIntensive', 'c250'), ('v66', 'cpuIntensive', 'c253'), ('v57', 'ramIntensive', 'c253'), ('v37', 'ramIntensive', 'c253')]
-2023-05-19 14:54:32,485 greedyAlloc_noQT.py: time-step:0 pricing
-2023-05-19 14:54:35,999 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:35,999 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2615.346656797434
-2023-05-19 14:54:35,999 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04053
-2023-05-19 14:54:36,000 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 106
-2023-05-19 14:54:36,000 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:39,065 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:39,065 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2599.0735975295934
-2023-05-19 14:54:39,065 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03886
-2023-05-19 14:54:39,065 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 101
-2023-05-19 14:54:39,065 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:42,105 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:42,105 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2492.522432701894
-2023-05-19 14:54:42,105 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04012
-2023-05-19 14:54:42,105 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 100
-2023-05-19 14:54:42,105 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:45,124 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:45,124 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2390.243902439024
-2023-05-19 14:54:45,124 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.041
-2023-05-19 14:54:45,124 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 98
-2023-05-19 14:54:45,124 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:48,164 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:48,164 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2369.5548109143133
-2023-05-19 14:54:48,164 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04178
-2023-05-19 14:54:48,164 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:54:48,164 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:51,294 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:51,294 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2311.4355231143554
-2023-05-19 14:54:51,294 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0411
-2023-05-19 14:54:51,294 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 95
-2023-05-19 14:54:51,294 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:54,357 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:54,357 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1047.3514045116478
-2023-05-19 14:54:54,357 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099298095703125
-2023-05-19 14:54:54,357 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 104
-2023-05-19 14:54:54,357 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:54:57,414 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:54:57,414 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1010.2466422466423
-2023-05-19 14:54:57,414 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0999755859375
-2023-05-19 14:54:57,414 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 101
-2023-05-19 14:54:57,414 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:00,863 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:00,863 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 997.6111691985976
-2023-05-19 14:55:00,863 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099237060546875
-2023-05-19 14:55:00,863 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:55:00,863 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:04,116 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:04,116 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 959.4729457695358
-2023-05-19 14:55:04,116 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100054931640625
-2023-05-19 14:55:04,116 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 96
-2023-05-19 14:55:04,116 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:07,386 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:07,386 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 954.6028825513646
-2023-05-19 14:55:07,386 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099517822265625
-2023-05-19 14:55:07,386 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 95
-2023-05-19 14:55:07,386 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:10,624 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:10,624 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 497.26348709929636
-2023-05-19 14:55:10,624 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31975
-2023-05-19 14:55:10,624 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 159
-2023-05-19 14:55:10,624 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:13,674 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:13,674 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 494.0278906885123
-2023-05-19 14:55:13,674 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31982
-2023-05-19 14:55:13,674 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 158
-2023-05-19 14:55:13,674 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:16,922 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:16,923 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 472.5986667083972
-2023-05-19 14:55:16,923 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31951
-2023-05-19 14:55:16,923 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 151
-2023-05-19 14:55:16,923 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:20,116 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:20,116 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 471.9929982495624
-2023-05-19 14:55:20,116 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31992
-2023-05-19 14:55:20,117 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 151
-2023-05-19 14:55:20,117 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:23,398 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:23,398 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 470.61776425187463
-2023-05-19 14:55:23,398 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31873
-2023-05-19 14:55:23,398 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 150
-2023-05-19 14:55:23,398 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:26,752 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:26,752 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 427.8843150727715
-2023-05-19 14:55:26,753 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32018
-2023-05-19 14:55:26,753 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 137
-2023-05-19 14:55:26,753 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:30,330 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:30,330 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 395.8032506154152
-2023-05-19 14:55:30,330 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.399188232421875
-2023-05-19 14:55:30,330 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 158
-2023-05-19 14:55:30,330 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:33,855 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:33,855 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 373.8533854602431
-2023-05-19 14:55:33,855 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.401226806640625
-2023-05-19 14:55:33,855 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 150
-2023-05-19 14:55:33,856 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:38,474 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:38,474 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2620.3073822121437
-2023-05-19 14:55:38,474 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03969
-2023-05-19 14:55:38,474 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 104
-2023-05-19 14:55:38,474 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:43,480 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:43,480 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2578.2227784730912
-2023-05-19 14:55:43,480 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03995
-2023-05-19 14:55:43,480 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 103
-2023-05-19 14:55:43,480 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:48,102 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:48,102 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2576.808721506442
-2023-05-19 14:55:48,102 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04036
-2023-05-19 14:55:48,102 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 104
-2023-05-19 14:55:48,102 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:52,805 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:52,805 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2483.2381425378694
-2023-05-19 14:55:52,805 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04027
-2023-05-19 14:55:52,805 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 100
-2023-05-19 14:55:52,805 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:55:57,373 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:55:57,373 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2477.4774774774774
-2023-05-19 14:55:57,373 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03996
-2023-05-19 14:55:57,373 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:55:57,373 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:01,882 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:01,882 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1129.384447938082
-2023-05-19 14:56:01,882 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.10093994140625
-2023-05-19 14:56:01,882 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 114
-2023-05-19 14:56:01,882 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:06,370 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:06,370 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1025.7259812183963
-2023-05-19 14:56:06,370 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.1013916015625
-2023-05-19 14:56:06,370 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 104
-2023-05-19 14:56:06,370 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:11,024 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:11,024 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1011.6053307250276
-2023-05-19 14:56:11,025 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.09984130859375
-2023-05-19 14:56:11,025 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 101
-2023-05-19 14:56:11,025 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:15,786 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:15,786 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 996.0795873249815
-2023-05-19 14:56:15,786 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0993896484375
-2023-05-19 14:56:15,786 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:56:15,786 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:20,353 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:20,353 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 971.0668459000367
-2023-05-19 14:56:20,353 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.09989013671875
-2023-05-19 14:56:20,353 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 97
-2023-05-19 14:56:20,353 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:24,934 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:24,934 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 925.200072864169
-2023-05-19 14:56:24,934 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100518798828125
-2023-05-19 14:56:24,934 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 93
-2023-05-19 14:56:24,934 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:29,625 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:29,625 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 924.9113333742406
-2023-05-19 14:56:29,625 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099468994140625
-2023-05-19 14:56:29,625 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 92
-2023-05-19 14:56:29,625 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:34,361 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:34,362 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 491.7675620156245
-2023-05-19 14:56:34,362 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32129
-2023-05-19 14:56:34,362 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 158
-2023-05-19 14:56:34,362 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:39,125 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:39,126 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 402.80116664376135
-2023-05-19 14:56:39,126 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.399700927734375
-2023-05-19 14:56:39,126 greedyAlloc_noQT.py: time-step:0 w[0].price: 141.49262170735074 and w[0].bid: 161
-2023-05-19 14:56:39,126 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:43,909 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:43,909 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 380.22626990549185
-2023-05-19 14:56:43,909 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.399761962890625
-2023-05-19 14:56:43,909 greedyAlloc_noQT.py: time-step:0 w[0].price: 141.5142279225854 and w[0].bid: 152
-2023-05-19 14:56:43,909 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:48,355 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:48,356 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 378.0306827211051
-2023-05-19 14:56:48,356 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.3994384765625
-2023-05-19 14:56:48,356 greedyAlloc_noQT.py: time-step:0 w[0].price: 141.39971498184158 and w[0].bid: 151
-2023-05-19 14:56:48,356 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:52,703 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:52,703 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 371.09006612449645
-2023-05-19 14:56:52,703 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.401519775390625
-2023-05-19 14:56:52,703 greedyAlloc_noQT.py: time-step:0 w[0].price: 142.1364869213442 and w[0].bid: 149
-2023-05-19 14:56:52,703 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:56:57,778 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:56:57,778 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2657.973921765296
-2023-05-19 14:56:57,778 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03988
-2023-05-19 14:56:57,778 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 106
-2023-05-19 14:56:57,778 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:03,357 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:03,357 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2602.324406265791
-2023-05-19 14:57:03,357 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03958
-2023-05-19 14:57:03,357 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 103
-2023-05-19 14:57:03,357 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:08,140 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:08,140 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2475.4901960784314
-2023-05-19 14:57:08,140 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0408
-2023-05-19 14:57:08,140 greedyAlloc_noQT.py: time-step:0 w[0].price: 16.325729549860334 and w[0].bid: 101
-2023-05-19 14:57:08,140 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:14,023 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:14,023 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2426.8201150863147
-2023-05-19 14:57:14,023 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03997
-2023-05-19 14:57:14,023 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 97
-2023-05-19 14:57:14,023 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:19,850 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:19,850 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2302.5501361723195
-2023-05-19 14:57:19,850 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04039
-2023-05-19 14:57:19,850 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 93
-2023-05-19 14:57:19,850 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:24,147 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:24,148 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1025.2564417177914
-2023-05-19 14:57:24,148 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0994873046875
-2023-05-19 14:57:24,148 greedyAlloc_noQT.py: time-step:0 w[0].price: 39.80889289148719 and w[0].bid: 102
-2023-05-19 14:57:24,148 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:30,064 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:30,065 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 983.3975991269552
-2023-05-19 14:57:30,065 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.10067138671875
-2023-05-19 14:57:30,065 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:57:30,065 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:35,843 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:35,843 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 922.6709573612228
-2023-05-19 14:57:35,843 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.098626708984375
-2023-05-19 14:57:35,843 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 91
-2023-05-19 14:57:35,843 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:39,991 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:39,991 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 491.269791601477
-2023-05-19 14:57:39,991 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31958
-2023-05-19 14:57:39,991 greedyAlloc_noQT.py: time-step:0 w[0].price: 127.87687866530307 and w[0].bid: 157
-2023-05-19 14:57:39,991 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:44,076 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:44,076 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 478.58863273796493
-2023-05-19 14:57:44,076 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31969
-2023-05-19 14:57:44,076 greedyAlloc_noQT.py: time-step:0 w[0].price: 127.92089411261887 and w[0].bid: 153
-2023-05-19 14:57:44,076 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:48,086 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:48,086 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 475.0593824228028
-2023-05-19 14:57:48,086 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31996
-2023-05-19 14:57:48,086 greedyAlloc_noQT.py: time-step:0 w[0].price: 128.02893202875765 and w[0].bid: 152
-2023-05-19 14:57:48,086 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:52,072 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:52,072 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 472.05201950731526
-2023-05-19 14:57:52,072 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31988
-2023-05-19 14:57:52,072 greedyAlloc_noQT.py: time-step:0 w[0].price: 127.99692079434617 and w[0].bid: 151
-2023-05-19 14:57:52,072 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:57:56,075 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:57:56,076 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 460.1659101580842
-2023-05-19 14:57:56,076 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31945
-2023-05-19 14:57:56,076 greedyAlloc_noQT.py: time-step:0 w[0].price: 127.8248604093844 and w[0].bid: 147
-2023-05-19 14:57:56,076 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:00,080 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:00,080 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 458.1865785618552
-2023-05-19 14:58:00,080 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32083
-2023-05-19 14:58:00,080 greedyAlloc_noQT.py: time-step:0 w[0].price: 128.3770542029826 and w[0].bid: 147
-2023-05-19 14:58:00,080 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:04,073 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:04,073 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 448.77987970206004
-2023-05-19 14:58:04,073 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32087
-2023-05-19 14:58:04,073 greedyAlloc_noQT.py: time-step:0 w[0].price: 128.39305982018837 and w[0].bid: 144
-2023-05-19 14:58:04,073 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:10,348 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:10,348 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2842.377260981912
-2023-05-19 14:58:10,348 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.0387
-2023-05-19 14:58:10,348 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 110
-2023-05-19 14:58:10,348 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:16,642 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:16,642 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2620.414275018717
-2023-05-19 14:58:16,642 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04007
-2023-05-19 14:58:16,642 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 105
-2023-05-19 14:58:16,642 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:22,966 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:22,966 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2539.840637450199
-2023-05-19 14:58:22,966 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04016
-2023-05-19 14:58:22,966 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 102
-2023-05-19 14:58:22,966 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:29,246 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:29,247 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1061.009004563957
-2023-05-19 14:58:29,247 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.09896240234375
-2023-05-19 14:58:29,247 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 105
-2023-05-19 14:58:29,247 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:35,499 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:35,499 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 987.7693197734609
-2023-05-19 14:58:35,499 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100225830078125
-2023-05-19 14:58:35,499 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 99
-2023-05-19 14:58:35,499 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:41,382 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:41,382 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 917.0525279862222
-2023-05-19 14:58:41,382 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.09923095703125
-2023-05-19 14:58:41,382 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 91
-2023-05-19 14:58:41,382 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:45,975 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:45,975 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 491.1929418390013
-2023-05-19 14:58:45,975 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31963
-2023-05-19 14:58:45,975 greedyAlloc_noQT.py: time-step:0 w[0].price: 124.94931258144445 and w[0].bid: 157
-2023-05-19 14:58:45,975 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:50,511 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:50,511 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 484.57185731703504
-2023-05-19 14:58:50,511 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31987
-2023-05-19 14:58:50,511 greedyAlloc_noQT.py: time-step:0 w[0].price: 125.04313304579242 and w[0].bid: 155
-2023-05-19 14:58:50,511 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:58:55,376 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:58:55,377 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 481.15978254077356
-2023-05-19 14:58:55,377 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32006
-2023-05-19 14:58:55,377 greedyAlloc_noQT.py: time-step:0 w[0].price: 125.11740758006792 and w[0].bid: 154
-2023-05-19 14:58:55,377 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:00,285 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:00,285 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 476.96749089996234
-2023-05-19 14:59:00,285 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.31868
-2023-05-19 14:59:00,285 greedyAlloc_noQT.py: time-step:0 w[0].price: 124.577939910067 and w[0].bid: 152
-2023-05-19 14:59:00,285 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:05,113 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:05,113 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 470.9184469047248
-2023-05-19 14:59:05,113 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32065
-2023-05-19 14:59:05,113 greedyAlloc_noQT.py: time-step:0 w[0].price: 125.34804955492336 and w[0].bid: 151
-2023-05-19 14:59:05,113 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:09,911 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:09,911 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 458.1151832460733
-2023-05-19 14:59:09,911 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32088
-2023-05-19 14:59:09,911 greedyAlloc_noQT.py: time-step:0 w[0].price: 125.43796083325687 and w[0].bid: 147
-2023-05-19 14:59:09,911 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:14,771 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:14,771 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 438.50101072928004
-2023-05-19 14:59:14,771 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.32155
-2023-05-19 14:59:14,771 greedyAlloc_noQT.py: time-step:0 w[0].price: 125.69987629622833 and w[0].bid: 141
-2023-05-19 14:59:14,771 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:19,624 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:19,624 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 392.9917193754393
-2023-05-19 14:59:19,624 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.39949951171875
-2023-05-19 14:59:19,624 greedyAlloc_noQT.py: time-step:0 w[0].price: 156.1717904010278 and w[0].bid: 157
-2023-05-19 14:59:19,624 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:26,751 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:26,751 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2619.7604790419164
-2023-05-19 14:59:26,751 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04008
-2023-05-19 14:59:26,752 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 105
-2023-05-19 14:59:26,752 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:33,900 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:33,900 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2372.166578808645
-2023-05-19 14:59:33,901 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03794
-2023-05-19 14:59:33,901 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 90
-2023-05-19 14:59:33,901 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:40,580 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:40,580 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2338.173763229141
-2023-05-19 14:59:40,580 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.04063
-2023-05-19 14:59:40,580 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 95
-2023-05-19 14:59:40,580 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:47,277 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:47,278 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 976.0167045384758
-2023-05-19 14:59:47,278 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099383544921875
-2023-05-19 14:59:47,278 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 97
-2023-05-19 14:59:47,278 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 14:59:53,985 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 14:59:53,985 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 944.5233327265004
-2023-05-19 14:59:53,985 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100579833984375
-2023-05-19 14:59:53,985 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 95
-2023-05-19 14:59:53,985 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:00,739 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:00,739 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 936.2285714285714
-2023-05-19 15:00:00,739 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.10040283203125
-2023-05-19 15:00:00,739 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 94
-2023-05-19 15:00:00,739 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:07,482 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:07,482 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 894.4218855425382
-2023-05-19 15:00:07,482 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099505615234375
-2023-05-19 15:00:07,482 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 89
-2023-05-19 15:00:07,482 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:14,311 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:14,311 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 863.7265951645155
-2023-05-19 15:00:14,311 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100726318359375
-2023-05-19 15:00:14,311 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 87
-2023-05-19 15:00:14,311 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:18,958 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:18,958 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 464.3191025241508
-2023-05-19 15:00:18,958 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.3209
-2023-05-19 15:00:18,958 greedyAlloc_noQT.py: time-step:0 w[0].price: 147.32136164896943 and w[0].bid: 149
-2023-05-19 15:00:18,958 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:26,869 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:26,869 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 2571.355104139882
-2023-05-19 15:00:26,869 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.03889
-2023-05-19 15:00:26,869 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 100
-2023-05-19 15:00:26,869 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:34,763 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:34,763 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1125.5646200085873
-2023-05-19 15:00:34,763 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099505615234375
-2023-05-19 15:00:34,763 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 112
-2023-05-19 15:00:34,763 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:42,958 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:42,958 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1059.54731254957
-2023-05-19 15:00:42,958 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.100042724609375
-2023-05-19 15:00:42,958 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 106
-2023-05-19 15:00:42,958 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:00:52,295 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:00:52,295 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 1010.925529965178
-2023-05-19 15:00:52,295 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099908447265625
-2023-05-19 15:00:52,295 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 101
-2023-05-19 15:00:52,295 greedyAlloc_noQT.py: time-step:0  
-2023-05-19 15:01:02,104 greedyAlloc_noQT.py: time-step:0 price > bid? False
-2023-05-19 15:01:02,104 greedyAlloc_noQT.py: time-step:0 w[0].bid/w[0].maxReq: 976.3764821527308
-2023-05-19 15:01:02,104 greedyAlloc_noQT.py: time-step:0 w[0].maxReq: 0.099346923828125
-2023-05-19 15:01:02,104 greedyAlloc_noQT.py: time-step:0 w[0].price: 0 and w[0].bid: 97
-2023-05-19 15:01:02,104 greedyAlloc_noQT.py: time-step:0  
+2023-05-22 18:06:57,093 instanceGen.py:: time-step:0 main
+2023-05-22 18:06:57,093 instanceGen.py:: time-step:0 createGraph
+2023-05-22 18:06:58,324 simMain.py: time-step:0 startSimulation
+2023-05-22 18:06:58,324 simMain.py: time-step:0 initHeap
+2023-05-22 18:06:58,324 simMain.py: time-step:0 initSimClock
+2023-05-22 18:06:58,324 simMain.py: time-step:0 initRoutine
+2023-05-22 18:06:58,324 simMain.py: time-step:0 initCloudlets
+2023-05-22 18:06:58,324 simMain.py: time-step:0 initUsers
+2023-05-22 18:06:58,325 simMain.py: time-step:0 initialAllocation
+2023-05-22 18:06:58,325 simMain.py: time-step:0 triggerUserPathEvents
+2023-05-22 18:06:58,333 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,346 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,355 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,369 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,382 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,399 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,406 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,412 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,427 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,438 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,450 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,467 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,483 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,496 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,502 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,519 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,534 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,538 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,553 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,560 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,577 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,590 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,609 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,635 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,645 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,662 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,669 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,686 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,696 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,702 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,717 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,731 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,747 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,760 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,768 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,782 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,794 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,810 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,823 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,839 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,856 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,863 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,873 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,900 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,917 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,931 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,950 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,967 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,976 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:58,989 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,008 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,025 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,044 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,057 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,079 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,088 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,099 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,116 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,125 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,141 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,148 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,158 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,176 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,185 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,202 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,218 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,237 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,246 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,261 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,272 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,283 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,297 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,305 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,321 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,333 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,352 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,361 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,372 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,386 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,400 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,424 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,432 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,442 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,447 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,461 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,468 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,485 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,494 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,500 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,516 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,536 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,542 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,551 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,562 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,577 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,599 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,617 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,632 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,646 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,662 sim_utils.py: time-step:0 calcTimeToExec
+2023-05-22 18:06:59,662 simMain.py: time-step:0 timingRoutine
+2023-05-22 18:06:59,662 simMain.py: time-step:0 invokeRoutine
+2023-05-22 18:06:59,662 simMain.py: time-step:0 CALLING EVENT  Event.INITIAL_ALLOCATION
+2023-05-22 18:06:59,662 event.py: time-step:0 execEvent
+2023-05-22 18:06:59,662 event.py: time-step:0 optimizeAlloc
+2023-05-22 18:06:59,662 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,663 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,665 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,665 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,667 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,669 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,670 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,670 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,671 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,672 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,673 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,674 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,675 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,676 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,677 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,678 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,678 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,680 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,680 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,681 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,681 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,683 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,683 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,684 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,685 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,686 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,687 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,687 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,688 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,689 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,689 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,691 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,693 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,694 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,696 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,696 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,697 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,698 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,698 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,699 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,700 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,701 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,702 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,703 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,705 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,706 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,707 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,708 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,709 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,710 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,711 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,712 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,713 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,714 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,715 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,717 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,719 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,719 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,720 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,720 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,721 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,721 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,722 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,723 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,724 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,724 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,725 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,726 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,726 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,727 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,728 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,729 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,729 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,730 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,731 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,731 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,732 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,733 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,733 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,734 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,735 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,736 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,737 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,738 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,739 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,740 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,741 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,741 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,742 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,743 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,743 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,744 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,745 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,745 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,746 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,748 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,749 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,750 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,751 event.py: time-step:0 findUserPosition
+2023-05-22 18:06:59,753 event.py: time-step:0 findUserPosition
+2023-05-22 18:07:07,880 event.py: time-step:0 allocationAlgorithm
+2023-05-22 18:07:07,881 greedyAlloc_QT.py: time-step:0 greedyAlloc
+2023-05-22 18:07:12,495 greedyAlloc_QT.py: time-step:0 elapsed loop time: 4.613879442214966
+2023-05-22 18:07:12,495 greedyAlloc_QT.py: time-step:0 elapsed total time: 4.614541530609131
+2023-05-22 18:07:12,495 greedyAlloc_QT.py: time-step:0 allocated users / total users: 86 / 100
+2023-05-22 18:07:12,495 greedyAlloc_QT.py: time-step:0 allocated users: [('v20', 'gp1', 'c152'), ('v6', 'gp1', 'c112'), ('v41', 'gp1', 'c152'), ('v54', 'gp1', 'c60'), ('v75', 'gp1', 'c194'), ('v89', 'gp1', 'c0'), ('v7', 'gp1', 'c112'), ('v60', 'gp1', 'c0'), ('v52', 'gp1', 'c60'), ('v49', 'gp1', 'c60'), ('v34', 'gp1', 'c250'), ('v13', 'gp1', 'c152'), ('v27', 'gp1', 'c0'), ('v33', 'gp1', 'c60'), ('v55', 'gp1', 'c60'), ('v87', 'gp1', 'c112'), ('v72', 'gp1', 'c112'), ('v85', 'gp1', 'c0'), ('v71', 'gp1', 'c194'), ('v97', 'gp1', 'c0'), ('v47', 'gp1', 'c194'), ('v19', 'gp1', 'c0'), ('v61', 'gp1', 'c112'), ('v32', 'gp2', 'c60'), ('v79', 'gp2', 'c250'), ('v68', 'gp2', 'c152'), ('v18', 'gp2', 'c250'), ('v76', 'gp2', 'c0'), ('v3', 'gp2', 'c60'), ('v29', 'gp2', 'c112'), ('v95', 'gp2', 'c60'), ('v10', 'gp2', 'c250'), ('v56', 'gp2', 'c0'), ('v48', 'gp2', 'c0'), ('v1', 'gp2', 'c60'), ('v78', 'gp2', 'c152'), ('v91', 'gp2', 'c112'), ('v59', 'gp2', 'c250'), ('v50', 'gp2', 'c194'), ('v58', 'gp2', 'c250'), ('v4', 'gp2', 'c60'), ('v84', 'gp2', 'c0'), ('v39', 'gp2', 'c0'), ('v63', 'gp2', 'c250'), ('v64', 'gp2', 'c194'), ('v25', 'gp2', 'c194'), ('v46', 'gp2', 'c60'), ('v9', 'gp2', 'c60'), ('v36', 'gp2', 'c112'), ('v90', 'gp2', 'c250'), ('v65', 'gp2', 'c152'), ('v70', 'gp2', 'c194'), ('v77', 'gp2', 'c194'), ('v40', 'cpuIntensive', 'c0'), ('v22', 'cpuIntensive', 'c250'), ('v73', 'cpuIntensive', 'c1'), ('v80', 'cpuIntensive', 'c61'), ('v92', 'cpuIntensive', 'c112'), ('v42', 'cpuIntensive', 'c152'), ('v5', 'cpuIntensive', 'c152'), ('v38', 'cpuIntensive', 'c153'), ('v26', 'cpuIntensive', 'c113'), ('v44', 'cpuIntensive', 'c153'), ('v24', 'cpuIntensive', 'c113'), ('v0', 'cpuIntensive', 'c1'), ('v14', 'cpuIntensive', 'c113'), ('v45', 'cpuIntensive', 'c1'), ('v96', 'cpuIntensive', 'c153'), ('v86', 'cpuIntensive', 'c2'), ('v74', 'cpuIntensive', 'c194'), ('v67', 'cpuIntensive', 'c114'), ('v2', 'cpuIntensive', 'c114'), ('v62', 'cpuIntensive', 'c154'), ('v21', 'cpuIntensive', 'c114'), ('v66', 'cpuIntensive', 'c253'), ('v94', 'cpuIntensive', 'c154'), ('v99', 'cpuIntensive', 'c2'), ('v98', 'ramIntensive', 'c61'), ('v35', 'ramIntensive', 'c2'), ('v11', 'ramIntensive', 'c154'), ('v57', 'ramIntensive', 'c253'), ('v23', 'ramIntensive', 'c61'), ('v30', 'ramIntensive', 'c62'), ('v37', 'ramIntensive', 'c253'), ('v51', 'ramIntensive', 'c58'), ('v31', 'ramIntensive', 'c62')]
+2023-05-22 18:07:20,588 greedyAlloc_QT.py: time-step:0 pricing
+2023-05-22 18:07:30,290 greedyAlloc_QT.py: time-step:0 price > bid? False
+2023-05-22 18:07:30,290 greedyAlloc_QT.py: time-step:0 w[0].bid/w[0].maxReq: 2842.377260981912
+2023-05-22 18:07:30,290 greedyAlloc_QT.py: time-step:0 w[0].maxReq: 0.0387
+2023-05-22 18:07:30,290 greedyAlloc_QT.py: time-step:0 w[0].price: 0 and w[0].bid: 110
+2023-05-22 18:07:30,290 greedyAlloc_QT.py: time-step:0  
