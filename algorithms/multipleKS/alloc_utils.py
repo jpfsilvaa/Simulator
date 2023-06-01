@@ -9,9 +9,12 @@ import utm
 from geopy import distance
 
 def checkLatencyThreshold(user, cloudlet):
+    return getLatency(user, cloudlet) <= user.latencyThresholdForAllocate
+
+def getLatency(user, cloudlet):
     distance = utils.calcDistance((user.position[0], user.position[1]), 
                                         (cloudlet.position[0], cloudlet.position[1]))
-    return distance * 0.001 <= user.latencyThresholdForAllocate                                        
+    return distance * 0.001                                         
 
 def normalize(cloudlet, vms):
     normalized = []

@@ -84,10 +84,11 @@ class SimStatistics:
         self.writeFileExecTime(preTitle, f'{EXEC_TIME_FILENAME}_{algorithm}_{instance}', self.execTimes)
 
 
-    def writeLatencyStats(self, timeStep):
+    def writeLatencyStats(self, timeStep, latencies):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
-        avgLatency = sum([u.currLatency for u in users if u.currLatency < 1]) / len(users)
+        avgLatency = sum(latencies) / len(users)
+        print(f'avgLatency: {avgLatency}')
         self.avgLatencies[timeStep] = (len(users), avgLatency)
 
     def writeSocialWelfareStats(self, timeStep, winners):

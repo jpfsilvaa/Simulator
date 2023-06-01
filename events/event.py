@@ -59,13 +59,23 @@ class Event(Enum):
 def writeStats(simClock, heapSing, eTuple):
     utils.log(TAG, 'writeStats')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (winners, execution time)
+    # contentSubtuple: (winners, execution time, latencies)
     stats = SimStatistics()
-    stats.writeLatencyStats(eTuple[0])
+    stats.writeLatencyStats(eTuple[0], eTuple[3][2])
     stats.writeSocialWelfareStats(eTuple[0], eTuple[3][0])
     stats.writeExecTimeStats(eTuple[0], eTuple[3][1])
     stats.writePricesStats(eTuple[0], eTuple[3][0])
     stats.writeCloudletsUsageStats(eTuple[0])
+
+def getLatencies(pairsResult, mainGraph):
+    utils.log(TAG, 'getLatencies')
+    latencies = []
+    for pair in pairsResult:
+        userCurrPosition = findUserPosition(pair[0], mainGraph)
+        distance = utils.calcDistance((userCurrPosition[0], userCurrPosition[1]), 
+                                            (pair[1].position[0], pair[1].position[1]))        
+        latencies.append(distance * 0.001)
+    return latencies
 
 def moveUser(heapSing, eTuple):
     utils.log(TAG, 'moveUser')
@@ -198,7 +208,8 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
-    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ([winner[0] for winner in result[1]], (endTime - startTime)))
+    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
+                        ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def initialAlloc(simClock, heapSing, eTuple):
@@ -233,7 +244,8 @@ def initialAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
-    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, ([winner[0] for winner in result[1]], (endTime - startTime)))
+    heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
+                        ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def randomAlloc(quadtree):

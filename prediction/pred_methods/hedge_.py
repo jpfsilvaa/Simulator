@@ -7,8 +7,6 @@ from sim_entities.users import UsersListSingleton
 TAG = 'hedge.py'
 EPSILON = 1
 
-# TODO: When computing the detected cloudlets per cloudlet, I need to increase the radius of detection by 2
-# TODO: Also, the users in the parameter of this function are only the users currently in C
 def hedgeAlg(currCloudlet, cloudlets, usersInC, timeSlots, detectedCloudletsPerCloudlet):
     sim_utils.log(TAG, 'hedgeAlg')
     predictionResult = {usersInC[i].uId: None for i in range(len(usersInC))}
@@ -38,6 +36,7 @@ def hedgeAlg(currCloudlet, cloudlets, usersInC, timeSlots, detectedCloudletsPerC
                 # normalize each loss
                 for j in range(len(neighbors)):
                     loss[j] = loss[j] / n
+                # TODO: assert that the sum of the loss is 1
             
             for j in range(len(neighbors)):
                 cumulativeLoss[t+1][j] = cumulativeLoss[t][j] + loss[j]

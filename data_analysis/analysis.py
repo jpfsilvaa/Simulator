@@ -134,12 +134,14 @@ def generateGraphs(algorithms, users, instance, graphType, x, y, ylabel, fileNam
 algorithms = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (1, 'Greedy'), (3, 'Cross Edge'), (4, '2-phases')]
 algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
+pred_alg = [(5, 'Perfect Prediction')]
 users = 100
 instance = 1
 
 # cloudletsUsageComparison(algorithms, users, instance)
 # generateGraphsLine(algorithms, users, instance, 'exec_time', 'number of users', 'exec time', 'execution time (seconds)', 'exec_time')
-generateGraphsLine(algorithms_QT, users, instance,  'exec_time', 'number of users', 'exec time', 'execution time (seconds)', 'exec_time_QT')
+# generateGraphsLine(algorithms_QT, users, instance,  'exec_time', 'number of users', 'exec time', 'execution time (seconds)', 'exec_time_QT')
+generateGraphsLine(pred_alg, users, instance,  'latencies', 'time-step', 'avg latency (for the allocated)', 'latency (seconds)', 'prediction')
 # generateGraphs(algorithms_, users, instance, 'latencies', 'number of users', 'avg latency (for the allocated)', 'latency (seconds)', 'lat')
 # generateGraphsLine(algorithms_, users, instance, 'prices', 'number of users', 'number of winners', 'winnner users', 'winners')
 # socialWelfareComparison(algorithms_, users, instance)

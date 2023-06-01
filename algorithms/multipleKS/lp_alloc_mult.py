@@ -30,7 +30,8 @@ def printSolution(modelOpt, optResult, v_types):
 def getLatency(n, v):
     user = UsersListSingleton().findById(v)
     cloudlet = CloudletsListSingleton().findById(n)
-    return utils.checkLatencyThreshold(user, cloudlet)
+    latency = utils.getLatency(user, cloudlet)
+    return latency
 
 def build(cloudlets, users):
     #vdata = utils.readJSONData(jsonFilePath)
@@ -42,29 +43,29 @@ def build(cloudlets, users):
     m.Params.LogToConsole = 0
     x = m.addVars(c_ids, v_ids, vtype=GRB.BINARY, name="allocate")
 
-    # storage constraint
-    for n in c_ids:
-        m.addConstr((
-            quicksum(v_storage[v]*x[n,v] for v in v_ids) <= c_storage[n]
-        ), name='storage[%s]'%n)
+    # # storage constraint
+    # for n in c_ids:
+    #     m.addConstr((
+    #         quicksum(v_storage[v]*x[n,v] for v in v_ids) <= c_storage[n]
+    #     ), name='storage[%s]'%n)
 
-    # CPU constraint
-    for n in c_ids:
-        m.addConstr((
-            quicksum(v_CPU[v]*x[n,v] for v in v_ids) <= c_CPU[n]
-        ), name='CPU[%s]'%n)
+    # # CPU constraint
+    # for n in c_ids:
+    #     m.addConstr((
+    #         quicksum(v_CPU[v]*x[n,v] for v in v_ids) <= c_CPU[n]
+    #     ), name='CPU[%s]'%n)
 
-    # RAM constraint
-    for n in c_ids:
-        m.addConstr((
-            quicksum(v_RAM[v]*x[n,v] for v in v_ids) <= c_RAM[n]
-        ), name='RAM[%s]'%n)
+    # # RAM constraint
+    # for n in c_ids:
+    #     m.addConstr((
+    #         quicksum(v_RAM[v]*x[n,v] for v in v_ids) <= c_RAM[n]
+    #     ), name='RAM[%s]'%n)
 
     # Latency constraint
     for v in v_ids:
         m.addConstr((
             quicksum(getLatency(n,v)*x[n,v] for n in c_ids) <= v_latThreshold[v]
-        ), name='RAM[%s]'%n)
+        ), name='LAT[%s]'%v)
 
     # Allocation constraint
     for v in v_ids:
@@ -76,7 +77,7 @@ def build(cloudlets, users):
 
     m.setObjective(expr, GRB.MAXIMIZE)
 
-    #fileName = "/home/jps/allocation_models/greedy_vs_exact/exact_formulation.lp"
+    #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
     #m.write(fileName)
 
     startTime = time.time()
