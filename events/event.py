@@ -71,7 +71,7 @@ def getLatencies(pairsResult, mainGraph):
     utils.log(TAG, 'getLatencies')
     latencies = []
     for pair in pairsResult:
-        userCurrPosition = findUserPosition(pair[0], mainGraph)
+        userCurrPosition = findUserPosition(UsersListSingleton().findById(pair[0].uId), mainGraph)
         distance = utils.calcDistance((userCurrPosition[0], userCurrPosition[1]), 
                                             (pair[1].position[0], pair[1].position[1]))        
         latencies.append(distance * 0.001)

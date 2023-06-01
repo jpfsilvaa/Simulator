@@ -105,6 +105,8 @@ def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fil
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
+        df['time-step'] -= 1
+        df['time-step'] /= 30
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
@@ -112,6 +114,7 @@ def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fil
     g.legend_.set_title(None)
     
     plt.ylabel(ylabel)
+    plt.ylim(0, 0.49)
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
@@ -134,8 +137,8 @@ def generateGraphs(algorithms, users, instance, graphType, x, y, ylabel, fileNam
 algorithms = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (1, 'Greedy'), (3, 'Cross Edge'), (4, '2-phases')]
 algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
-pred_alg = [(5, 'Perfect Prediction')]
-users = 100
+pred_alg = [(5, 'Perfect Prediction'), (7, 'Hedge Prediction')]
+users = 1
 instance = 1
 
 # cloudletsUsageComparison(algorithms, users, instance)
