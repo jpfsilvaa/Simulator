@@ -137,8 +137,6 @@ def allocateUser(eTuple):
         user.allocatedCloudlet = newCloudlet
         user.latency = latencyFunction(user, eTuple[3][2])
         utils.log(TAG, f'ALLOCATED USER LATENCY: {user.uId}: {user.latency}')
-        if oldCloudlet != None:
-            user.pastCloudlets.append(oldCloudlet)
     else:
         utils.log(TAG, f'User {eTuple[3][0]} has already finished its route')
 
@@ -208,6 +206,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
+    setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
                         ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
@@ -243,10 +242,33 @@ def initialAlloc(simClock, heapSing, eTuple):
         cloudletId = alloc[1].cId
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
-
+    
+    setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
                         ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
+
+def setPastCloudlets(result):
+    timeSlot = int(TimerSingleton().getTimerValue()/TimerSingleton().getDelta())
+    users = UsersListSingleton().getList()
+    resultDict = {r[0].uId: r[1] for r in result}
+    for u in users:
+        if isInResult(u, result):
+            u.pastCloudlets[timeSlot] = addPastCloudlet(u.pastCloudlets, [resultDict[u.uId]], timeSlot)
+        else:
+            u.pastCloudlets[timeSlot] = addPastCloudlet(u.pastCloudlets, [], timeSlot)
+
+def isInResult(user, result):
+    for r in result:
+        if r[0].uId == user.uId:
+            return True
+    return False
+
+def addPastCloudlet(pastCloudlets, newElement, timeSlot):
+        if timeSlot == 0:
+            return newElement
+        else:
+            return pastCloudlets[timeSlot-1] + newElement
 
 def randomAlloc(quadtree):
     utils.log(TAG, 'randomAlloc')
