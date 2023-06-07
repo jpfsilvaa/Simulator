@@ -2,6 +2,7 @@ import math
 import networkx as nx
 import sim_utils
 from algorithms.oneKS import greedyAlloc as alg
+import algorithms.multipleKS.alloc_utils as utils
 import logging
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
@@ -24,20 +25,24 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
         
     # -------CENTRALIZED PHASE-------
     sim_utils.log(TAG, '----centralized phase----')
-    nonAllocated, allocatedMore = classifyAllocatedUsers(allocationPerCloudlet, vms)
-    finalAlocation = usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocated, allocatedMore)
+    nonAllocated_, allocated_ = classifyAllocatedUsers(allocationPerCloudlet, vms)
+    sim_utils.log(TAG, f'FIRST PHASE- number of allocated users: {len(allocated_)}')
+    finalAlocation = []
+
     # separating users by type and call the matching algorithm
     userTypes = ['gp1', 'gp2', 'ramIntensive', 'cpuIntensive']
     for userType in userTypes:
-        nonAllocatedByType = separateUsersByType(nonAllocated, userType)
-        moreThanOnceByType = separateUsersByType(allocatedMore, userType)
+        nonAllocatedByType = separateUsersByType(nonAllocated_, userType)
+        allocatedByType = separateUsersByType(allocated_, userType)
         nbUsersInCloudlet = {}
         for c in cloudlets:
             allocatedInC = [u for u,c in allocationPerCloudlet[c.cId] if len(allocationPerCloudlet[c.cId]) > 0]
-            nbUsersInCloudlet[c.cId] = len(set([u.uId for u in moreThanOnceByType]) & set([u.uId for u in allocatedInC]))
-        result = matchingAlg(cloudlets, nonAllocatedByType + moreThanOnceByType, nbUsersInCloudlet)
+            nbUsersInCloudlet[c.cId] = len(set([u.uId for u in allocatedByType]) & set([u.uId for u in allocatedInC]))
+        result = matchingAlg(cloudlets, nonAllocatedByType, allocatedByType, nbUsersInCloudlet)
         finalAlocation += result
-    sim_utils.log(TAG, f'FINAL allocated users: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
+    sim_utils.log(TAG, f'SECOND PHASE- number allocated users: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
+    print(f'FINAL number of allocated users: {len(finalAlocation)}')
+    print()
     return [calcSocialWelfare(finalAlocation), finalAlocation]
 
 def defineFirstPhasePrices(winners):
@@ -59,7 +64,7 @@ def calcSocialWelfare(allocation):
 def classifyAllocatedUsers(allocationPerCloudlet, vms):
     sim_utils.log(TAG, 'classifyAllocatedUsers')
 
-    allocatedMoreThanOnce = []
+    allocatedUsers = []
     nonAllocatedUsers = []
     for vm in vms:
         allocated = False
@@ -68,14 +73,12 @@ def classifyAllocatedUsers(allocationPerCloudlet, vms):
                 for tupleAlloc in allocationPerCloudlet[c]:
                     user = tupleAlloc[0]
                     if user.uId == vm.uId:
-                        if allocated:
-                            if vm not in allocatedMoreThanOnce:
-                                allocatedMoreThanOnce.append(user)
-                        else:
+                        if vm not in allocatedUsers:
+                            allocatedUsers.append(vm)
                             allocated = True
         if not allocated:
             nonAllocatedUsers.append(vm)
-    return nonAllocatedUsers, allocatedMoreThanOnce
+    return nonAllocatedUsers, allocatedUsers
 
 def usersAllocatedOnlyOnce(allocationPerCloudlet, nonAllocatedUsers, allocatedMoreThanOnce):
     sim_utils.log(TAG, 'usersAllocatedOnlyOnce')
@@ -105,42 +108,76 @@ def separateUsersByType(users, userType):
             usersByType.append(user)
     return usersByType
 
-def builgBGraph(cloudlets, users, nbUsersInCloudletDict):
+def builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, C):
     sim_utils.log(TAG, 'builgBGraph')
 
-    G = nx.Graph()
-    left_nodes = [u.uId for u in users]
-    right_nodes = [c.cId for c in cloudlets]
-    edges = []
-    for u in users:
-        for c in cloudlets:
-            edges.append((u.uId, c.cId, {'capacity': 1, 'weight': int(sim_utils.calcDistance((u.position[0], u.position[1]), 
-                                                    (c.position[0], c.position[1])))}))
-
-    G.add_node('s', bipartite=0)
-    G.add_node('t', bipartite=1)
-    G.add_nodes_from(left_nodes, bipartite=0)
-    G.add_nodes_from(right_nodes, bipartite=1)
-    G.add_edges_from(edges)
+    G = nx.DiGraph()
+    # users nodes are on the left, 
+    # where the alloceted users have a demand of -1 
+    # and the non allocated have a demand of 0
+    for u in usersAllocated:
+        G.add_node(u.uId, demand=-1)
+    for u in usersNonAllocated:
+        G.add_node(u.uId, demand=0)
+    
+    # cloudlet nodes are on the right
+    for c in cloudlets:
+        G.add_node(c.cId, demand=0)
+    
     source_node = 's'
     sink_node = 't'
-    for node in left_nodes:
-        G.add_edge(source_node, node, capacity=1, weight=0)
-    for node in right_nodes:
-        G.add_edge(node, sink_node, capacity=nbUsersInCloudletDict[node], weight=0)
-    return G, left_nodes, right_nodes
+    G.add_node(source_node, demand=-C)
+    G.add_node(sink_node, demand=C+len(usersAllocated))
 
-def matchingAlg(cloudlets, users, nbUsersInCloudletDict):
+    # edges from the users to the cloudlets
+    edges = []
+    allUsers = [u for u in usersNonAllocated] + [u for u in usersAllocated]
+    for u in allUsers:
+        for c in cloudlets:
+            if utils.checkLatencyThreshold(UsersListSingleton().findById(u.uId),
+                                             CloudletsListSingleton().findById(c.cId)):
+                G.add_edge(u.uId, c.cId, capacity=1, weight=0)
+
+    # edges from the source only to the non allocated users
+    for u in usersNonAllocated:
+        G.add_edge(source_node, u.uId, capacity=1, weight=0)
+
+    # edges from the cloudlets to the sink with nb as the capacity
+    for c in cloudlets:
+        G.add_edge(c.cId, sink_node, capacity=nbUsersInCloudletDict[c.cId], weight=0)
+    return G
+
+def matchingAlg(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict):
     sim_utils.log(TAG, 'matchingAlg')
 
-    graph, left_nodes, right_nodes = builgBGraph(cloudlets, users, nbUsersInCloudletDict)
-    flowDict = nx.max_flow_min_cost(graph, 's', 't')
+    flowResults = {}
+    c = 0
+
+    # first iteration
+    graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
+    flowCost, flowDict = nx.network_simplex(graph)
+    flowResults[c] = (flowCost, flowDict)
+
+    while c < len(usersNonAllocated):
+        try:
+            c += 1
+            graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
+            flowCost, flowDict = nx.network_simplex(graph)
+            flowResults[c] = (flowCost, flowDict)
+        except nx.NetworkXUnfeasible:
+            sim_utils.log(TAG, f'NetworkXUnfeasible for c = {c}')
+            c -= 1
+            break
+
     pairs = []
+    left_nodes = [u.uId for u in usersNonAllocated] + [u.uId for u in usersAllocated]
+    right_nodes = [c.cId for c in cloudlets]
     for left_node in left_nodes:
         for right_node in right_nodes:
-            if graph.has_edge(left_node, right_node) and flowDict[left_node][right_node] > 0:
-                pair = (UsersListSingleton().findById(left_node), 
+            if graph.has_edge(left_node, right_node):
+                if flowResults[c][1][left_node][right_node] > 0:
+                    pair = (UsersListSingleton().findById(left_node), 
                                 CloudletsListSingleton().findById(right_node))
-                if pair not in pairs:
-                    pairs.append(pair)
+                    if pair not in pairs:
+                        pairs.append(pair)
     return pairs
