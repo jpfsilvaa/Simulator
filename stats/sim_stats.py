@@ -88,7 +88,6 @@ class SimStatistics:
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
         avgLatency = sum(latencies) / len(users)
-        print(f'avgLatency: {avgLatency}')
         self.avgLatencies[timeStep] = (len(users), avgLatency)
 
     def writeSocialWelfareStats(self, timeStep, winners):
