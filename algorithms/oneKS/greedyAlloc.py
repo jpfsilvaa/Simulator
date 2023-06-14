@@ -18,16 +18,15 @@ def greedyAlloc_OneKS(cloudlet, vms):
     occupation = utils.Resources(0, 0, 0)
     allocatedUsers = []
     socialWelfare = 0
-    userPointer = 0
+    # userPointer = 0
 
     initTimeLoop = time.time()
-    while (utils.isNotFull(occupation)) and userPointer < len(D):
-        chosenUser = D[userPointer][0]
-        if utils.userFits(chosenUser, occupation) and utils.checkLatencyThreshold(chosenUser, cloudlet):
-            utils.allocate(chosenUser, occupation)
-            allocatedUsers.append((chosenUser, cloudlet))
-            socialWelfare += chosenUser.bid
-        userPointer += 1
+    for d in D:
+        currentUser = d[0]
+        if utils.userFits(currentUser, occupation) and utils.checkLatencyThreshold(currentUser, cloudlet):
+            utils.allocate(currentUser, occupation)
+            allocatedUsers.append((currentUser, cloudlet))
+            socialWelfare += currentUser.bid
     finalTime = time.time()
 
     pricing(allocatedUsers, cloudlet, vms)
@@ -46,19 +45,18 @@ def pricing(winners, cloudlet, users):
         D.sort(key=lambda a: a[1], reverse=True)
 
         occupation = utils.Resources(0, 0, 0)
-        userPointer = 0
-
-        while (utils.isNotFull(occupation)) and userPointer < len(D):
-            chosenUser = D[userPointer][0]
-            if chosenUser.uId != w[0].uId:
-                if utils.userFits(chosenUser, occupation):
-                    utils.allocate(chosenUser, occupation)
-                    if not utils.userFits(w[0], occupation):
-                        w[0].price = D[userPointer][1]*w[0].maxReq
-                        sim_utils.log(TAG, f'new price for user {w[0].uId}: {w[0].price}')
-                        sim_utils.log(TAG, f'BID < PRICE? {w[0].bid < w[0].price}')
-                        break 
-            userPointer += 1
+        for d in D:
+            currentUser = d[0]
+            if utils.userFits(currentUser, occupation) and utils.checkLatencyThreshold(currentUser, cloudlet):
+                utils.allocate(currentUser, occupation)
+            if not utils.userFits(w[0], occupation):
+                if w[0].price > 0:
+                    w[0].price = min(w[0].price, d[1] * w[0].maxReq)
+                else:
+                    w[0].price = d[1] * w[0].maxReq
+                sim_utils.log(TAG, f'new price for user {w[0].uId}: {w[0].price}')
+                sim_utils.log(TAG, f'BID < PRICE? {w[0].bid < w[0].price}')
+                break 
     return winners
 
 def printResults(winner, criticalValue):
