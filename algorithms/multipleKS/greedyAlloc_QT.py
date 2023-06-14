@@ -17,6 +17,7 @@ def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
+    sim_utils.log(TAG, f'D: {[(d[0].uId, d[0].vmType) for d in D]}')
 
     allocatedUsers = []
     socialWelfare = 0
@@ -38,6 +39,7 @@ def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
 def firstFit(user, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree):
     if withQuadtree:
         for c in detectedCloudletsPerUser[user.uId]:
+            sim_utils.log(TAG, f'cId: {c.entity.cId}')
             if utils.userFits(user, cloudletsOccupation[c.entity.cId]):
                 return c.entity
     else:
@@ -59,26 +61,37 @@ def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree):
     normalVms = utils.normalize(cloudlets[0], users)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
+    sim_utils.log(TAG, f'D: {[(d[0].uId, d[0].vmType) for d in D]}')
 
+    if len(winners) == len(D):
+        sim_utils.log(TAG, 'len(winners) == len(D) -> All users are winners, all users pay 0.')
+        return winners
     for w in winners:
         allocatedUsers = []
         cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
         for d in D:
+            sim_utils.log(TAG,'--------------------------')
+            sim_utils.log(TAG,f'length winners: {len(winners)}')
+            sim_utils.log(TAG,f'length D: {len(D)}')
             if d[0].uId == w[0].uId:
+                sim_utils.log(TAG, f'CONTINUE - {w[0].uId}, {w[0].vmType}, {w[0].price}')
                 continue
             currentUser = d[0]
+            sim_utils.log(TAG,f'currentUser: {currentUser.uId}')
             c = firstFit(currentUser, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree)
+            sim_utils.log(TAG,f'c: {c.cId if c is not None else "None"}')            
             if c is not None:
                 utils.allocate(currentUser, cloudletsOccupation[c.cId])
             if firstFit(w[0], cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree) is None:
                 w[0].price = d[1] * w[0].maxReq
                 break
-        
+        sim_utils.log(TAG, f'{w[0].uId}, {w[0].vmType}, {w[0].price}')
         printWinnerPrice(w)
+        sim_utils.log(TAG, '--------------------------\n\n')
     return winners
 
 def printWinnerPrice(w):
-    sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}')
+    sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}') 
     sim_utils.log(TAG, f'w[0].bid/w[0].maxReq: {w[0].bid/w[0].maxReq}')
     sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
     sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')

@@ -2,10 +2,10 @@ from geopy import distance
 
 class Point:
     def __init__(self, x, y, entity):
-        latNorm = 90
-        longNorm = 180
-        self.x = (x + latNorm)
-        self.y = (y + longNorm)
+        self.latNorm = 90
+        self.longNorm = 180
+        self.x = (x + self.latNorm)
+        self.y = (y + self.longNorm)
         self.entity = entity
 
 class QuadNode:
@@ -41,7 +41,12 @@ class QuadNode:
         if self._intersects_circle(x, y, radius):
             for point in self.points:
                 if self._distance(x, y, point.x, point.y) <= radius:
-                    result.append(point)
+                    newX = point.x - point.latNorm
+                    newY = point.y - point.longNorm
+                    p = Point(point.x, point.y, point.entity)
+                    p.x = newX
+                    p.y = newY
+                    result.append(p)
             for child in self.children:
                 result.extend(child.query(x, y, radius))
         return result

@@ -16,6 +16,7 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     sim_utils.log(TAG, '----distributed phase----')
     allocationPerCloudlet = {}
     for c in cloudlets:
+        sim_utils.log(TAG, f'cloudlet {c.cId} detected users: {len(detectedUserPerCloudlet[c.cId])}')
         if len(detectedUserPerCloudlet[c.cId]) > 0:
             allocationResult = alg.greedyAlloc_OneKS(c, detectedUserPerCloudlet[c.cId])
             allocationPerCloudlet[c.cId] = allocationResult[1]
@@ -40,9 +41,8 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
             nbUsersInCloudlet[c.cId] = len(set([u.uId for u in allocatedByType]) & set([u.uId for u in allocatedInC]))
         result = matchingAlg(cloudlets, nonAllocatedByType, allocatedByType, nbUsersInCloudlet)
         finalAlocation += result
-    sim_utils.log(TAG, f'SECOND PHASE- number allocated users: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
-    print(f'FINAL number of allocated users: {len(finalAlocation)}')
-    print()
+    sim_utils.log(TAG, f'SECOND PHASE- number allocated users: {len([(u.uId, c.cId) for (u,c) in finalAlocation])}')
+    sim_utils.log(TAG, f'FINAL RESULT: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
     return [calcSocialWelfare(finalAlocation), finalAlocation]
 
 def defineFirstPhasePrices(winners):

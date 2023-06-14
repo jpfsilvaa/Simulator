@@ -193,7 +193,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     endTime = time.time()
     
 
-    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree)
+    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
 
     for up in userPrices:
         user = usersSing.findById(up[0].uId)
@@ -231,7 +231,7 @@ def initialAlloc(simClock, heapSing, eTuple):
     endTime = time.time()
     
     resetUserPrices()
-    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree)
+    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
 
     for up in userPrices:
         user = usersSing.findById(up[0].uId)
@@ -321,8 +321,7 @@ def currentUsersInC(users, c):
             result.append(u)
     return result
 
-def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree):
-    detectedCloudletsPerUser = utils.detectCloudletsFromQT(users, quadtree) # dict: uId -> list of cloudlets
+def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree, detectedCloudletsPerUser):
     if algorithm == GREEDY_QT:
         return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True)
     elif algorithm == GREEDY_NO_QT:

@@ -43,23 +43,23 @@ def build(cloudlets, users):
     m.Params.LogToConsole = 0
     x = m.addVars(c_ids, v_ids, vtype=GRB.BINARY, name="allocate")
 
-    # # storage constraint
-    # for n in c_ids:
-    #     m.addConstr((
-    #         quicksum(v_storage[v]*x[n,v] for v in v_ids) <= c_storage[n]
-    #     ), name='storage[%s]'%n)
+    # storage constraint
+    for n in c_ids:
+        m.addConstr((
+            quicksum(v_storage[v]*x[n,v] for v in v_ids) <= c_storage[n]
+        ), name='storage[%s]'%n)
 
-    # # CPU constraint
-    # for n in c_ids:
-    #     m.addConstr((
-    #         quicksum(v_CPU[v]*x[n,v] for v in v_ids) <= c_CPU[n]
-    #     ), name='CPU[%s]'%n)
+    # CPU constraint
+    for n in c_ids:
+        m.addConstr((
+            quicksum(v_CPU[v]*x[n,v] for v in v_ids) <= c_CPU[n]
+        ), name='CPU[%s]'%n)
 
-    # # RAM constraint
-    # for n in c_ids:
-    #     m.addConstr((
-    #         quicksum(v_RAM[v]*x[n,v] for v in v_ids) <= c_RAM[n]
-    #     ), name='RAM[%s]'%n)
+    # RAM constraint
+    for n in c_ids:
+        m.addConstr((
+            quicksum(v_RAM[v]*x[n,v] for v in v_ids) <= c_RAM[n]
+        ), name='RAM[%s]'%n)
 
     # Latency constraint
     for v in v_ids:
@@ -77,8 +77,8 @@ def build(cloudlets, users):
 
     m.setObjective(expr, GRB.MAXIMIZE)
 
-    #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
-    #m.write(fileName)
+    fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
+    m.write(fileName)
 
     startTime = time.time()
     m.optimize()
