@@ -6,7 +6,7 @@ import sim_utils
 import logging
 import copy
 
-TAG = 'greedyAlloc_QT.py'
+TAG = 'crossEdgeAlloc_.py'
 
 # Algorithm from the paper: https://doi.org/10.1016/j.comcom.2021.09.035
 # The thing here is that they use the sum of the resources to calculate the densities (profits),

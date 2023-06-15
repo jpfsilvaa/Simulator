@@ -6,7 +6,7 @@ import sim_utils
 import logging
 import copy
 
-TAG = 'greedyAlloc_QT.py'
+TAG = 'greedyAlloc_.py'
 
 def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     sim_utils.log(TAG, 'greedyAlloc')

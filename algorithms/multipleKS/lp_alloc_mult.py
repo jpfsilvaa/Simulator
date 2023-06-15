@@ -14,7 +14,7 @@ def buildVMsDict(users):
 
 def buildCloudletsDict(cloudlets):
     return multidict(
-        (c.cId, [c.resources.storage, c.resources.cpu, c.resources.ram])
+        (c.cId, [c.resourcesFullValues.storage, c.resourcesFullValues.cpu, c.resourcesFullValues.ram])
             for c in cloudlets
     )
 

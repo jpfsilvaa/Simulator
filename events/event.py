@@ -3,8 +3,8 @@ from GraphGen.classes.cloudlet import Cloudlet
 from GraphGen.classes.resources import Resources
 from GraphGen.classes.user import UserVM
 
-from algorithms.multipleKS import greedyAlloc_QT as g_
-from algorithms.multipleKS import crossEdgePaper_QT as ce_
+from algorithms.multipleKS import greedyAlloc_ as g_
+from algorithms.multipleKS import crossEdgePaper_ as ce_
 from algorithms.multipleKS import twoPhases as twoPhases
 from algorithms.multipleKS import lp_alloc_mult as exact
 from prediction.pred_methods import hedge_ as hedgePrediction
