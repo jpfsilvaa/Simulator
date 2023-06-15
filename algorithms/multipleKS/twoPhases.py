@@ -147,27 +147,40 @@ def builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletD
         G.add_edge(c.cId, sink_node, capacity=nbUsersInCloudletDict[c.cId], weight=0)
     return G
 
-def matchingAlg(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict):
-    sim_utils.log(TAG, 'matchingAlg')
-
+def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict, nbUsersNonAllocated):
     flowResults = {}
     c = 0
+    left = 0
+    right = nbUsersNonAllocated
+    lastException = 0
 
-    # first iteration
-    graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
-    flowCost, flowDict = nx.network_simplex(graph)
-    flowResults[c] = (flowCost, flowDict)
-
-    while c < len(usersNonAllocated):
+    while c < nbUsersNonAllocated:
         try:
-            c += 1
+            c = (left + right) // 2
+            sim_utils.log(TAG, f'current c = {c}')
             graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
             flowCost, flowDict = nx.network_simplex(graph)
             flowResults[c] = (flowCost, flowDict)
+            
+            # if c is the last value before the exception, 
+            # or the c is the left side, 
+            # then it is the maximum c
+            if c == lastException-1 or c == left:
+                break
+            left = c
         except nx.NetworkXUnfeasible:
             sim_utils.log(TAG, f'NetworkXUnfeasible for c = {c}')
-            c -= 1
-            break
+            right = c
+            lastException = c
+
+    sim_utils.log(TAG, f'best c found = {c}')
+    return flowResults[c], graph
+
+def matchingAlg(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict):
+    sim_utils.log(TAG, 'matchingAlg')
+
+    flowResult, graph = calculateFlow(cloudlets, usersNonAllocated, usersAllocated, 
+                                    nbUsersInCloudletDict, len(usersNonAllocated))
 
     pairs = []
     left_nodes = [u.uId for u in usersNonAllocated] + [u.uId for u in usersAllocated]
@@ -175,7 +188,7 @@ def matchingAlg(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletD
     for left_node in left_nodes:
         for right_node in right_nodes:
             if graph.has_edge(left_node, right_node):
-                if flowResults[c][1][left_node][right_node] > 0:
+                if flowResult[1][left_node][right_node] > 0:
                     pair = (UsersListSingleton().findById(left_node), 
                                 CloudletsListSingleton().findById(right_node))
                     if pair not in pairs:
