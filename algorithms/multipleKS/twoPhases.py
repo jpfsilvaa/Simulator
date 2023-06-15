@@ -16,7 +16,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     sim_utils.log(TAG, '----distributed phase----')
     allocationPerCloudlet = {}
     for c in cloudlets:
-        sim_utils.log(TAG, f'cloudlet {c.cId} detected users: {len(detectedUserPerCloudlet[c.cId])}')
         if len(detectedUserPerCloudlet[c.cId]) > 0:
             allocationResult = alg.greedyAlloc_OneKS(c, detectedUserPerCloudlet[c.cId])
             allocationPerCloudlet[c.cId] = allocationResult[1]
@@ -153,6 +152,11 @@ def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudle
     left = 0
     right = nbUsersNonAllocated
     lastException = 0
+
+    # first iteration
+    graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
+    flowCost, flowDict = nx.network_simplex(graph)
+    flowResults[c] = (flowCost, flowDict)
 
     while c < nbUsersNonAllocated:
         try:
