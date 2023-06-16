@@ -125,11 +125,13 @@ class SimStatistics:
                 cpuUsage.append((usedCpu/c.resourcesFullValues.cpu) * 100)
                 cpuUnused.append((c.resources.cpu/c.resourcesFullValues.cpu) * 100)
 
-                storageUsage.append(c.resourcesFullValues.storage - c.resources.storage)
-                storageUnused.append(c.resources.storage)
-
-                ramUsage.append(c.resourcesFullValues.ram - c.resources.ram)
-                ramUnused.append(c.resources.ram)
+                usedStorage = c.resourcesFullValues.storage - c.resources.storage
+                storageUsage.append((usedStorage/c.resourcesFullValues.storage) * 100)
+                storageUnused.append((c.resources.cpu/c.resourcesFullValues.cpu) * 100)
+                
+                usedRam = c.resourcesFullValues.ram - c.resources.ram
+                ramUsage.append((usedRam/c.resourcesFullValues.ram) * 100)
+                ramUnused.append((c.resources.ram/c.resourcesFullValues.ram) * 100)
         
         self.clUsages[timeStep] = (len(users), usedCloudlets, np.mean(cpuUsage), np.std(cpuUsage), sum(cpuUnused),
                                                     np.mean(storageUsage), np.std(storageUsage), sum(storageUnused), 
