@@ -13,6 +13,9 @@ SOCIAL_WELFARE_FILENAME = 'social_welfare'
 PRICES_FILENAME = 'prices'
 CLOUDLETS_USAGE_FILENAME = 'cloudlets_usage'
 EXEC_TIME_FILENAME = 'exec_time'
+CLOUDLETS_STATES_FILENAME = 'cloudlets_states'
+USERS_STATES_FILENAME = 'users_states'
+ALLOC_RESULTS_FILENAME = 'alloc_results'
 CSV = '.csv'
 
 class SimStatistics:
@@ -24,6 +27,9 @@ class SimStatistics:
     totalPrices = {}
     clUsages = {}
     execTimes = {}
+    clStates = {}
+    usersStates = {}
+    allocResults = {}
 
     def __new__(cls):
         if cls._instance is None: 
@@ -73,6 +79,36 @@ class SimStatistics:
             for key, value in dictRes.items():
                 writer.writerow({'time-step': key, 'number of users': value[0], 'exec time': value[1]})
 
+    def writeFileClStates(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'cId', 'c.cpu(full/used)', 
+                                                    'c.storage(full/used)', 'c.ram(full/used)', 'c.currUsersAllocated'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                for cloudlet in value:
+                    writer.writerow({'time-step': key, 'cId': cloudlet[0], 'c.cpu(full/used)': cloudlet[1], 
+                                    'c.storage(full/used)': cloudlet[2], 'c.ram(full/used)': cloudlet[3], 
+                                    'c.currUsersAllocated': cloudlet[4]})
+
+    def writeFileUsersStates(self, preTitle, fileName, dictRes):
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'uId', 'u.bid', 'u.price', 'u.latency', 
+                                                    'u.cpu', 'u.storage', 'u.ram', 'winner(1) or loser(0)'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                for user in value:
+                    writer.writerow({'time-step': key, 'uId': user[0], 'u.bid': user[1], 'u.price': user[2], 
+                                    'u.latency': user[3], 'u.cpu': user[4], 'u.storage': user[5], 'u.ram': user[6],
+                                    'winner(1) or loser(0)': user[7]})
+
+    def writeFileAllocResults(self, preTitle, fileName, dictRes):
+        # self.allocResults[timeStep] = (len(winners), [(u.uId, c.cId) for u in winners])
+        with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of winners', 'result list'])
+            writer.writeheader()
+            for key, value in dictRes.items():
+                writer.writerow({'time-step': key, 'number of winners': value[0], 'result list': value[1]})
+
     def writeReport(self, algorithm, nbUsers, instance):
         utils.log(TAG, 'writeReport')
         preTitle = f'alg{algorithm}-{nbUsers}users/'
@@ -82,7 +118,9 @@ class SimStatistics:
         self.writeFilePrice(preTitle, f'{PRICES_FILENAME}_{algorithm}_{instance}', self.totalPrices)
         self.writeFileCl(preTitle, f'{CLOUDLETS_USAGE_FILENAME}_{algorithm}_{instance}', self.clUsages)
         self.writeFileExecTime(preTitle, f'{EXEC_TIME_FILENAME}_{algorithm}_{instance}', self.execTimes)
-
+        self.writeFileClStates(preTitle, f'{CLOUDLETS_STATES_FILENAME}_{algorithm}_{instance}', self.clStates)
+        self.writeFileUsersStates(preTitle, f'{USERS_STATES_FILENAME}_{algorithm}_{instance}', self.usersStates)
+        self.writeFileAllocResults(preTitle, f'{ALLOC_RESULTS_FILENAME}_{algorithm}_{instance}', self.allocResults)
 
     def writeLatencyStats(self, timeStep, latencies):
         utils.log(TAG, 'writeLatencyStats')
@@ -141,3 +179,27 @@ class SimStatistics:
         utils.log(TAG, 'writeExecTimeStats')
         users = UsersListSingleton().getList()
         self.execTimes[timeStep] = (len(users), execTime)
+    
+    def writeCloudletsState(self, timeStep):
+        cloudlets = CloudletsListSingleton().getList()
+        self.clStates[timeStep] = []
+        for c in cloudlets:
+            usersAllocated = []
+            if len(c.currUsersAllocated) > 0:
+                usersAllocated = [u.uId for u in c.currUsersAllocated]
+            self.clStates[timeStep].append((c.cId, (c.resourcesFullValues.cpu, c.resources.cpu), 
+                                            (c.resourcesFullValues.storage, c.resources.storage), 
+                                            (c.resourcesFullValues.ram, c.resources.ram),
+                                            usersAllocated))
+
+    def writeUsersState(self, timeStep, winners):
+        users = UsersListSingleton().getList()
+        self.usersStates[timeStep] = []
+        for u in users:
+            wText = (1 if u.uId in [w.uId for w in winners] else 0)
+            self.usersStates[timeStep].append((u.uId, u.bid, u.price, u.currLatency, 
+                                                u.reqs.cpu, u.reqs.storage, u.reqs.ram,
+                                                wText))
+
+    def writeAllocationResults(self, timeStep, winners):
+        self.allocResults[timeStep] = (len(winners), [(u.uId, c.cId) for (u,c) in winners])

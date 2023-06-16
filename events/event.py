@@ -59,13 +59,17 @@ class Event(Enum):
 def writeStats(simClock, heapSing, eTuple):
     utils.log(TAG, 'writeStats')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (winners, execution time, latencies)
+    # contentSubtuple: (winnersTuple, execution time, latencies)
     stats = SimStatistics()
+    winners = [winner[0] for winner in eTuple[3][0]]
     stats.writeLatencyStats(eTuple[0], eTuple[3][2])
-    stats.writeSocialWelfareStats(eTuple[0], eTuple[3][0])
+    stats.writeSocialWelfareStats(eTuple[0], winners)
     stats.writeExecTimeStats(eTuple[0], eTuple[3][1])
-    stats.writePricesStats(eTuple[0], eTuple[3][0])
+    stats.writePricesStats(eTuple[0], winners)
     stats.writeCloudletsUsageStats(eTuple[0])
+    stats.writeCloudletsState(eTuple[0])
+    stats.writeUsersState(eTuple[0], winners)
+    stats.writeAllocationResults(eTuple[0], eTuple[3][0])
 
 def getLatencies(pairsResult, mainGraph):
     utils.log(TAG, 'getLatencies')
@@ -208,7 +212,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
 
     setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
-                        ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
+                        (result[1], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def initialAlloc(simClock, heapSing, eTuple):
@@ -245,7 +249,7 @@ def initialAlloc(simClock, heapSing, eTuple):
     
     setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
-                        ([winner[0] for winner in result[1]], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
+                        (result[1], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def setPastCloudlets(result):
