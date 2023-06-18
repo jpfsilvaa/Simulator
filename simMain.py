@@ -36,7 +36,10 @@ def initUsers(users, subtraces):
     uList = UsersListSingleton()
     uList.insertSubtraces(subtraces)
     for u in users:
-        uList.insertUser(u)
+        if u.initTime == 0:
+            uList.insertUser(u)
+        else:
+            uList.usersNotStarted[u.uId] = u
 
 def initHeap():
     utils.log(TAG, 'initHeap')
@@ -62,8 +65,10 @@ def triggerUserPathEvents(heapSing, graph):
     utils.log(TAG, 'triggerUserPathEvents')
     for u in UsersListSingleton().getList():
         userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
-        heapSing.insertEvent(utils.calcTimeToExec(u, graph, userRouteNodes[0]), 
-                                        Event.MOVE_USER, (u, 0, graph))
+        heapSing.insertEvent(u.initTime, Event.MOVE_USER, (u, 0, graph))
+    for u in UsersListSingleton().usersNotStarted.values():
+        userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
+        heapSing.insertEvent(u.initTime, Event.MOVE_USER, (u, 0, graph))
 
 def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance):
     utils.log(TAG, 'startSimulation')
@@ -82,8 +87,8 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, insta
     utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
     stats.writeReport(algorithm, len(usersObjs), instance)
 
-def main(jsonFilePath, graphFilePath, algorithm, instance):
-    cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath)
+def main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance):
+    cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath, busFilePath)
     startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance)
 
 if __name__ == '__main__':
@@ -92,6 +97,7 @@ if __name__ == '__main__':
     instance = sys.argv[1:][2]
     jsonFilePath = sys.argv[1:][3]
     graphFilePath = sys.argv[1:][4]
+    busFilePath = sys.argv[1:][5]
     filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{algorithm}_{instance}.log'
     logging.basicConfig(filename=filePath, filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
-    main(jsonFilePath, graphFilePath, algorithm, instance)
+    main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance)

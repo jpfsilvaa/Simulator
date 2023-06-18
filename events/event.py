@@ -87,6 +87,11 @@ def moveUser(heapSing, eTuple):
     # contentSubtuple: (User, idxFromRoute, graph)
     user = eTuple[3][0]
     idxFromRoute = eTuple[3][1]
+
+    # To start the user who does not tale the route form the beginning:
+    if idxFromRoute == 0 and user.uId in UsersListSingleton().usersNotStarted.keys():
+        UsersListSingleton().startUser(user.uId)
+
     mainGraph = eTuple[3][2]
     user.lastMove = (TimerSingleton().getTimerValue(), user.currNodeId)
     user.avgSpeed = getAvgSpeed(user.currNodeId, user.route[idxFromRoute], mainGraph)
@@ -269,7 +274,7 @@ def isInResult(user, result):
     return False
 
 def addPastCloudlet(pastCloudlets, newElement, timeSlot):
-        if timeSlot == 0:
+        if timeSlot == 0 or len(pastCloudlets) < 1:
             return newElement
         else:
             return pastCloudlets[timeSlot-1] + newElement

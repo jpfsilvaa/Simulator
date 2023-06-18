@@ -27,7 +27,7 @@ def calcTimeToExec(user, mainGraph, destNode):
     else:
         dist = mainGraph.adjList[user.currNodeId][destNode.nId][0]
     arrivalTime = dist // user.avgSpeed
-    return arrivalTime + user.lastMove[0] + 2
+    return arrivalTime + user.lastMove[0]
 
 def log(fileName, msg):
     logging.info(f'{fileName}: time-step:{TimerSingleton().getTimerValue()} {msg}')

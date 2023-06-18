@@ -4,6 +4,7 @@ class UsersListSingleton:
     _instance = None
     _lock = threading.Lock()
     users = []
+    usersNotStarted = {}
     subtraces = []
 
     def __new__(cls):
@@ -15,6 +16,10 @@ class UsersListSingleton:
     
     def getList(self):
         return self.users
+
+    def startUser(self, userId):
+        user = self.usersNotStarted[userId]
+        self.users.append(user)
 
     def insertUser(self, user):
         self.users.append(user)
