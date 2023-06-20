@@ -17,7 +17,6 @@ def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcDensitiesByMax(normalVms)
     D.sort(key=lambda a: a[1], reverse=True)
-    sim_utils.log(TAG, f'D: {[(d[0].uId, d[0].vmType) for d in D]}')
 
     allocatedUsers = []
     socialWelfare = 0
@@ -39,7 +38,6 @@ def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
 def firstFit(user, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree):
     if withQuadtree:
         for c in detectedCloudletsPerUser[user.uId]:
-            sim_utils.log(TAG, f'cId: {c.entity.cId}')
             if utils.userFits(user, cloudletsOccupation[c.entity.cId]):
                 return c.entity
     else:

@@ -26,7 +26,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
     # -------CENTRALIZED PHASE-------
     sim_utils.log(TAG, '----centralized phase----')
     nonAllocated_, allocated_ = classifyAllocatedUsers(allocationPerCloudlet, vms)
-    sim_utils.log(TAG, f'FIRST PHASE- number of allocated users: {len(allocated_)}')
     finalAlocation = []
 
     # separating users by type and call the matching algorithm
@@ -40,8 +39,6 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
             nbUsersInCloudlet[c.cId] = len(set([u.uId for u in allocatedByType]) & set([u.uId for u in allocatedInC]))
         result = matchingAlg(cloudlets, nonAllocatedByType, allocatedByType, nbUsersInCloudlet)
         finalAlocation += result
-    sim_utils.log(TAG, f'SECOND PHASE- number allocated users: {len([(u.uId, c.cId) for (u,c) in finalAlocation])}')
-    sim_utils.log(TAG, f'FINAL RESULT: {[(u.uId, c.cId) for (u,c) in finalAlocation]}')
     return [calcSocialWelfare(finalAlocation), finalAlocation]
 
 def defineFirstPhasePrices(winners):
@@ -161,7 +158,6 @@ def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudle
     while c < nbUsersNonAllocated:
         try:
             c = (left + right) // 2
-            sim_utils.log(TAG, f'current c = {c}')
             graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)
             flowCost, flowDict = nx.network_simplex(graph)
             flowResults[c] = (flowCost, flowDict)
@@ -173,11 +169,9 @@ def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudle
                 break
             left = c
         except nx.NetworkXUnfeasible:
-            sim_utils.log(TAG, f'NetworkXUnfeasible for c = {c}')
             right = c
             lastException = c
 
-    sim_utils.log(TAG, f'best c found = {c}')
     return flowResults[c], graph
 
 def matchingAlg(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict):
