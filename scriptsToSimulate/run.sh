@@ -1,8 +1,8 @@
 nbUsers=(25)
-pathToSimulator=/local1/joaosilva/GraphGenFrw_dyn/GraphGenFrw/Simulator
+pathToSimulator=/home/jps/GraphGenFrw/Simulator
 # for i in {0..5}
 # do
-algIdx=0
+algIdx=4
 python3 ${pathToSimulator}/simMain.py \
     ${algIdx} \
     ${nbUsers} \

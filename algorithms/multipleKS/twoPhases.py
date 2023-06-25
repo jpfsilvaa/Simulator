@@ -155,7 +155,7 @@ def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudle
     flowCost, flowDict = nx.network_simplex(graph)
     flowResults[c] = (flowCost, flowDict)
 
-    while c < nbUsersNonAllocated:
+    while True:
         try:
             c = (left + right) // 2
             graph = builgBGraph(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudletDict, c)

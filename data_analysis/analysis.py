@@ -131,7 +131,6 @@ def generateGraphs(algorithms, users, instance, graphType, x, y,
         df[y] = df[y].apply(lambda y: y + yJitter)
         xJitter += xJitterStep
         yJitter += yJitterStep
-        df.drop('time-step', axis=1, inplace=True)
         df.sort_values(by=x, inplace=True)
         dataframes.append(df)
 
@@ -153,7 +152,7 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-cloudletsUsageComparison(algorithms_, users, instance)
+# cloudletsUsageComparison(algorithms_, users, instance)
 
 # generateGraphsLine(algorithms, users, instance, 'exec_time', byUsers, 'exec time', 
 #                    'execution time (seconds)', 'exec_time_100')
@@ -161,9 +160,9 @@ cloudletsUsageComparison(algorithms_, users, instance)
 # generateGraphsLine(algorithms_QT, users, instance,  'exec_time', byUsers, 'exec time', 
 #                   'execution time (seconds)', 'exec_time_QT_100_line')
 
-# generateGraphs(algorithms_, users, instance, 'latencies', byUsers, 
-#                'avg latency (for the allocated)', 'latency (seconds)', 
-#               'lat_100', xJitterStep=1.2, yJitterStep=0) 
+generateGraphsLine(algorithms_, users, instance, 'latencies', byTimeStep, 
+                'avg latency (for the allocated)', 'latency (seconds)', 
+               'lat_100') 
 
 # generateGraphsLine(algorithms_, users, instance, 'prices', byUsers, 'number of winners', 
 #                  'winnner users', 'winners_100')
