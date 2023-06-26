@@ -44,62 +44,28 @@ def buildGraphForRes(df, alg, res, title):
     plt.savefig(f'{SIM_PATH}data_analysis/{res}_{alg[0]}_comparison_.png')
     plt.show()
 
-def socialWelfareComparison(algorithms, users, instance, xAxis, xJitterStep, yJitterStep):
+def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     dataframes = []
-    dfExact = pd.read_csv(f'{PATH}5-{users}users/social_welfare_5_{instance}.csv')
-    xJitter = -xJitterStep
-    yJitter = -yJitterStep
-    y = 'social welfare'
+    cumulative = 'cumulative'
+    inputFile = yAxis if yAxis == 'prices' else 'social_welfare'
     for alg in algorithms:
-        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/social_welfare_{alg[0]}_{instance}.csv')
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{inputFile}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
-        df[xAxis] = df[xAxis].apply(lambda x: x + xJitter)
-        df[y] = df[y].apply(lambda y: y + yJitter)
-        xJitter += xJitterStep
-        yJitter += yJitterStep
         df['time-step'] -= 1
         df['time-step'] /= 30
-        df['sw/exact'] = df['social welfare']/dfExact['social welfare']
-        df['sw/exact']*= 100
+        cumulativeSW = [df[yAxis][0]]
+        for row_index in range(1, len(df)):
+            cumulativeSW.append(cumulativeSW[row_index-1] + df[yAxis][row_index])
+        df[cumulative] = cumulativeSW
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
-    g = sb.scatterplot(x=xAxis, y="sw/exact", data=merged_df, hue='algorithm', alpha=0.6)
+    g = sb.lineplot(x=xAxis, y=cumulative, data=merged_df, hue='algorithm')
     g.legend_.set_title(None)
     sb.despine()
-    plt.ylabel('SW achieved/optimal SW (%)')
+    plt.ylabel(yAxis)
     plt.xlabel(xAxis)
-    plt.xticks(np.arange(20, 110, 10))
-    plt.savefig('sw_comparison_100_cumulative.png')
-    plt.show()
-
-def pricesComparison(algorithms, users, instance, xAxis, xJitterStep, yJitterStep):
-    dataframes = []
-    dfExact = pd.read_csv(f'{PATH}5-{users}users/social_welfare_5_{instance}.csv')
-    xJitter = -xJitterStep
-    yJitter = -yJitterStep
-    yExact = 'social welfare'
-    yAlg = 'prices'
-    for alg in algorithms:
-        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{yAlg}_{alg[0]}_{instance}.csv')
-        df['algorithm'] = alg[1]
-        df[xAxis] = df[xAxis].apply(lambda x: x + xJitter)
-        df[yAlg] = df[yAlg].apply(lambda y: y + yJitter)
-        xJitter += xJitterStep
-        yJitter += yJitterStep
-        df['time-step'] -= 1
-        df['time-step'] /= 30
-        df['prices/exact'] = df[yAlg]/dfExact[yExact]
-        df['prices/exact']*= 100
-        dataframes.append(df)
-
-    merged_df = pd.concat(dataframes)
-    g = sb.scatterplot(x=xAxis, y="prices/exact", data=merged_df, hue='algorithm', alpha=0.6)
-    g.legend_.set_title(None)
-    sb.despine()
-    plt.ylabel('profit achieved/optimal social welfare (%)')
-    plt.xlabel(xAxis)
-    plt.savefig('prices_comparison_100.png')
+    plt.savefig(f'{yAxis}_comparison_100.png')
     plt.show()
 
 def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fileName):
@@ -119,6 +85,51 @@ def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fil
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
+def plotLatencyByComp(algorithms, users, instance, graphType, x, y, ylabel, fileName):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        df['time-step'] -= 1
+        df['time-step'] /= 30
+        dataframes.append(df)
+    
+    fig, axs = plt.subplots(2, figsize=(10, 6), height_ratios=[1, 4])
+    plt.subplots_adjust(hspace=0.1)
+    axs[0].bar(dataframes[0]['time-step'], dataframes[0]['number of users'], color='purple', alpha=0.2, width=1)
+    axs[0].set_xticks([])
+    axs[0].set_yticks([])
+    axs[0].set_ylim([0, 150])
+    axs[0].spines['top'].set_visible(False)
+    axs[0].spines['bottom'].set_visible(False)
+    axs[0].spines['left'].set_visible(False)
+    axs[0].spines['right'].set_visible(False)
+
+    rects = axs[0].patches
+    labels = [f"{i} users" for i in df['number of users']]
+    for rect, label in zip(rects, labels):
+        height = rect.get_height()
+        axs[0].text(
+            rect.get_x() + rect.get_width() / 2, height + 5, label, ha="center", va="bottom", fontsize=6
+        )
+
+    for row_index in range(len(dataframes[0])):
+        row_values = []
+        for df in dataframes:
+            row_values.append(df.loc[row_index, y])
+        min_value = min(row_values)
+        for df in dataframes:
+            df.loc[row_index, y] = ((df.loc[row_index, y] - min_value)/min_value) * 100
+    
+    merged_df = pd.concat(dataframes)
+    g = sb.lineplot(ax=axs[1], x=x, y=y, data=merged_df, hue='algorithm', errorbar=('ci', 1), alpha=0.6)
+    g.legend_.set_title(None)
+    
+    plt.ylabel(ylabel)
+    plt.savefig(f'{fileName}_comparison.png')
+    plt.subplot_tool()
+    plt.show()
+
 def generateGraphs(algorithms, users, instance, graphType, x, y, 
                                 ylabel, fileName, xJitterStep, yJitterStep):
     dataframes = []
@@ -127,6 +138,8 @@ def generateGraphs(algorithms, users, instance, graphType, x, y,
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
+        df['time-step'] -= 1
+        df['time-step'] /= 30
         df[x] = df[x].apply(lambda x: x + xJitter)
         df[y] = df[y].apply(lambda y: y + yJitter)
         xJitter += xJitterStep
@@ -139,7 +152,6 @@ def generateGraphs(algorithms, users, instance, graphType, x, y,
     g.legend_.set_title(None)
     sb.despine()
     plt.ylabel(ylabel)
-    plt.xticks(np.arange(20, 110, 10))
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
@@ -159,19 +171,26 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName):
     plt.xlabel(x)
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
-    plt.show()    
+    plt.show()
 
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge'), 
               (3, 'Cross Edge with QuadTree'), (4, '2-phases')]
-algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases')]
+algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases'), (5, 'VCG')]
+algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
 users = 100
 instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
-             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
+# buildBarPlot(algorithms_, users, instance, byTimeStep, 'number of users', 'users_bar')
+
+# buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
+#               'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
+
+plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep, 
+                'avg latency (for the allocated)', 'diff compared to the best (seconds)',
+               'lat_100')
 
 # cloudletsUsageComparison(algorithms_, users, instance)
 
@@ -185,9 +204,8 @@ buildBoxplot(algorithms_, users, instance, 'latencies', byUsers,
 #                 'avg latency (for the allocated)', 'latency (seconds)', 
 #                'lat_100') 
 
-# generateGraphsLine(algorithms_, users, instance, 'prices', byUsers, 'number of winners', 
-#                  'winnner users', 'winners_100')
+# generateGraphsLine(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 
+#                 'winnner users', 'winners_100')
 
-# socialWelfareComparison(algorithms_, users, instance, byUsers, xJitterStep=1.2, yJitterStep=0)
-
-# pricesComparison(algorithms_, users, instance, byUsers, xJitterStep=1.2, yJitterStep=0)
+# swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'social welfare')
+# swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'prices')
