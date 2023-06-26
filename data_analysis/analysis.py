@@ -143,14 +143,35 @@ def generateGraphs(algorithms, users, instance, graphType, x, y,
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
-algorithms = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree'), (1, 'Greedy'), 
-                                                (3, 'Cross Edge'), (4, '2-phases'), (5, 'VCG')]
+def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{yType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        dataframes.append(df)
+
+    combinedDf = pd.concat(dataframes)
+    combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 131, 35), right=False, include_lowest=True)
+
+    plt.figure(figsize=(10, 6))
+
+    sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm', palette='Set3')
+    plt.xlabel(x)
+    plt.ylabel(ylabel)
+    plt.savefig(f'{fileName}_comparison.png')
+    plt.show()    
+
+algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge'), 
+              (3, 'Cross Edge with QuadTree'), (4, '2-phases')]
 algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
 users = 100
 instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
+
+buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
+             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
 
 # cloudletsUsageComparison(algorithms_, users, instance)
 
@@ -160,9 +181,9 @@ byUsers = 'number of users'
 # generateGraphsLine(algorithms_QT, users, instance,  'exec_time', byUsers, 'exec time', 
 #                   'execution time (seconds)', 'exec_time_QT_100_line')
 
-generateGraphsLine(algorithms_, users, instance, 'latencies', byTimeStep, 
-                'avg latency (for the allocated)', 'latency (seconds)', 
-               'lat_100') 
+# generateGraphsLine(algorithms_, users, instance, 'latencies', byTimeStep, 
+#                 'avg latency (for the allocated)', 'latency (seconds)', 
+#                'lat_100') 
 
 # generateGraphsLine(algorithms_, users, instance, 'prices', byUsers, 'number of winners', 
 #                  'winnner users', 'winners_100')
