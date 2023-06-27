@@ -68,7 +68,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     plt.savefig(f'{yAxis}_comparison_100.png')
     plt.show()
 
-def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fileName):
+def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fileName, xJitterStep, yJitterStep):
     dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
@@ -85,18 +85,49 @@ def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fil
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
+def plotWinners(algorithms, users, instance, graphType, x, y, ylabel, fileName):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        df[x] -= 1
+        df[x] /= 30
+        dataframes.append(df)
+
+    bar_width = 0.5
+    bar_positions = np.arange(len(dataframes[0][x]))
+    offset = bar_width / 4
+
+    fourth_bar_width = 1.2*bar_width
+
+    fig, ax = plt.subplots()
+
+    ax.bar(bar_positions - 2.4*offset, dataframes[0]['number of users'], width=fourth_bar_width, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label='Users in the system')
+    ax.bar(bar_positions - 1.5*offset, dataframes[0][y], width=bar_width/4, align='center', label=dataframes[0]['algorithm'][0])
+    ax.bar(bar_positions - 0.5*offset, dataframes[1][y], width=bar_width/4, align='center', label=dataframes[1]['algorithm'][0])
+    ax.bar(bar_positions + 0.5*offset, dataframes[2][y], width=bar_width/4, align='center', label=dataframes[2]['algorithm'][0])
+    ax.bar(bar_positions + 1.5*offset, dataframes[3][y], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
+
+    ax.set_xlabel(x)
+    ax.set_ylabel(ylabel)
+    ax.set_xticks(bar_positions)
+    ax.set_yticks(np.arange(0, 101, 10))
+    ax.legend()
+    plt.savefig(f'{fileName}_comparison.png')
+    plt.show()
+
 def plotLatencyByComp(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
         df['time-step'] -= 1
-        df['time-step'] /= 30
+        df['time-step'] /= 60
         dataframes.append(df)
     
-    fig, axs = plt.subplots(2, figsize=(10, 6), height_ratios=[1, 4])
+    fig, axs = plt.subplots(2, figsize=(10, 6), height_ratios=[1, 10])
     plt.subplots_adjust(hspace=0.1)
-    axs[0].bar(dataframes[0]['time-step'], dataframes[0]['number of users'], color='purple', alpha=0.2, width=1)
+    axs[0].bar(dataframes[0]['time-step'], dataframes[0]['number of users'], color='purple', alpha=0.2, width=0.8)
     axs[0].set_xticks([])
     axs[0].set_yticks([])
     axs[0].set_ylim([0, 150])
@@ -127,7 +158,6 @@ def plotLatencyByComp(algorithms, users, instance, graphType, x, y, ylabel, file
     
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
-    plt.subplot_tool()
     plt.show()
 
 def generateGraphs(algorithms, users, instance, graphType, x, y, 
@@ -183,14 +213,16 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
+plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
+
 # buildBarPlot(algorithms_, users, instance, byTimeStep, 'number of users', 'users_bar')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
 #               'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
 
-plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep, 
-                'avg latency (for the allocated)', 'diff compared to the best (seconds)',
-               'lat_100')
+# plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep, 
+#                'avg latency (for the allocated)', 'how much worse (%)',
+#               'lat_100')
 
 # cloudletsUsageComparison(algorithms_, users, instance)
 
@@ -205,7 +237,7 @@ plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep,
 #                'lat_100') 
 
 # generateGraphsLine(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 
-#                 'winnner users', 'winners_100')
+#                'winnner users', 'winners_100', 0.1, 0)
 
 # swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'social welfare')
 # swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'prices')
