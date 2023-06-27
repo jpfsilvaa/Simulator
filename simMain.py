@@ -70,7 +70,7 @@ def triggerUserPathEvents(heapSing, graph):
         userRouteNodes = [graph.findNodeById(routeNode) for routeNode in u.route]
         heapSing.insertEvent(u.initTime, Event.MOVE_USER, (u, 0, graph))
 
-def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance):
+def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance, iteration):
     utils.log(TAG, 'startSimulation')
     startTime = time.time()
     stats = SimStatistics()
@@ -85,11 +85,11 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, insta
     endTime = time.time()
     utils.log(TAG, 'SIMULATION FINISHED')
     utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
-    stats.writeReport(algorithm, len(usersObjs), instance)
+    stats.writeReport(algorithm, len(usersObjs), instance, iteration)
 
-def main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance):
+def main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance, iteration):
     cloudletsObjs, usersObjs, graph, subtraces = instGen.main(jsonFilePath, graphFilePath, busFilePath)
-    startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance)
+    startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, instance, iteration)
 
 if __name__ == '__main__':
     algorithm = sys.argv[1:][0]
@@ -98,6 +98,7 @@ if __name__ == '__main__':
     jsonFilePath = sys.argv[1:][3]
     graphFilePath = sys.argv[1:][4]
     busFilePath = sys.argv[1:][5]
+    iteration = sys.argv[1:][6]
     filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{algorithm}_{instance}.log'
     logging.basicConfig(filename=filePath, filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
-    main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance)
+    main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance, iteration)

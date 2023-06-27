@@ -109,7 +109,7 @@ class SimStatistics:
             for key, value in dictRes.items():
                 writer.writerow({'time-step': key, 'number of winners': value[0], 'result list': value[1]})
 
-    def writeReport(self, algorithm, nbUsers, instance):
+    def writeReport(self, algorithm, nbUsers, instance, iteration):
         utils.log(TAG, 'writeReport')
         preTitle = f'alg{algorithm}-{nbUsers}users/'
 
