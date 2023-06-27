@@ -192,13 +192,16 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     algorithm = cloudletsSing.getAlgorithm()
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
     detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
+    detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudletsSing.getList(), 
+                                                    cloudletsSing.getList()[0].coverageArea, 
+                                                    quadtree) # dict: cId -> list of users
     resetUserPrices()
 
     startTime = time.time()
     if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
+        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser, detectedUsersPerCloudlet)
     endTime = time.time()
     
 
@@ -230,13 +233,18 @@ def initialAlloc(simClock, heapSing, eTuple):
     
     algorithm = cloudletsSing.getAlgorithm()
     quadtree = utils.buildQuadtree(cloudletsSing.getList(), usersSing.getList())
-    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), quadtree) # dict: uId -> list of cloudlets
+    detectedCloudletsPerUser = utils.detectCloudletsFromQT(usersSing.getList(), 
+                                                           quadtree) # dict: uId -> list of cloudlets
+    detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudletsSing.getList(), 
+                                                       cloudletsSing.getList()[0].coverageArea, 
+                                                       quadtree) # dict: cId -> list of users
 
     startTime = time.time()
     if algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
+        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, 
+                                     detectedCloudletsPerUser, detectedUsersPerCloudlet)
     endTime = time.time()
     
     resetUserPrices()
@@ -290,7 +298,7 @@ def randomAlloc(quadtree):
         result.append((u, randomCloudlet))
     return [0, result]
 
-def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudletsPerUser):
+def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudletsPerUser, detectedUsersPerCloudlet):
     utils.log(TAG, 'allocationAlgorithm')
 
     if algorithm == GREEDY_QT:
@@ -302,7 +310,6 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudlets
     elif algorithm == CROSS_EDGE_NO_QT:
         return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=False)
     elif algorithm == TWO_PHASES:
-        detectedUsersPerCloudlet = utils.detectUsersFromQT(cloudlets, cloudlets[0].coverageArea, quadtree) # dict: cId -> list of users
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
     elif algorithm == EXACT:
         return exact.build(cloudlets, users)

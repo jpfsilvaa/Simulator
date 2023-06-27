@@ -8,40 +8,57 @@ SIM_PATH = '/home/jps/GraphGenFrw/Simulator/'
 PATH = f'{SIM_PATH}logfiles/alg'
 
 def cloudletsUsageComparison(algorithms, users, instance):
+    dataframes = []
+    timeStep = 'time-step'
+    xJitterStep = 0.13
+    xJitter = -0.2
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_usage_{alg[0]}_{instance}.csv')
-        df['time-step'] -= 1
-        df['time-step'] /= 60
+        df[timeStep] -= 1
+        df[timeStep] /= 60
+        df[timeStep] = df[timeStep].apply(lambda x: x + xJitter)
+        xJitter += xJitterStep
         df['algorithm'] = alg[1]
-        buildGraphForAlg(df, alg)   
+        dataframes.append(df)
+    buildGraphForRes(dataframes, 'cpu', 'CPU Usage Comparison')
+    buildGraphForRes(dataframes, 'storage', 'Storage Usage Comparison')
+    buildGraphForRes(dataframes, 'ram', 'RAM Usage Comparison')   
 
-def buildGraphForAlg(df, alg):
-    buildGraphForRes(df, alg, 'cpu', 'CPU Usage Comparison')
-    buildGraphForRes(df, alg, 'storage', 'Storage Usage Comparison')
-    buildGraphForRes(df, alg, 'ram', 'RAM Usage Comparison')
-
-def buildGraphForRes(df, alg, res, title):
+def buildGraphForRes(dfs, res, title):
     fig, ax = plt.subplots(figsize=(20, 10))
-    ax.set_xlabel('Optimization call Δt (every 1 minute in simulation time)')
+    ax.set_xlabel('time-step (minutes)')
+    ax.set_xticks(np.arange(0, len(dfs[0]['time-step']), 1))
+    bar_width = 0.5
+    bar_positions = np.arange(len(dfs[0]['time-step']))
+    offset = bar_width / 4
+    offsetFactor = -1.5
+    for i in range(len(dfs)):
+        ax.bar(bar_positions + offsetFactor*offset, dfs[i][f'unused {res}'], 
+               width=bar_width/4, align='center', label=dfs[i]['algorithm'][0],
+               alpha=0.5)
+        offsetFactor += 1
+    ax.set_ylabel(f'sum of unused {res.upper()} (%)', color='blue', fontsize=14)
     
-    ax.errorbar(df['time-step'], df[f'used {res} avg'], yerr=df[f'used {res} std'], fmt='-o', label=f'Average of used {res}')
-    ax.bar(df['time-step'], df[f'unused {res}'], alpha=0.5, label=f'Unused {res}')
-    ax.set_ylabel(f'{res.upper()} (%)')
-    
-    ax.set_title(f'{title} - {alg[1]}')
-    ax.yaxis.set_ticks(np.arange(0, 1500, 100))
+    ax.set_title(f'{title}')
     ax.legend()
 
-    rects = ax.patches
-    labels = [f"{i} cloudlets" for i in df['used cloudlets']]
+    ax2 = ax.twinx()
+    for i in range(len(dfs)):
+        ax2.errorbar(dfs[i]['time-step'], dfs[i][f'used {res} avg'], 
+                     yerr=dfs[i][f'used {res} std'], fmt='-o', markersize=4,
+                     label=f'Average of used {res}', capsize=5)
+    ax2.set_ylabel(f'average {res.upper()} usage (%)', color='red', fontsize=14)
 
-    for rect, label in zip(rects, labels):
-        height = rect.get_height()
-        ax.text(
-            rect.get_x() + rect.get_width() / 2, height + 5, label, ha="center", va="bottom"
-        )
+    # rects = ax.patches
+    # labels = [f"{i} cloudlets" for i in df['used cloudlets']]
 
-    plt.savefig(f'{SIM_PATH}data_analysis/{res}_{alg[0]}_comparison_.png')
+    # for rect, label in zip(rects, labels):
+    #     height = rect.get_height()
+    #     ax.text(
+    #         rect.get_x() + rect.get_width() / 2, height + 5, label, ha="center", va="bottom"
+    #     )
+
+    plt.savefig(f'{SIM_PATH}data_analysis/{res}_comparison_.png')
     plt.show()
 
 def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
@@ -52,7 +69,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{inputFile}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
         df['time-step'] -= 1
-        df['time-step'] /= 30
+        df['time-step'] /= 60
         cumulativeSW = [df[yAxis][0]]
         for row_index in range(1, len(df)):
             cumulativeSW.append(cumulativeSW[row_index-1] + df[yAxis][row_index])
@@ -62,9 +79,10 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     merged_df = pd.concat(dataframes)
     g = sb.lineplot(x=xAxis, y=cumulative, data=merged_df, hue='algorithm')
     g.legend_.set_title(None)
+    g.set_xticks(np.arange(0, len(dataframes[0][xAxis]), 1))
     sb.despine()
-    plt.ylabel(yAxis)
-    plt.xlabel(xAxis)
+    plt.ylabel(f'cumulative {yAxis} ($)')
+    plt.xlabel(f'{xAxis} (minutes)')
     plt.savefig(f'{yAxis}_comparison_100.png')
     plt.show()
 
@@ -74,12 +92,13 @@ def generateGraphsLine(algorithms, users, instance, graphType, x, y, ylabel, fil
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{graphType}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
         df['time-step'] -= 1
-        df['time-step'] /= 30
+        df['time-step'] /= 60
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
     g = sb.lineplot(x=x, y=y, data=merged_df, hue='algorithm', errorbar=('ci', 1), alpha=0.6)
     g.legend_.set_title(None)
+    g.set_xticks(np.arange(0, len(dataframes[0][x]), 1))
     
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
@@ -108,7 +127,7 @@ def plotWinners(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     ax.bar(bar_positions + 0.5*offset, dataframes[2][y], width=bar_width/4, align='center', label=dataframes[2]['algorithm'][0])
     ax.bar(bar_positions + 1.5*offset, dataframes[3][y], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
 
-    ax.set_xlabel(x)
+    ax.set_xlabel(f'{x} (minutes)')
     ax.set_ylabel(ylabel)
     ax.set_xticks(bar_positions)
     ax.set_yticks(np.arange(0, 101, 10))
@@ -197,7 +216,8 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName):
 
     plt.figure(figsize=(10, 6))
 
-    sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm', palette='Set3')
+    g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
+    g.legend_.set_title(None)
     plt.xlabel(x)
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
@@ -213,12 +233,19 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
-
-# buildBarPlot(algorithms_, users, instance, byTimeStep, 'number of users', 'users_bar')
+# plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
-#               'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
+#              'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
+
+buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
+                'used cpu avg', 'cpu usage (%)', 'cpu_boxplot')
+
+buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
+                'used ram avg', 'ram usage (%)', 'ram_boxplot')
+
+buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
+                'used storage avg', 'storage usage (%)', 'storage_boxplot')
 
 # plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep, 
 #                'avg latency (for the allocated)', 'how much worse (%)',
@@ -239,5 +266,5 @@ plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winne
 # generateGraphsLine(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 
 #                'winnner users', 'winners_100', 0.1, 0)
 
-# swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'social welfare')
+# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
 # swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'prices')
