@@ -6,6 +6,7 @@ import algorithms.multipleKS.alloc_utils as utils
 import logging
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
+import time
 
 TAG = 'twoPhases.py'
 
@@ -14,17 +15,19 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
 
     # -------DISTRIBUTED PHASE-------
     sim_utils.log(TAG, '----distributed phase----')
+    initTime1stPhase = time.time()
     allocationPerCloudlet = {}
     for c in cloudlets:
         if len(detectedUserPerCloudlet[c.cId]) > 0:
             allocationResult = alg.greedyAlloc_OneKS(c, detectedUserPerCloudlet[c.cId])
             allocationPerCloudlet[c.cId] = allocationResult[1]
-            defineFirstPhasePrices(allocationResult[1])
         else:
             allocationPerCloudlet[c.cId] = []
+    finalTime1stPhase = time.time()
         
     # -------CENTRALIZED PHASE-------
     sim_utils.log(TAG, '----centralized phase----')
+    initTime2ndPhase = time.time()
     nonAllocated_, allocated_ = classifyAllocatedUsers(allocationPerCloudlet, vms)
     finalAlocation = []
 
@@ -39,7 +42,23 @@ def twoPhasesAlloc(cloudlets, vms, detectedUserPerCloudlet):
             nbUsersInCloudlet[c.cId] = len(set([u.uId for u in allocatedByType]) & set([u.uId for u in allocatedInC]))
         result = matchingAlg(cloudlets, nonAllocatedByType, allocatedByType, nbUsersInCloudlet)
         finalAlocation += result
-    return [calcSocialWelfare(finalAlocation), finalAlocation]
+    finalTime2ndPhase = time.time()
+    return [calcSocialWelfare(finalAlocation), finalAlocation], getResultsFrom1stPhase(allocationPerCloudlet), [finalTime1stPhase - initTime1stPhase, finalTime2ndPhase - initTime2ndPhase]
+
+def getResultsFrom1stPhase(allocationPerCloudlet):
+    sim_utils.log(TAG, 'getResultsFrom1stPhase')
+
+    results = []
+    for c in allocationPerCloudlet.keys():
+        for tupleAlloc in allocationPerCloudlet[c]:
+            results.append(tupleAlloc)
+    return results
+
+def pricing(winners1stPhase, users):
+    sim_utils.log(TAG, 'pricing')
+    winners = alg.pricing(winners1stPhase, users)
+    defineFirstPhasePrices(winners)
+    return winners
 
 def defineFirstPhasePrices(winners):
     sim_utils.log(TAG, 'defineFirstPhasePrices')

@@ -59,12 +59,13 @@ class Event(Enum):
 def writeStats(simClock, heapSing, eTuple):
     utils.log(TAG, 'writeStats')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (winnersTuple, execution time, latencies)
+    # contentSubtuple: (winnersTuple, execution time, pricing time, 
+    # [1st phase time, 2nd phase time], latencies)
     stats = SimStatistics()
     winners = [winner[0] for winner in eTuple[3][0]]
-    stats.writeLatencyStats(eTuple[0], eTuple[3][2])
+    stats.writeLatencyStats(eTuple[0], eTuple[3][4])
     stats.writeSocialWelfareStats(eTuple[0], winners)
-    stats.writeExecTimeStats(eTuple[0], eTuple[3][1])
+    stats.writeExecTimeStats(eTuple[0], eTuple[3][1], eTuple[3][2], eTuple[3][3])
     stats.writePricesStats(eTuple[0], winners)
     stats.writeCloudletsUsageStats(eTuple[0])
     stats.writeCloudletsState(eTuple[0])
@@ -196,16 +197,31 @@ def optimizeAlloc(simClock, heapSing, eTuple):
                                                     cloudletsSing.getList()[0].coverageArea, 
                                                     quadtree) # dict: cId -> list of users
     resetUserPrices()
+    twoPExecTimes = []
 
     startTime = time.time()
-    if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) and TimerSingleton().getTimerValue() <= 121:
+    if (algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC) \
+        and TimerSingleton().getTimerValue() <= 121:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, detectedCloudletsPerUser, detectedUsersPerCloudlet)
+        if algorithm == TWO_PHASES:
+            result, winners1stPhase, twoPExecTimes = allocationAlgorithm(cloudletsSing.getList(), 
+                                                          usersSing.getList(), algorithm, quadtree, 
+                                                          detectedCloudletsPerUser, detectedUsersPerCloudlet)
+        else:
+            result = allocationAlgorithm(cloudletsSing.getList(), 
+                                         usersSing.getList(), algorithm, quadtree, 
+                                         detectedCloudletsPerUser, detectedUsersPerCloudlet)
     endTime = time.time()
     
-
-    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
+    startTimePricing = time.time()
+    if algorithm == TWO_PHASES:
+        userPrices = pricingAlgorithm(winners1stPhase, usersSing.getList(), cloudletsSing.getList(), 
+                                      algorithm, quadtree, detectedCloudletsPerUser)
+    else:
+        userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), 
+                                      algorithm, quadtree, detectedCloudletsPerUser)
+    endTimePricing = time.time()
 
     for up in userPrices:
         user = usersSing.findById(up[0].uId)
@@ -220,9 +236,10 @@ def optimizeAlloc(simClock, heapSing, eTuple):
 
     setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
-                        (result[1], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
+                        (result[1], (endTime - startTime), (endTimePricing - startTimePricing), twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
+# Initial allocation is different for prediction purposes
 def initialAlloc(simClock, heapSing, eTuple):
     utils.log(TAG, 'optimizeAlloc')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
@@ -239,30 +256,46 @@ def initialAlloc(simClock, heapSing, eTuple):
                                                        cloudletsSing.getList()[0].coverageArea, 
                                                        quadtree) # dict: cId -> list of users
 
+    resetUserPrices()
+    twoPExecTimes = []
+
     startTime = time.time()
     if algorithm == PRED_HEDGE or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC:
         result = randomAlloc(quadtree)
     else:
-        result = allocationAlgorithm(cloudletsSing.getList(), usersSing.getList(), algorithm, quadtree, 
-                                     detectedCloudletsPerUser, detectedUsersPerCloudlet)
+        if algorithm == TWO_PHASES:
+            result, winners1stPhase, twoPExecTimes = allocationAlgorithm(cloudletsSing.getList(), 
+                                                          usersSing.getList(), algorithm, quadtree, 
+                                                          detectedCloudletsPerUser, detectedUsersPerCloudlet)
+        else:
+            result = allocationAlgorithm(cloudletsSing.getList(), 
+                                         usersSing.getList(), algorithm, quadtree, 
+                                         detectedCloudletsPerUser, detectedUsersPerCloudlet)
     endTime = time.time()
     
-    resetUserPrices()
-    userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), algorithm, quadtree, detectedCloudletsPerUser)
+    startTimePricing = time.time()
+    if algorithm == TWO_PHASES:
+        userPrices = pricingAlgorithm(winners1stPhase, usersSing.getList(), cloudletsSing.getList(), 
+                                      algorithm, quadtree, detectedCloudletsPerUser)
+    else:
+        userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), 
+                                      algorithm, quadtree, detectedCloudletsPerUser)
+    endTimePricing = time.time()
 
     for up in userPrices:
         user = usersSing.findById(up[0].uId)
         user.price = up[0].price
+        user = usersSing.findById(up[0].uId)
 
     for alloc in result[1]:
         userId = alloc[0].uId
         cloudletId = alloc[1].cId
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
-    
+
     setPastCloudlets(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
-                        (result[1], (endTime - startTime), (getLatencies(result[1], eTuple[3]))))
+                        (result[1], (endTime - startTime), (endTimePricing - startTimePricing), twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def setPastCloudlets(result):
@@ -346,6 +379,8 @@ def pricingAlgorithm(winners, users, cloudlets, algorithm, quadtree, detectedClo
         return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True)
     elif algorithm == CROSS_EDGE_NO_QT:
         return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=False)
+    elif algorithm == TWO_PHASES:
+        return twoPhases.pricing(winners, users)
     elif algorithm == EXACT or algorithm == TWO_PHASES \
         or algorithm == PRED_TCHAPEU or algorithm == PRED_TCHAPEU_DISC \
         or algorithm == PRED_HEDGE:

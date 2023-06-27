@@ -74,10 +74,10 @@ class SimStatistics:
     
     def writeFileExecTime(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'exec time'])
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'number of users', 'exec time', 'pricing time', 'two-phases time'])
             writer.writeheader()
             for key, value in dictRes.items():
-                writer.writerow({'time-step': key, 'number of users': value[0], 'exec time': value[1]})
+                writer.writerow({'time-step': key, 'number of users': value[0], 'exec time': value[1], 'pricing time': value[2], 'two-phases time': value[3]})
 
     def writeFileClStates(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
@@ -109,7 +109,7 @@ class SimStatistics:
             for key, value in dictRes.items():
                 writer.writerow({'time-step': key, 'number of winners': value[0], 'result list': value[1]})
 
-    def writeReport(self, algorithm, nbUsers, instance, iteration):
+    def writeReport(self, algorithm, nbUsers, instance):
         utils.log(TAG, 'writeReport')
         preTitle = f'alg{algorithm}-{nbUsers}users/'
 
@@ -175,10 +175,10 @@ class SimStatistics:
                                                     np.mean(storageUsage), np.std(storageUsage), sum(storageUnused), 
                                                     np.mean(ramUsage), np.std(ramUsage), sum(ramUnused))
     
-    def writeExecTimeStats(self, timeStep, execTime):
+    def writeExecTimeStats(self, timeStep, execTime, pricingTime, twoPhasesTime):
         utils.log(TAG, 'writeExecTimeStats')
         users = UsersListSingleton().getList()
-        self.execTimes[timeStep] = (len(users), execTime)
+        self.execTimes[timeStep] = (len(users), execTime, pricingTime, twoPhasesTime)
     
     def writeCloudletsState(self, timeStep):
         cloudlets = CloudletsListSingleton().getList()
