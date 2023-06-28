@@ -88,7 +88,7 @@ def build(cloudlets, users):
     clSing = CloudletsListSingleton()
     usSing = UsersListSingleton()
     allocRes = [(usSing.findById(v), clSing.findById(c)) for (v,c) in optResult.items()]
-    return [m.ObjVal, allocRes]
+    return [m.ObjVal, allocRes], [m, m.ObjVal, c_ids]
     
 
 def getResult(model, cloudlets, vms):
@@ -100,25 +100,24 @@ def getResult(model, cloudlets, vms):
     return ILPResult
     
 
-def pricing(model, optValue, optResult, v_bids, v_ids):
-    totalPrices = 0
-    userPrice = dict()
-    for vm in v_ids:
-        if vm in optResult.keys():
-            socialWelfare = optValue - v_bids[vm]
-            clarkeValue = clarkePivotRule(model, vm, optResult[vm])
-            priceToPay = clarkeValue - socialWelfare
-            userPrice[vm] = priceToPay
-            totalPrices += priceToPay
-        else:
-            userPrice[vm] = 0
-    return [userPrice, totalPrices]
+def pricing(model, optValue, winners, c_ids):
+    for w in winners:
+        socialWelfare = optValue - w[0].bid
+        clarkeValue = clarkePivotRule(model, w[0].uId, c_ids)
+        priceToPay = clarkeValue - socialWelfare
+        w[0].price = priceToPay
+    return winners
 
-def clarkePivotRule(model, vm, cloudlet):
-    model.getVarByName(f"allocate[{cloudlet},{vm}]").ub = 0
+def clarkePivotRule(model, vm, cloudlets):
+    for cloudlet in cloudlets:
+        model.getVarByName(f"allocate[{cloudlet},{vm}]").ub = 0
+
     model.optimize()
     clarkeResult = model.ObjVal
-    model.getVarByName(f"allocate[{cloudlet},{vm}]").ub = 1
+
+    for cloudlet in cloudlets:
+        model.getVarByName(f"allocate[{cloudlet},{vm}]").ub = 1
+
     return clarkeResult
 
 def main(jsonFilePath):    

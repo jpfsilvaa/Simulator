@@ -99,6 +99,6 @@ if __name__ == '__main__':
     graphFilePath = sys.argv[1:][4]
     busFilePath = sys.argv[1:][5]
     iteration = sys.argv[1:][6]
-    filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/simulation_{algorithm}_{instance}.log'
+    filePath = f'/home/jps/GraphGenFrw/Simulator/logfiles/alg{algorithm}-{nbUsers}users/{iteration}/simulation_{algorithm}_{instance}.log'
     logging.basicConfig(filename=filePath, filemode='w', format='%(asctime)s %(message)s', level=logging.DEBUG)
     main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance, iteration)
