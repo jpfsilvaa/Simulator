@@ -2,18 +2,18 @@ import multiprocessing
 
 def run_script(script_path):
     import subprocess
-    script_path.insert(0, 'python3')
+    script_path.insert(0, 'python3.6')
     subprocess.call(script_path)
 
 if __name__ == '__main__':
     nbUsers = 100
     home = '/home/jps'
     pathToSimulator = home + '/GraphGenFrw/Simulator'
-    instance = 'inst_100_din_13'
+    instance = 'newInst_100_'
     
     scriptsCalls = []
     for algIdx in range(5):
-        for i in range(4):
+        for i in range(20):
             scriptsCalls.append(
                 [f'{pathToSimulator}/simMain.py',
                 f'{algIdx}', 
@@ -24,5 +24,5 @@ if __name__ == '__main__':
                 f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/buses_20171024.xml',
                 f'{i}'])
         
-    with multiprocessing.Pool(processes=4) as pool:
-        pool.map(run_script, scriptsCalls, chunksize=1)
+    with multiprocessing.Pool(processes=20) as pool:
+        pool.map(run_script, scriptsCalls, chunksize=5)
