@@ -81,13 +81,13 @@ class SimStatistics:
 
     def writeFileClStates(self, preTitle, fileName, dictRes):
         with open(f'{LOG_FOLDER + preTitle + fileName + CSV}', 'w') as f:
-            writer = csv.DictWriter(f, fieldnames=['time-step', 'cId', 'c.cpu(full/used)', 
-                                                    'c.storage(full/used)', 'c.ram(full/used)', 'c.currUsersAllocated'])
+            writer = csv.DictWriter(f, fieldnames=['time-step', 'cId', 'c.cpu(full/unused)', 
+                                                    'c.storage(full/unused)', 'c.ram(full/unused)', 'c.currUsersAllocated'])
             writer.writeheader()
             for key, value in dictRes.items():
                 for cloudlet in value:
-                    writer.writerow({'time-step': key, 'cId': cloudlet[0], 'c.cpu(full/used)': cloudlet[1], 
-                                    'c.storage(full/used)': cloudlet[2], 'c.ram(full/used)': cloudlet[3], 
+                    writer.writerow({'time-step': key, 'cId': cloudlet[0], 'c.cpu(full/unused)': cloudlet[1], 
+                                    'c.storage(full/unused)': cloudlet[2], 'c.ram(full/unused)': cloudlet[3], 
                                     'c.currUsersAllocated': cloudlet[4]})
 
     def writeFileUsersStates(self, preTitle, fileName, dictRes):

@@ -108,11 +108,11 @@ def moveUser(heapSing, eTuple):
                                         Event.MOVE_USER, (user, idxFromRoute, mainGraph))
 
 def removeUser(user):
-    if user.allocatedCloudlet != None:
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.cpu += user.reqs.cpu
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.ram += user.reqs.ram
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.storage += user.reqs.storage
-        CloudletsListSingleton().findById(user.allocatedCloudlet.cId).currUsersAllocated.remove(user)
+    # if user.allocatedCloudlet != None:
+    #     CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.cpu += user.reqs.cpu
+    #     CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.ram += user.reqs.ram
+    #     CloudletsListSingleton().findById(user.allocatedCloudlet.cId).resources.storage += user.reqs.storage
+    #     CloudletsListSingleton().findById(user.allocatedCloudlet.cId).currUsersAllocated.remove(user)
     UsersListSingleton().removeUser(user)
 
 def getAvgSpeed(dest, src, mainGraph):
@@ -133,11 +133,11 @@ def allocateUser(eTuple):
         oldCloudlet = user.allocatedCloudlet
         newCloudlet = CloudletsListSingleton().findById(eTuple[3][1])
         
-        if oldCloudlet != None: # first allocation
-            oldCloudlet.resources.cpu += user.reqs.cpu
-            oldCloudlet.resources.ram += user.reqs.ram
-            oldCloudlet.resources.storage += user.reqs.storage
-            oldCloudlet.currUsersAllocated.remove(user)
+        # if oldCloudlet != None: # first allocation
+        #     oldCloudlet.resources.cpu += user.reqs.cpu
+        #     oldCloudlet.resources.ram += user.reqs.ram
+        #     oldCloudlet.resources.storage += user.reqs.storage
+        #     oldCloudlet.currUsersAllocated.remove(user)
 
         newCloudlet.resources.cpu -= user.reqs.cpu
         newCloudlet.resources.ram -= user.reqs.ram
@@ -178,6 +178,13 @@ def resetUserPrices():
     for u in UsersListSingleton().getList():
         u.price = 0
 
+def resetCloudlets():
+    for c in CloudletsListSingleton().getList():
+        c.resources.cpu = c.resourcesFullValues.cpu
+        c.resources.ram = c.resourcesFullValues.ram
+        c.resources.storage = c.resourcesFullValues.storage
+        c.currUsersAllocated = []
+
 def detectAllUsersPosition(mainGraph):
     for u in UsersListSingleton().getList():
         u.position = findUserPosition(u, mainGraph)
@@ -197,6 +204,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
                                                     cloudletsSing.getList()[0].coverageArea, 
                                                     quadtree) # dict: cId -> list of users
     resetUserPrices()
+    resetCloudlets()
     twoPExecTimes = []
     vcgParams = []
 
@@ -241,7 +249,7 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
-    setPastCloudlets(result[1])
+    set(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
                         (result[1], (endTime - startTime), (endTimePricing - startTimePricing), twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))

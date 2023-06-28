@@ -204,24 +204,72 @@ def generateGraphs(algorithms, users, instance, graphType, x, y,
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
-def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName):
+def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName, cutGroups):
     dataframes = []
     for alg in algorithms:
         df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/{yType}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
+        df['time-step'] -= 1
+        df['time-step'] /= 60
         dataframes.append(df)
 
     combinedDf = pd.concat(dataframes)
-    combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 131, 35), right=False, include_lowest=True)
-
-    plt.figure(figsize=(10, 6))
-
-    g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
+    if x == 'number of users':
+        if cutGroups:
+            combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 131, 35), right=False, include_lowest=True)
+            plt.figure(figsize=(10, 6))
+            g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
+        else:
+            combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 101, 100), right=False, include_lowest=True)
+            plt.figure(figsize=(10, 6))
+            g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
+    else:
+        plt.figure(figsize=(10, 6))
+        g = sb.boxplot(data=combinedDf, x=x, y=y, hue='algorithm')
     g.legend_.set_title(None)
     plt.xlabel(x)
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
+
+def addPercentageColumns(df):
+    resources = ['cpu', 'ram', 'storage']
+    for resource in resources:
+        for index, value in df[f'c.{resource}(full/used)'].items():
+                formattedValue = value.replace('(', '').replace(')', '')
+                full, unused = formattedValue.split(',')
+                usedCpu = (float(full) - float(unused)) / float(full) 
+                df.loc[index, f'used {resource} (%)'] = usedCpu * 100
+
+def readCloudletsStates(algorithms, users, instance):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/cloudlets_states_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        df['time-step'] -= 1
+        df['time-step'] /= 60
+        for index, value in df['c.currUsersAllocated'].items():
+            if value == '[]':
+                df.drop(index, inplace=True)
+        addPercentageColumns(df)
+        dataframes.append(df)
+        for index, row in df.iterrows():
+            if row['used cpu (%)'] > 100:
+                print(row)
+    return dataframes
+
+def buildBoxplotForCloudlets(algorithms, users, instance):
+    dfs = readCloudletsStates(algorithms, users, instance)
+    combinedDf = pd.concat(dfs)
+    resources = ['cpu', 'ram', 'storage']
+    for resource in resources:
+        plt.figure(figsize=(12, 8))
+        g = sb.boxplot(data=combinedDf, x='time-step', y=f'used {resource} (%)', hue='algorithm')
+        g.legend_.set_title(None)
+        plt.xlabel('time-step')
+        plt.ylabel(f'used {resource} (%)')
+        plt.savefig(f'cloudlets_{resource}_comparison.png')
+        plt.show()
 
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge'), 
               (3, 'Cross Edge with QuadTree'), (4, '2-phases')]
@@ -233,19 +281,21 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
+buildBoxplotForCloudlets(algorithms_, users, instance)
+
 # plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
-#              'avg latency (for the allocated)', 'latency (seconds)', 'lat_100')
+#             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
-buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
-                'used cpu avg', 'cpu usage (%)', 'cpu_boxplot')
+# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byTimeStep,
+#                'used cpu avg', 'cpu usage (%)', 'cpu_boxplot', True)
 
-buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
-                'used ram avg', 'ram usage (%)', 'ram_boxplot')
+# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
+#                 'used ram avg', 'ram usage (%)', 'ram_boxplot', True)
 
-buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
-                'used storage avg', 'storage usage (%)', 'storage_boxplot')
+# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
+#                 'used storage avg', 'storage usage (%)', 'storage_boxplot', True)
 
 # plotLatencyByComp(algorithms_, users, instance, 'latencies', byTimeStep, 
 #                'avg latency (for the allocated)', 'how much worse (%)',
@@ -265,6 +315,9 @@ buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
 
 # generateGraphsLine(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 
 #                'winnner users', 'winners_100', 0.1, 0)
+
+# buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 
+#              'number of winners', 'winner users', 'winners_bp', True)
 
 # swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
 # swAndProfitComparison(algorithms_noVCG, users, instance, byTimeStep, 'prices')
