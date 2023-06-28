@@ -77,8 +77,8 @@ def build(cloudlets, users):
 
     m.setObjective(expr, GRB.MAXIMIZE)
 
-    fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
-    m.write(fileName)
+    #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
+    #m.write(fileName)
 
     startTime = time.time()
     m.optimize()
