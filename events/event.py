@@ -231,17 +231,17 @@ def optimizeAlloc(simClock, heapSing, eTuple):
     # PRICING
     startTimePricing = time.time()
     if algorithm == TWO_PHASES:
-        userPrices = pricingAlgorithm(winners1stPhase, usersSing.getList(), cloudletsSing.getList(), 
-                                      algorithm, vcgParams, detectedCloudletsPerUser)
+        userPrices = pricingAlgorithm(winners1stPhase, usersSing, cloudletsSing.getList(), 
+                                      algorithm, vcgParams, detectedCloudletsPerUser, detectedUsersPerCloudlet)
     else:
         userPrices = pricingAlgorithm(result[1], usersSing.getList(), cloudletsSing.getList(), 
-                                      algorithm, vcgParams, detectedCloudletsPerUser)
+                                      algorithm, vcgParams, detectedCloudletsPerUser, detectedUsersPerCloudlet)
     endTimePricing = time.time()
 
-    for up in userPrices:
-        user = usersSing.findById(up[0].uId)
-        user.price = up[0].price
-        user = usersSing.findById(up[0].uId)
+    if algorithm != TWO_PHASES:
+        for up in userPrices:
+            user = usersSing.findById(up[0].uId)
+            user.price = up[0].price
 
     for alloc in result[1]:
         userId = alloc[0].uId
@@ -249,7 +249,6 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
-    set(result[1])
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
                         (result[1], (endTime - startTime), (endTimePricing - startTimePricing), twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
@@ -326,7 +325,7 @@ def currentUsersInC(users, c):
             result.append(u)
     return result
 
-def pricingAlgorithm(winners, users, cloudlets, algorithm, vcgParams, detectedCloudletsPerUser):
+def pricingAlgorithm(winners, users, cloudlets, algorithm, vcgParams, detectedCloudletsPerUser, detectedUsersPerCloudlet):
     if algorithm == GREEDY_QT:
         return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True)
     elif algorithm == GREEDY_NO_QT:
@@ -336,7 +335,7 @@ def pricingAlgorithm(winners, users, cloudlets, algorithm, vcgParams, detectedCl
     elif algorithm == CROSS_EDGE_NO_QT:
         return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=False)
     elif algorithm == TWO_PHASES:
-        return twoPhases.pricing(winners, users)
+        return twoPhases.pricing(winners, detectedUsersPerCloudlet, usersSing=users)
     elif algorithm == EXACT:
         return exact.pricing(vcgParams[0], vcgParams[1], winners, vcgParams[2])
     elif algorithm == EXACT or algorithm == TWO_PHASES \

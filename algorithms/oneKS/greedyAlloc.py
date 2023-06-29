@@ -35,31 +35,24 @@ def greedyAlloc_OneKS(cloudlet, vms):
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
     return [socialWelfare, allocatedUsers]
 
-def pricing(winners, users):
+def pricing(winner, users):
     sim_utils.log(TAG, 'pricing')
+    wCloudlet = winner[1]
+    normalVms = utils.normalize(wCloudlet, users)
+    D = utils.calcDensitiesByMax(normalVms)
+    D.sort(key=lambda a: a[1], reverse=True)
 
-    for w in winners:
-        sim_utils.log(TAG, f'pricing for user {w[0].uId}')
-        normalVms = utils.normalize(w[1], users)
-        D = utils.calcDensitiesByMax(normalVms)
-        D.sort(key=lambda a: a[1], reverse=True)
-
-        occupation = utils.Resources(0, 0, 0)
-        for d in D:
-            sim_utils.log(TAG, f'pricing for user {w[0].uId} - user {d[0].uId}')
-            currentUser = d[0]
-            if utils.userFits(currentUser, occupation) and utils.checkLatencyThreshold(currentUser, w[1]):
-                utils.allocate(currentUser, occupation)
-            if not utils.userFits(w[0], occupation):
-                if w[0].price > 0:
-                    w[0].price = min(w[0].price, d[1] * w[0].maxReq)
-                else:
-                    w[0].price = d[1] * w[0].maxReq
-                sim_utils.log(TAG, f'new price for user {w[0].uId}: {w[0].price}')
-                sim_utils.log(TAG, f'bid WINNER\'S BID {w[0].uId}: {w[0].bid}')
-                sim_utils.log(TAG, f'BID < PRICE? {w[0].bid < w[0].price}')
-                break 
-    return winners
+    occupation = utils.Resources(0, 0, 0)
+    newPrice = 0
+    for d in D:
+        sim_utils.log(TAG, f'pricing for user {winner[0].uId} - user {d[0].uId}')
+        currentUser = d[0]
+        if utils.userFits(currentUser, occupation) and utils.checkLatencyThreshold(currentUser, wCloudlet):
+            utils.allocate(currentUser, occupation)
+        if not utils.userFits(winner[0], occupation):
+            newPrice = round(d[1] * winner[0].maxReq, 2)
+            break
+    return newPrice
 
 def printResults(winner, criticalValue):
     print('-----------')

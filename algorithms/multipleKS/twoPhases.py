@@ -54,11 +54,16 @@ def getResultsFrom1stPhase(allocationPerCloudlet):
             results.append(tupleAlloc)
     return results
 
-def pricing(winners1stPhase, users):
+def pricing(winners1stPhase, detectedUsersPerCloudlet, usersSing):
     sim_utils.log(TAG, 'pricing')
-    winners = alg.pricing(winners1stPhase, users)
-    defineFirstPhasePrices(winners)
-    return winners
+    for w in winners1stPhase:
+        wUser = usersSing.findById(w[0].uId)
+        newPrice = alg.pricing(w, detectedUsersPerCloudlet[w[1].cId])
+        if wUser.price > 0:
+            wUser.price = min(wUser.price, newPrice)
+        else:
+            wUser.price = newPrice
+        assert wUser.price <= wUser.bid
 
 def defineFirstPhasePrices(winners):
     sim_utils.log(TAG, 'defineFirstPhasePrices')
