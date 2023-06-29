@@ -14,9 +14,30 @@ if __name__ == '__main__':
     scriptsCalls = []
     # for algIdx in range(6):
         # for i in range(20):
+
     scriptsCalls.append(
     [f'{pathToSimulator}/simMain.py',
-    f'5', 
+    f'0', 
+    f'{nbUsers}',
+    '11', 
+    f'{pathToSimulator}/GraphGen/input_files/systemInput/{instance}.json', 
+    f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/map_20171024.xml',
+    f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/buses_20171024.xml',
+    f'0'])
+
+    scriptsCalls.append(
+    [f'{pathToSimulator}/simMain.py',
+    f'2', 
+    f'{nbUsers}',
+    '11', 
+    f'{pathToSimulator}/GraphGen/input_files/systemInput/{instance}.json', 
+    f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/map_20171024.xml',
+    f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/buses_20171024.xml',
+    f'0'])
+
+    scriptsCalls.append(
+    [f'{pathToSimulator}/simMain.py',
+    f'4', 
     f'{nbUsers}',
     '11', 
     f'{pathToSimulator}/GraphGen/input_files/systemInput/{instance}.json', 
@@ -24,5 +45,5 @@ if __name__ == '__main__':
     f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/buses_20171024.xml',
     f'0'])
         
-    with multiprocessing.Pool(processes=5) as pool:
+    with multiprocessing.Pool(processes=3) as pool:
         pool.map(run_script, scriptsCalls, chunksize=1)
