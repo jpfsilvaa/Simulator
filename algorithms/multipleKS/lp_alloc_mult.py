@@ -80,11 +80,13 @@ def build(cloudlets, users):
     #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
     #m.write(fileName)
 
+    m.setParam(GRB.Param.Threads, 1)
+
     startTime = time.time()
     m.optimize()
     endTime = time.time()
     optResult = getResult(m, c_ids, v_ids)
-    printSolution(m, optResult, v_types)
+    # printSolution(m, optResult, v_types)
     clSing = CloudletsListSingleton()
     usSing = UsersListSingleton()
     allocRes = [(usSing.findById(v), clSing.findById(c)) for (v,c) in optResult.items()]
