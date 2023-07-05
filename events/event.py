@@ -59,18 +59,19 @@ class Event(Enum):
 def writeStats(simClock, heapSing, eTuple):
     utils.log(TAG, 'writeStats')
     # TUPLE FORMAT: (time to execute, eventID, event type, contentSubtuple)
-    # contentSubtuple: (winnersTuple, execution time, pricing time, 
+    # contentSubtuple: ([nbUsers, winnersTuple], execution time, pricing time, 
     # [1st phase time, 2nd phase time], latencies)
     stats = SimStatistics()
-    winners = [winner[0] for winner in eTuple[3][0]]
-    stats.writeLatencyStats(eTuple[0], eTuple[3][4])
-    stats.writeSocialWelfareStats(eTuple[0], winners)
-    stats.writeExecTimeStats(eTuple[0], eTuple[3][1], eTuple[3][2], eTuple[3][3])
-    stats.writePricesStats(eTuple[0], winners)
-    stats.writeCloudletsUsageStats(eTuple[0])
+    winners = [winner[0] for winner in eTuple[3][0][1]]
+    nbUsers = eTuple[3][0][0]
+    stats.writeLatencyStats(eTuple[0], eTuple[3][4], nbUsers)
+    stats.writeSocialWelfareStats(eTuple[0], nbUsers, winners)
+    stats.writeExecTimeStats(eTuple[0], eTuple[3][1], eTuple[3][2], eTuple[3][3], nbUsers)
+    stats.writePricesStats(eTuple[0], winners, nbUsers)
+    stats.writeCloudletsUsageStats(eTuple[0], nbUsers)
     stats.writeCloudletsState(eTuple[0])
     stats.writeUsersState(eTuple[0], winners)
-    stats.writeAllocationResults(eTuple[0], eTuple[3][0])
+    stats.writeAllocationResults(eTuple[0], eTuple[3][0][1])
 
 def getLatencies(pairsResult, mainGraph):
     utils.log(TAG, 'getLatencies')
@@ -250,7 +251,9 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
 
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
-                        (result[1], (endTime - startTime), (endTimePricing - startTimePricing), twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
+                        ([len(usersSing.getList()), result[1]], 
+                        (endTime - startTime), (endTimePricing - startTimePricing), 
+                        twoPExecTimes, (getLatencies(result[1], eTuple[3]))))
     heapSing.insertEvent(simClock.getTimerValue() + simClock.getDelta(), Event.CALL_OPT, (eTuple[3]))
 
 def setPastCloudlets(result):

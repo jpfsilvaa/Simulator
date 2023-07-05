@@ -122,28 +122,25 @@ class SimStatistics:
         self.writeFileUsersStates(preTitle, f'{USERS_STATES_FILENAME}_{algorithm}_{instance}', self.usersStates)
         self.writeFileAllocResults(preTitle, f'{ALLOC_RESULTS_FILENAME}_{algorithm}_{instance}', self.allocResults)
 
-    def writeLatencyStats(self, timeStep, latencies):
+    def writeLatencyStats(self, timeStep, latencies, nbUsers):
         utils.log(TAG, 'writeLatencyStats')
         users = UsersListSingleton().getList()
         avgLatency = sum(latencies) / len(users)
-        self.avgLatencies[timeStep] = (len(users), avgLatency)
+        self.avgLatencies[timeStep] = (nbUsers, avgLatency)
 
-    def writeSocialWelfareStats(self, timeStep, winners):
+    def writeSocialWelfareStats(self, timeStep, nbUsers, winners):
         utils.log(TAG, 'writeSocialWelfareStats')
-        users = UsersListSingleton().getList()
         socialWelfare = sum([u.bid for u in winners])
-        self.totalSocialWelfares[timeStep] = (len(users), len(winners), socialWelfare)
+        self.totalSocialWelfares[timeStep] = (nbUsers, len(winners), socialWelfare)
 
-    def writePricesStats(self, timeStep, winners):
+    def writePricesStats(self, timeStep, winners, nbUsers):
         utils.log(TAG, 'writePricesStats')
-        users = UsersListSingleton().getList()
         prices = sum([u.price for u in winners])
-        self.totalPrices[timeStep] = (len(users), len(winners), prices)
+        self.totalPrices[timeStep] = (nbUsers, len(winners), prices)
 
-    def writeCloudletsUsageStats(self, timeStep):
+    def writeCloudletsUsageStats(self, timeStep, nbUsers):
         utils.log(TAG, 'writeCloudletsUsageStats')
         cloudlets = CloudletsListSingleton().getList()
-        users = UsersListSingleton().getList()
         cpuUsage = []
         cpuUnused = []
         storageUsage = []
@@ -171,14 +168,13 @@ class SimStatistics:
                 ramUsage.append((usedRam/c.resourcesFullValues.ram) * 100)
                 ramUnused.append((c.resources.ram/c.resourcesFullValues.ram) * 100)
         
-        self.clUsages[timeStep] = (len(users), usedCloudlets, np.mean(cpuUsage), np.std(cpuUsage), sum(cpuUnused),
+        self.clUsages[timeStep] = (nbUsers, usedCloudlets, np.mean(cpuUsage), np.std(cpuUsage), sum(cpuUnused),
                                                     np.mean(storageUsage), np.std(storageUsage), sum(storageUnused), 
                                                     np.mean(ramUsage), np.std(ramUsage), sum(ramUnused))
     
-    def writeExecTimeStats(self, timeStep, execTime, pricingTime, twoPhasesTime):
+    def writeExecTimeStats(self, timeStep, execTime, pricingTime, twoPhasesTime, nbUsers):
         utils.log(TAG, 'writeExecTimeStats')
-        users = UsersListSingleton().getList()
-        self.execTimes[timeStep] = (len(users), execTime, pricingTime, twoPhasesTime)
+        self.execTimes[timeStep] = (nbUsers, execTime, pricingTime, twoPhasesTime)
     
     def writeCloudletsState(self, timeStep):
         cloudlets = CloudletsListSingleton().getList()
