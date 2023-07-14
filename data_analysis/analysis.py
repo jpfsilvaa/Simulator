@@ -137,6 +137,40 @@ def plotWinners(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
+def plotResUsage(algorithms, users, instance, graphType, x, y, ylabel, fileName ,res):
+    dataframes = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/0/{graphType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        df[x] -= 1
+        df[x] /= 60
+        dataframes.append(df)
+
+    bar_width = 0.5
+    bar_positions = np.arange(len(dataframes[0][x]))
+    offset = bar_width / 4
+
+    fourth_bar_width = 1.2*bar_width
+
+    fig, ax = plt.subplots()
+
+    ax.bar(bar_positions - 2.05*offset, dataframes[0]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[0]['algorithm'][0]}")
+    ax.bar(bar_positions - 1.5*offset, dataframes[0][y]*dataframes[0]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[0]['algorithm'][0])
+    ax.bar(bar_positions - 1.05*offset, dataframes[1]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[1]['algorithm'][0]}")
+    ax.bar(bar_positions - 0.5*offset, dataframes[1][y]*dataframes[1]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[1]['algorithm'][0])
+    ax.bar(bar_positions - 0.05*offset, dataframes[2]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[2]['algorithm'][0]}")
+    ax.bar(bar_positions + 0.5*offset, dataframes[2][y]*dataframes[2]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[2]['algorithm'][0])
+    ax.bar(bar_positions + 1.05*offset, dataframes[3]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[3]['algorithm'][0]}")
+    ax.bar(bar_positions + 1.5*offset, dataframes[3][y]*dataframes[3]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
+
+    ax.set_xlabel(f'{x} (minutes)')
+    ax.set_ylabel(ylabel)
+    ax.set_xticks(bar_positions)
+    ax.set_yticks(np.arange(0, 1001, 100))
+    ax.legend()
+    plt.savefig(f'{fileName}_comparison.png')
+    plt.show()
+
 def plotLatencyByComp(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     dataframes = []
     for alg in algorithms:
@@ -215,22 +249,13 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName, cut
         df['time-step'] /= 60
         dataframes.append(df)
 
-    combinedDf = pd.concat(dataframes)
-    if x == 'number of users':
-        if cutGroups:
-            combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 131, 35), right=False, include_lowest=True)
-            plt.figure(figsize=(10, 6))
-            g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
-        else:
-            combinedDf['group'] = pd.cut(combinedDf[x], bins=range(0, 101, 100), right=False, include_lowest=True)
-            plt.figure(figsize=(10, 6))
-            g = sb.boxplot(data=combinedDf, x='group', y=y, hue='algorithm')
-    else:
-        plt.figure(figsize=(10, 6))
-        g = sb.boxplot(data=combinedDf, x=x, y=y, hue='algorithm')
-    g.legend_.set_title(None)
-    # g.set_yticks(range(0, 101, 10))
-    plt.xlabel(x)
+    combinedDf = pd.DataFrame()
+    for df in dataframes:
+        combinedDf[df['algorithm'][0]] = df[y]
+
+    plt.figure(figsize=(10, 6))
+    g = sb.boxplot(data=pd.melt(combinedDf), x='variable', y='value')
+    plt.xlabel('')
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
@@ -274,19 +299,141 @@ def buildBoxplotForCloudlets(algorithms, users, instance):
         plt.savefig(f'cloudlets_{resource}_comparison.png')
         plt.show()
 
-algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'Cross Edge'), 
-              (3, 'Cross Edge with QuadTree'), (4, '2-phases')]
-algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases'), (5, 'VCG')]
-algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge'), (4, '2-phases')]
-algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'Cross Edge with QuadTree')]
+def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
+    datasets = []
+    for alg in algorithms:
+        algDatasets = []
+        for i in range(20):
+            filename = f'{PATH}{alg[0]}-{users}users/{i}/exec_time_{alg[0]}_11.csv'
+            dataset = pd.read_csv(filename)
+            dataset['time-step'] -= 1
+            dataset['time-step'] /= 60
+            dataset['total time'] = dataset['exec time'] + dataset['pricing time']
+            algDatasets.append(dataset)
+        datasets.append(algDatasets)
+    
+    combinedData = [{} for _ in range(len(algorithms))]
+    for i, algDatasets in enumerate(datasets):
+        for dataset in algDatasets:
+            for index, row in dataset.iterrows():
+                x_value = row[x]
+                y_value = row['exec time']
+
+                if x_value not in combinedData[i]:
+                    combinedData[i][x_value] = []
+                combinedData[i][x_value].append(y_value)
+    
+    x_values = []
+    averages = []
+    std_deviations = []
+
+    for alg in range(len(algorithms)):
+        alg_x_values = []
+        alg_averages = []
+        alg_std_deviations = []
+        sortedKeys = sorted(combinedData[alg].keys())
+        for x_value in sortedKeys:
+            alg_x_values.append(x_value)
+            alg_averages.append(np.mean(combinedData[alg][x_value]))
+            alg_std_deviations.append(np.std(combinedData[alg][x_value]))
+        x_values.append(alg_x_values)
+        averages.append(alg_averages)
+        std_deviations.append(alg_std_deviations)
+    
+    fig, axs = plt.subplots(2, height_ratios=[1, 5], gridspec_kw={'hspace': 0.02}, sharex=True, figsize=(10, 6))
+
+    axs[0].bar(x_values[0], datasets[0][0]['number of users'], color='white', edgecolor='black', linestyle="--")
+    axs[0].tick_params(left = False, right = False , labelleft = False ,
+                labelbottom = False, bottom = False)
+    axs[0].spines['top'].set_visible(False)
+    axs[0].spines['right'].set_visible(False)
+    axs[0].spines['bottom'].set_visible(False)
+    axs[0].spines['left'].set_visible(False)
+    for i in range(len(x_values[0])):
+        axs[0].text(x_values[0][i], datasets[0][0]['number of users'][i]+10, str(datasets[0][0]['number of users'][i]), ha='center', va='center')
+
+    for i in range(len(algorithms)):
+        axs[1].plot(x_values[i], averages[i], label=algorithms[i][1])
+        axs[1].fill_between(x_values[i], np.subtract(averages[i],std_deviations[i]), 
+                        np.add(averages[i],std_deviations[i]), alpha=0.5)
+
+    plt.legend(loc='upper right')
+    plt.xlabel(x)
+    plt.xticks(x_values[0])
+    plt.ylabel('auction exec time (seconds)')
+    plt.show()
+
+def buildTwoPhasesComparison(users, instance, x):
+    y = 'two-phases time'
+    datasets = []
+    for i in range(1, 20):
+        filename = f'{PATH}4-{users}users/{i}/exec_time_4_11.csv'
+        dataset = pd.read_csv(filename)
+        dataset['time-step'] -= 1
+        dataset['time-step'] /= 60
+        dataset['phase 1'] = 0
+        dataset['phase 2'] = 0
+        for index, row in dataset.iterrows():
+            dataset.loc[index, 'phase 1'] = float(dataset.loc[index, 'two-phases time'].split(',')[0].replace('[', ''))
+            dataset.loc[index, 'phase 2'] = float(dataset.loc[index, 'two-phases time'].split(',')[1].replace(']', ''))
+        datasets.append(dataset)
+
+    combinedDataPhase1 = {}
+    combinedDataPhase2 = {}
+    for dataset in datasets:
+        for index, row in dataset.iterrows():
+            x_value = row[x]
+            phase1 = row['phase 1']
+            phase2 = row['phase 2']
+
+            if x_value not in combinedDataPhase1:
+                combinedDataPhase1[x_value] = []
+            combinedDataPhase1[x_value].append(phase1)
+
+            if x_value not in combinedDataPhase2:
+                combinedDataPhase2[x_value] = []
+            combinedDataPhase2[x_value].append(phase2)
+
+    averagesPhase1 = []
+    averagesPhase2 = []
+    std_deviationsPhase1 = []
+    std_deviationsPhase2 = []
+    sortedKeys = sorted(combinedDataPhase1.keys())
+    for x_value in sortedKeys:
+        averagesPhase1.append(np.mean(combinedDataPhase1[x_value]))
+        std_deviationsPhase1.append(np.std(combinedDataPhase1[x_value]))
+        averagesPhase2.append(np.mean(combinedDataPhase2[x_value]))
+        std_deviationsPhase2.append(np.std(combinedDataPhase2[x_value]))
+    print(f'phase 1: {averagesPhase1}\n')
+    print(f'std phase 1: {std_deviationsPhase1}\n\n')
+    print(f'phase 2: {averagesPhase2}\n\n')
+    print(f'std phase 2: {std_deviationsPhase2}\n')
+    print(f'x values: {sortedKeys}\n\n')
+    plt.stackplot(sortedKeys, averagesPhase1, averagesPhase2, labels=['phase 1', 'phase 2'])
+    plt.xlabel(x)
+    plt.ylabel('time (seconds)')
+    plt.legend(['phase 1', 'phase 2'])
+    plt.show()
+
+algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
+algorithms_cQT = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO')]
+algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
+algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases')]
+algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree')]
 users = 100
 instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-buildBoxplotForCloudlets(algorithms_, users, instance)
+buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
 
-# plotWinners(algorithms_, users, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
+# buildTwoPhasesComparison(users, instance, byTimeStep) # vai virar uma frase só, sem grafico
+
+# plotWinners(algorithms_, 100, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
+
+# plotResUsage(algorithms_, 100, instance, 'cloudlets_usage', byTimeStep, 'used cpu avg', 'used cpu (%)', 'cpu_250', 'CPU')
+# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
+# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
@@ -294,21 +441,8 @@ buildBoxplotForCloudlets(algorithms_, users, instance)
 # swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
 # swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
 
-# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byTimeStep,
-#                'used cpu avg', 'cpu usage (%)', 'cpu_boxplot', True)
-
-# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
-#                 'used ram avg', 'ram usage (%)', 'ram_boxplot', True)
-
-# buildBoxplot(algorithms_, users, instance, 'cloudlets_usage', byUsers,
-#                 'used storage avg', 'storage usage (%)', 'storage_boxplot', True)
-
-# cloudletsUsageComparison(algorithms_, users, instance)
-
 # buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 
-#              'number of winners', 'winner users', 'winners_bp', True)
-
-# cloudletsUsageComparison(algorithms_, users, instance)
+#              'number of winners', 'winner users', 'winners_bp', False)
 
 # ---------------------------------------------------------------------------
 
