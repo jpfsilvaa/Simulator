@@ -9,10 +9,10 @@ if __name__ == '__main__':
     nbUsers = 100
     home = '/home/jps/'
     pathToSimulator = home + '/GraphGenFrw/Simulator'
-    instance = 'newInst100_f3'
+    instance = 'newInst100_f2'
     
     scriptsCalls = []
-    for algIdx in [0, 1, 2, 3, 4]:
+    for algIdx in [0]:
         # for i in range(20):
         scriptsCalls.append(
         [f'{pathToSimulator}/simMain.py',
@@ -24,5 +24,5 @@ if __name__ == '__main__':
         f'{pathToSimulator}/GraphGen/BusMovementModel/raw_data/buses_20171024.xml',
         f'0'])
         
-    with multiprocessing.Pool(processes=5) as pool:
+    with multiprocessing.Pool(processes) as pool:
         pool.map(run_script, scriptsCalls, chunksize=1)

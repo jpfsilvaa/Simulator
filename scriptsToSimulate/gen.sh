@@ -1,4 +1,4 @@
-nbUsers=(250)
+nbUsers=(150)
 pathToSimulator=/home/jps/GraphGenFrw/Simulator
 for algIdx in {0..5}
 do

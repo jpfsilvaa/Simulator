@@ -198,4 +198,4 @@ class SimStatistics:
                                                 wText))
 
     def writeAllocationResults(self, timeStep, winners):
-        self.allocResults[timeStep] = (len(winners), [(u.uId, c.cId) for (u,c) in winners])
+        self.allocResults[timeStep] = (len(winners), [(u.uId, u.vmType, c.cId) for (u,c) in winners])

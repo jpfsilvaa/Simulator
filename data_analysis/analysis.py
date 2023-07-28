@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sb
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 
 SIM_PATH = '/home/jps/GraphGenFrw/Simulator/'
 PATH = f'{SIM_PATH}logfiles/alg'
@@ -79,6 +80,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
         dataframes.append(df)
 
     merged_df = pd.concat(dataframes)
+    plt.figure(figsize=(8, 6))
     g = sb.lineplot(x=xAxis, y=cumulative, data=merged_df, hue='algorithm')
     g.legend_.set_title(None)
     g.set_xticks(np.arange(0, len(dataframes[0][xAxis]), 1))
@@ -154,14 +156,14 @@ def plotResUsage(algorithms, users, instance, graphType, x, y, ylabel, fileName 
 
     fig, ax = plt.subplots()
 
-    ax.bar(bar_positions - 2.05*offset, dataframes[0]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[0]['algorithm'][0]}")
-    ax.bar(bar_positions - 1.5*offset, dataframes[0][y]*dataframes[0]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[0]['algorithm'][0])
-    ax.bar(bar_positions - 1.05*offset, dataframes[1]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[1]['algorithm'][0]}")
-    ax.bar(bar_positions - 0.5*offset, dataframes[1][y]*dataframes[1]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[1]['algorithm'][0])
-    ax.bar(bar_positions - 0.05*offset, dataframes[2]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[2]['algorithm'][0]}")
-    ax.bar(bar_positions + 0.5*offset, dataframes[2][y]*dataframes[2]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[2]['algorithm'][0])
-    ax.bar(bar_positions + 1.05*offset, dataframes[3]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='black', linestyle="--", label=f"Sum of {res} from used cloudlets in {dataframes[3]['algorithm'][0]}")
-    ax.bar(bar_positions + 1.5*offset, dataframes[3][y]*dataframes[3]['used cloudlets'], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
+    ax.bar(bar_positions - 2.05*offset, dataframes[0]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='blue', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[0]['algorithm'][0]}")
+    ax.bar(bar_positions - 1.5*offset, dataframes[0][y]*dataframes[0]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[0]['algorithm'][0]}")
+    ax.bar(bar_positions - 1.05*offset, dataframes[1]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='orange', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[1]['algorithm'][0]}")
+    ax.bar(bar_positions - 0.5*offset, dataframes[1][y]*dataframes[1]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[1]['algorithm'][0]}")
+    ax.bar(bar_positions - 0.05*offset, dataframes[2]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='green', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[2]['algorithm'][0]}")
+    ax.bar(bar_positions + 0.5*offset, dataframes[2][y]*dataframes[2]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[2]['algorithm'][0]}")
+    ax.bar(bar_positions + 1.05*offset, dataframes[3]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='red', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[3]['algorithm'][0]}")
+    ax.bar(bar_positions + 1.5*offset, dataframes[3][y]*dataframes[3]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[3]['algorithm'][0]}")
 
     ax.set_xlabel(f'{x} (minutes)')
     ax.set_ylabel(ylabel)
@@ -260,6 +262,52 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName, cut
     plt.savefig(f'{fileName}_comparison.png')
     plt.show()
 
+def buildBoxplot_VMTypes(algorithms, users, instance, yType, x, y, ylabel, fileName):
+    dataframes = []
+    alg_names = []
+    for alg in algorithms:
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/0/{yType}_{alg[0]}_{instance}.csv')
+        df['algorithm'] = alg[1]
+        alg_names.append(alg[1])
+        df['time-step'] -= 1
+        df['time-step'] /= 60
+        df['gp1'] = 0
+        df['gp2'] = 0
+        df['ramIntensive'] = 0
+        df['cpuIntensive'] = 0
+        for idx, row in df.iterrows():
+            df.at[idx, 'gp1'] = len(re.findall(r"'gp1'", row['result list']))
+            df.at[idx, 'gp2'] = len(re.findall(r"'gp2'", row['result list']))
+            df.at[idx, 'ramIntensive'] = len(re.findall(r"'ramIntensive'", row['result list']))
+            df.at[idx, 'cpuIntensive'] = len(re.findall(r"'cpuIntensive'", row['result list']))
+        dataframes.append(df)
+    
+    combinedDf_gp1 = pd.DataFrame()
+    combinedDf_gp2 = pd.DataFrame()
+    combinedDf_ramIntensive = pd.DataFrame()
+    combinedDf_cpuIntensive = pd.DataFrame()
+    for df in dataframes:
+        combinedDf_gp1[df['algorithm'][0]] = df['gp1']
+        combinedDf_gp2[df['algorithm'][0]] = df['gp2']
+        combinedDf_ramIntensive[df['algorithm'][0]] = df['ramIntensive']
+        combinedDf_cpuIntensive[df['algorithm'][0]] = df['cpuIntensive']
+    combinedDf_gp1['type'] = "gp1"
+    combinedDf_gp2['type'] = "gp2"
+    combinedDf_ramIntensive['type'] = "ramIntensive"
+    combinedDf_cpuIntensive['type'] = "cpuIntensive"
+    
+    combinedDf = pd.concat([combinedDf_gp1, combinedDf_gp2, combinedDf_ramIntensive, combinedDf_cpuIntensive])
+    melted_data = pd.melt(combinedDf, id_vars=['type'], value_vars=alg_names, var_name='Category', value_name='Values')
+    # print(melted_data)
+
+    plt.figure(figsize=(10, 6))
+    g = sb.boxplot(x='Category', y='Values', data=melted_data, hue='type')
+    plt.xlabel('')
+    plt.ylabel('number of winners')
+    plt.savefig(f'{fileName}_comparison.png')
+    plt.show()
+    
+
 def addPercentageColumns(df):
     resources = ['cpu', 'ram', 'storage']
     for resource in resources:
@@ -317,7 +365,7 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
         for dataset in algDatasets:
             for index, row in dataset.iterrows():
                 x_value = row[x]
-                y_value = row['exec time']
+                y_value = row['total time']
 
                 if x_value not in combinedData[i]:
                     combinedData[i][x_value] = []
@@ -354,8 +402,8 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
 
     for i in range(len(algorithms)):
         axs[1].plot(x_values[i], averages[i], label=algorithms[i][1])
-        axs[1].fill_between(x_values[i], np.subtract(averages[i],std_deviations[i]), 
-                        np.add(averages[i],std_deviations[i]), alpha=0.5)
+        # axs[1].fill_between(x_values[i], np.subtract(averages[i],std_deviations[i]), 
+        #                 np.add(averages[i],std_deviations[i]), alpha=0.5)
 
     plt.legend(loc='upper right')
     plt.xlabel(x)
@@ -417,7 +465,7 @@ def buildTwoPhasesComparison(users, instance, x):
 
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
 algorithms_cQT = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO')]
-algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
+algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree'), (4, '2-phases'), (5, 'VCG')]
 algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree')]
 users = 100
@@ -425,24 +473,26 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
+# buildBoxplot_VMTypes(algorithms_, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
+
+# buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
 
 # buildTwoPhasesComparison(users, instance, byTimeStep) # vai virar uma frase só, sem grafico
 
 # plotWinners(algorithms_, 100, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
 
-# plotResUsage(algorithms_, 100, instance, 'cloudlets_usage', byTimeStep, 'used cpu avg', 'used cpu (%)', 'cpu_250', 'CPU')
-# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
-# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
+plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used cpu avg', 'used cpu (%)', 'cpu_250', 'CPU')
+plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
+plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
-# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
-# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
+swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
+swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
 
 # buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 
-#              'number of winners', 'winner users', 'winners_bp', False)
+#               'number of winners', 'winner users', 'winners_bp', False)
 
 # ---------------------------------------------------------------------------
 
