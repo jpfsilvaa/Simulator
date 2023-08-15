@@ -338,7 +338,7 @@ def pricingAlgorithm(winners, users, cloudlets, algorithm, vcgParams, detectedCl
     elif algorithm == CROSS_EDGE_NO_QT:
         return ce_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=False)
     elif algorithm == TWO_PHASES:
-        return twoPhases.pricing(winners, detectedUsersPerCloudlet, usersSing=users)
+        return twoPhases.pricing(winners, detectedUsersPerCloudlet, usersSing=users, cloudlets=cloudlets)
     elif algorithm == EXACT:
         return exact.pricing(vcgParams[0], vcgParams[1], winners, vcgParams[2])
     elif algorithm == EXACT or algorithm == TWO_PHASES \
