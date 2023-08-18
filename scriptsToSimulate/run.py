@@ -9,7 +9,7 @@ if __name__ == '__main__':
     nbUsers = 100
     home = '/home/jps/'
     pathToSimulator = home + 'GraphGenFrw/Simulator'
-    instance = 'newInst100_f2_'
+    instance = 'newInst100_f3'
     
     scriptsCalls = []
     for algIdx in [4]:

@@ -69,7 +69,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     cumulative = 'cumulative'
     inputFile = yAxis if yAxis == 'prices' else 'social_welfare'
     for alg in algorithms:
-        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/0/{inputFile}_{alg[0]}_{instance}.csv')
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/1/{inputFile}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
         df['time-step'] -= 1
         df['time-step'] /= 60
@@ -87,6 +87,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     sb.despine()
     plt.ylabel(f'cumulative {yAxis} ($)')
     plt.xlabel(f'{xAxis} (minutes)')
+    plt.yticks(np.arange(0, 200001, 25000))
     plt.savefig(f'{yAxis}_comparison_100.png')
     plt.show()
 
@@ -481,14 +482,14 @@ byUsers = 'number of users'
 
 # plotWinners(algorithms_, 100, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
 
-plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used cpu avg', 'used cpu (%)', 'cpu_250', 'CPU')
-plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
-plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
+# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used cpu avg', 'used cpu (%)', 'cpu_250', 'CPU')
+# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
+# plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
 
 # buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
-swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
+# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
 swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
 
 # buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 

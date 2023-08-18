@@ -75,7 +75,6 @@ def pricing(winners1stPhase, detectedUsersPerCloudlet, usersSing, cloudlets):
             wUser.price = newPrice
         assert wUser.price <= wUser.bid
 
-    # TODO: clean the winners1stPhase list to include only one user per id but with the correct price
     winners1stPhase_ = []
     for w in winners1stPhase:
         if w not in winners1stPhase_:
@@ -219,41 +218,27 @@ def linearProgram(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudle
     finalResult = []
     model = gp.Model('2nd phase allocation')
     model.Params.LogToConsole = 0
-    
-    source_node = 's'
+    model.setParam(GRB.Param.Threads, 1)
 
     # edges from the users to the cloudlets
-    adjList = {}
     arcs = {}
     usersIdsM = [u.uId for u in usersAllocated]
     usersIdsN = [u.uId for u in usersNonAllocated]
     cloudletsIds = [c.cId for c in cloudlets]
     allUsersIds = usersIdsM + usersIdsN
+    allNodes = allUsersIds + cloudletsIds
+    adjList = {i: [] for i in allNodes}
     for u in allUsersIds:
-        adjList[u] = []
         for c in cloudletsIds:
             if utils.checkLatencyThreshold(UsersListSingleton().findById(u),
                                              CloudletsListSingleton().findById(c)):
                 adjList[u].append(c)
+                adjList[c].append(u)
                 arcs[u, c] = model.addVar(vtype=GRB.BINARY, name='x_%s_%s' % (u, c))
-
-    # edges from the source only to the non allocated users
-    adjList[source_node] = []
-    for u in usersIdsN:      
-        adjList[source_node].append(u)  
-        arcs[source_node, u] = model.addVar(vtype=GRB.BINARY, name='x_%s_%s' % (source_node, u))
-
-    # edges from the cloudlets to the sink with nb as the capacity
-    for c in cloudletsIds:
-        adjList[c] = []
-        sinkNodes = [f'sink_c{c}_{i}' for i in range(nbUsersInCloudletDict[c])]
-        for sink_node in sinkNodes:
-            adjList[c].append(sink_node)
-            arcs[c, sink_node] = model.addVar(vtype=GRB.BINARY, name='x_%s_%s' % (c, sink_node))
     
     model.setObjective(gp.quicksum(arcs[i,j] for i in usersIdsN for j in adjList[i]), GRB.MAXIMIZE)
 
-    # non-allocated cosntraint
+    # non-allocated constraint
     for i in usersIdsN:
         model.addConstr(gp.quicksum(arcs[i,j] for j in adjList[i]) <= 1, name=f'nonAllocated_{i}')
 
@@ -262,9 +247,9 @@ def linearProgram(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudle
         model.addConstr(gp.quicksum(arcs[i,j] for j in adjList[i]) == 1, name=f'allocated_{i}')
     
     # capacity constraint:
-    for i in cloudletsIds:
-        model.addConstr(gp.quicksum(arcs[i,j] for j in adjList[i]) <= nbUsersInCloudletDict[i], name=f'capacity_{i}')
-    
+    for j in cloudletsIds:
+        model.addConstr(gp.quicksum(arcs[i,j] for i in adjList[j]) <= nbUsersInCloudletDict[j], name=f'capacity_{j}')
+
     model.write('2phases.lp')
     model.optimize()
 
@@ -277,6 +262,7 @@ def linearProgram(cloudlets, usersAllocated, usersNonAllocated, nbUsersInCloudle
         sim_utils.log(TAG, 'No solution found')
 
     model.dispose()
+    sim_utils.log(TAG, f'finalResult {finalResult} \n\n')
     return finalResult
 
 def calculateFlow(cloudlets, usersNonAllocated, usersAllocated, nbUsersInCloudletDict, nbUsersNonAllocated):

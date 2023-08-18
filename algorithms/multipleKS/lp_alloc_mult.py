@@ -80,7 +80,7 @@ def build(cloudlets, users):
     #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
     #m.write(fileName)
 
-    #m.setParam(GRB.Param.Threads, 1)
+    m.setParam(GRB.Param.Threads, 1)
 
     startTime = time.time()
     m.optimize()
