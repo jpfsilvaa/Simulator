@@ -476,7 +476,7 @@ byUsers = 'number of users'
 
 # buildBoxplot_VMTypes(algorithms_, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
 
-# buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
+buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
 
 # buildTwoPhasesComparison(users, instance, byTimeStep) # vai virar uma frase só, sem grafico
 
@@ -490,7 +490,7 @@ byUsers = 'number of users'
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
 # swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
-swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
+# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
 
 # buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 
 #               'number of winners', 'winner users', 'winners_bp', False)
