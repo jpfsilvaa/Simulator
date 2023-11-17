@@ -8,6 +8,7 @@ from algorithms.multipleKS import crossEdgePaper_ as ce_
 from algorithms.multipleKS import twoPhases as twoPhases
 from algorithms.multipleKS import lp_alloc_mult as exact
 from prediction.pred_methods import hedge_ as hedgePrediction
+from prediction import prediction as pred_tc
 
 from GraphGen.OsmToRoadGraph.utils import geo_tools
 from sim_entities.cloudlets import CloudletsListSingleton
@@ -249,6 +250,8 @@ def optimizeAlloc(simClock, heapSing, eTuple):
         cloudletId = alloc[1].cId
         eventSubtuple = (userId, cloudletId, eTuple[3])
         heapSing.insertEvent(simClock.getTimerValue(), Event.ALLOCATE_USER, eventSubtuple)
+    
+    # setPastCloudlets(result[1]) # method used for the (deprecated) prediction
 
     heapSing.insertEvent(simClock.getTimerValue() + 1, Event.WRITE_STATISTICS, 
                         ([len(usersSing.getList()), result[1]], 
@@ -305,7 +308,8 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudlets
     elif algorithm == EXACT:
         return exact.build(cloudlets, users)
     elif algorithm == PRED_TCHAPEU:
-        pass
+        detectedCloudletsPerCloudlet = utils.detectCloudletsFromQT_(cloudlets, quadtree) # dict: cId -> list of cloudlets
+        return [0, pred_tc.predictAll(users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, int(TimerSingleton().getTimerValue()/TimerSingleton().getDelta()))]
     elif algorithm == PRED_TCHAPEU_DISC:
         pass
     elif algorithm == PRED_HEDGE:

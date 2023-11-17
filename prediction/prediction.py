@@ -1,31 +1,31 @@
-from markov_main import Markov
+import prediction.pred_methods.t_chapeau as t_c
+import random
 
-class AllocPrediction:
-    def __init__(self, users, cloudlets, mainGraph, seed):
-        self.users = users
-        self.cloudlets = cloudlets
-        self.mainGraph = mainGraph
-        self.seed = seed
+def predictAll(users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, timeStep):
+    mainResult = []
+    for u in users:
+        result = predict(u, users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, timeStep)
+        mainResult.append((u, result.entity))
+    return mainResult
 
-    def predict(self, user):
-        probabilities = getProbabilities(user)
-        mc = Markov(self.cloudlets, probabilities, self.seed)
-        return mc.nextState(user.allocatedCloudlet)
+def predict(user, users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, timeStep):
+    probabilities, cloudlets = getProbabilities(user, users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, timeStep)
+    print(f'cloudlets: {[c.entity.cId for c in cloudlets]}')
+    print(f'probabilities: {probabilities}')
+    
+    if sum(probabilities) == 0:
+        for p in range(len(probabilities)):
+            probabilities[p] = 1
+    
+    resultCloudlet = random.choices(cloudlets, weights=probabilities, k=1)
+    print(f'resultCloudlet: {resultCloudlet[0].entity.cId}')
+    return resultCloudlet[0]
+    
 
-    def predictAll(self):
-        mainResult = []
-        for u in self.users:
-            result = predict(u)
-            mainResult.append((u, result))
-        return mainResult
-
-    def getProbabilities(self):
-        probabilities = dict()
-        # TODO: A METHOD TO IDENTIFY THE CLOUDLETS IN A RADIUS OF X METERS FROM ONE SOURCE CLOUDLET 
-        cloudletsNearby = getCloudlets(user.allocatedCloudlet) 
-
-        for c in cloudletsNearby:
-            probabilities[c] = 0 # t_chapeau(user, allCloudlets)
-
-        # TODO: fill the probabilities dict with the other cloudlets apart from the getCLoudlets method with probability values as zero
-        return probabilities
+def getProbabilities(user, users, detectedCloudletsPerUser, detectedCloudletsPerCloudlet, timeStep):
+    probabilities = []
+    cloudlets = detectedCloudletsPerUser[user.uId]
+    for c in cloudlets:
+        probabilities.append(t_c.calcProbability(user, users, c.entity, detectedCloudletsPerCloudlet, timeStep))
+    
+    return probabilities, cloudlets
