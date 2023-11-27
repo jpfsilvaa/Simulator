@@ -6,13 +6,13 @@ def run_script(script_path):
     subprocess.call(script_path)
 
 if __name__ == '__main__':
-    nbUsers = 100
+    nbUsers = 500
     home = '/home/jps/'
     pathToSimulator = home + 'GraphGenFrw/Simulator'
-    instance = 'newInst100_f3'
+    instance = 'newInst500'
     
     scriptsCalls = []
-    for algIdx in [4]:
+    for algIdx in [0]:
         # for i in range(20):
         scriptsCalls.append(
         [f'{pathToSimulator}/simMain.py',
