@@ -20,6 +20,7 @@ import sim_utils as utils
 import logging
 import time
 import random
+from timeout_decorator import timeout, TimeoutError
 
 TAG = 'event.py'
 
@@ -296,11 +297,20 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudlets
     utils.log(TAG, 'allocationAlgorithm')
 
     if algorithm == GREEDY_QT:
-        return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
+        try:
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
+        except TimeoutError:
+            TimerSingleton().optTimeLimitReached = True
+            utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
+            return [0, []]
     elif algorithm == GREEDY_NO_QT:
         return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=False)
     elif algorithm == CROSS_EDGE_QT:
-        return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
+        try:
+            return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True)
+        except TimeoutError:
+            TimerSingleton().optTimeLimitReached = True
+            utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
     elif algorithm == CROSS_EDGE_NO_QT:
         return ce_.crossEdgeAlg(cloudlets, users, detectedCloudletsPerUser, withQuadtree=False)
     elif algorithm == TWO_PHASES:

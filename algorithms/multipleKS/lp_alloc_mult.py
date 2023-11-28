@@ -5,6 +5,10 @@ import time
 import algorithms.multipleKS.alloc_utils as utils
 from sim_entities.cloudlets import CloudletsListSingleton
 from sim_entities.users import UsersListSingleton
+from sim_entities.clock import TimerSingleton
+import sim_utils
+
+TAG = 'lp_alloc_mult.py'
 
 def buildVMsDict(users):
     return multidict(
@@ -79,13 +83,16 @@ def build(cloudlets, users):
 
     #fileName = "/home/jps/GraphGenFrw/Simulator/exact_formulation.lp"
     #m.write(fileName)
-
+    m.setParam(GRB.Param.TimeLimit, 60)
     m.setParam(GRB.Param.Threads, 1)
 
     startTime = time.time()
     m.optimize()
     endTime = time.time()
     optResult = getResult(m, c_ids, v_ids)
+    if m.status == GRB.Status.TIME_LIMIT:
+        TimerSingleton().optTimeLimitReached = True
+        sim_utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
     # printSolution(m, optResult, v_types)
     clSing = CloudletsListSingleton()
     usSing = UsersListSingleton()

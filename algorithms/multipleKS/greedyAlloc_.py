@@ -5,9 +5,11 @@ import algorithms.multipleKS.alloc_utils as utils
 import sim_utils
 import logging
 import copy
+from timeout_decorator import timeout
 
 TAG = 'greedyAlloc_.py'
 
+@timeout(60)
 def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     sim_utils.log(TAG, 'greedyAlloc')
     # For homogeneous cloudlets, the step below is not necessary

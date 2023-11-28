@@ -78,6 +78,11 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, insta
     simClock = initSimClock()
     initRoutine(usersObjs, cloudletsObjs, subtraces, simClock, heapSing, graph, algorithm)
     while UsersListSingleton().getUsersListSize() > 0:
+        if startTime + simClock.getTimerLimit() < time.time() or simClock.getOptTimeLimitReached():
+            utils.log(TAG, 'SIMULATION TIME LIMIT REACHED!')
+            endTime = time.time()
+            print('SIMULATION TIME LIMIT REACHED!')
+            break
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
         utils.log(TAG, f'USERS LIST SIZE: {UsersListSingleton().getUsersListSize()}')

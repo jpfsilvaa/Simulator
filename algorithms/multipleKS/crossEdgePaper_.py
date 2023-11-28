@@ -5,12 +5,14 @@ import algorithms.multipleKS.alloc_utils as utils
 import sim_utils
 import logging
 import copy
+from timeout_decorator import timeout
 
 TAG = 'crossEdgeAlloc_.py'
 
 # Algorithm from the paper: https://doi.org/10.1016/j.comcom.2021.09.035
 # The thing here is that they use the sum of the resources to calculate the densities (profits),
 # but also, they sort the cloudlets by type in decreasing order
+@timeout(60)
 def crossEdgeAlg(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
     sim_utils.log(TAG, 'crossEdgeAlg')
     # For homogeneous cloudlets, the step below is not necessary

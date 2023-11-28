@@ -6,6 +6,8 @@ class TimerSingleton:
     _lock = threading.Lock()
     delta = 60 # seconds
     timer = 0
+    timerLimit = 3600 # seconds
+    optTimeLimitReached = False
 
     def __new__(cls):
         if cls._instance is None: 
@@ -20,6 +22,12 @@ class TimerSingleton:
         self.timer = i
         return self.timer
     
+    def getTimerLimit(self):
+        return self.timerLimit
+
+    def getOptTimeLimitReached(self):
+        return self.optTimeLimitReached
+
     def getTimerValue(self):
         return self.timer
     
