@@ -120,7 +120,7 @@ def plotWinners(algorithms, users, instance, graphType, x, y, ylabel, fileName):
 
     bar_width = 0.5
     bar_positions = np.arange(len(dataframes[0][x]))
-    offset = bar_width / 4
+    offset = bar_width / 3
 
     fourth_bar_width = 1.2*bar_width
 
@@ -130,7 +130,7 @@ def plotWinners(algorithms, users, instance, graphType, x, y, ylabel, fileName):
     ax.bar(bar_positions - 1.5*offset, dataframes[0][y], width=bar_width/4, align='center', label=dataframes[0]['algorithm'][0])
     ax.bar(bar_positions - 0.5*offset, dataframes[1][y], width=bar_width/4, align='center', label=dataframes[1]['algorithm'][0])
     ax.bar(bar_positions + 0.5*offset, dataframes[2][y], width=bar_width/4, align='center', label=dataframes[2]['algorithm'][0])
-    ax.bar(bar_positions + 1.5*offset, dataframes[3][y], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
+    #ax.bar(bar_positions + 1.5*offset, dataframes[3][y], width=bar_width/4, align='center', label=dataframes[3]['algorithm'][0])
 
     ax.set_xlabel(f'{x} (minutes)')
     ax.set_ylabel(ylabel)
@@ -151,7 +151,7 @@ def plotResUsage(algorithms, users, instance, graphType, x, y, ylabel, fileName 
 
     bar_width = 0.5
     bar_positions = np.arange(len(dataframes[0][x]))
-    offset = bar_width / 4
+    offset = bar_width / 3
 
     fourth_bar_width = 1.2*bar_width
 
@@ -163,8 +163,8 @@ def plotResUsage(algorithms, users, instance, graphType, x, y, ylabel, fileName 
     ax.bar(bar_positions - 0.5*offset, dataframes[1][y]*dataframes[1]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[1]['algorithm'][0]}")
     ax.bar(bar_positions - 0.05*offset, dataframes[2]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='green', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[2]['algorithm'][0]}")
     ax.bar(bar_positions + 0.5*offset, dataframes[2][y]*dataframes[2]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[2]['algorithm'][0]}")
-    ax.bar(bar_positions + 1.05*offset, dataframes[3]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='red', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[3]['algorithm'][0]}")
-    ax.bar(bar_positions + 1.5*offset, dataframes[3][y]*dataframes[3]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[3]['algorithm'][0]}")
+    # ax.bar(bar_positions + 1.05*offset, dataframes[3]['used cloudlets']*100, width=bar_width/4, align='edge', alpha=0.5, color='white', edgecolor='red', linestyle="--", label=f"Sum of {res} from cloudlets considered by {dataframes[3]['algorithm'][0]}")
+    # ax.bar(bar_positions + 1.5*offset, dataframes[3][y]*dataframes[3]['used cloudlets'], width=bar_width/4, align='center', label=f"{res} used by {dataframes[3]['algorithm'][0]}")
 
     ax.set_xlabel(f'{x} (minutes)')
     ax.set_ylabel(ylabel)
@@ -256,8 +256,10 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName, cut
     for df in dataframes:
         combinedDf[df['algorithm'][0]] = df[y]
 
+    palette= ['#3474a4','#e3832c','#3c923c']
+
     plt.figure(figsize=(10, 6))
-    g = sb.boxplot(data=pd.melt(combinedDf), x='variable', y='value')
+    g = sb.boxplot(data=pd.melt(combinedDf), x='variable', y='value', palette=palette)
     plt.xlabel('')
     plt.ylabel(ylabel)
     plt.savefig(f'{fileName}_comparison.png')
@@ -366,7 +368,7 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
         for dataset in algDatasets:
             for index, row in dataset.iterrows():
                 x_value = row[x]
-                y_value = row['total time']
+                y_value = row['exec time']
 
                 if x_value not in combinedData[i]:
                     combinedData[i][x_value] = []
@@ -409,7 +411,7 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
     plt.legend(loc='upper right')
     plt.xlabel(x)
     plt.xticks(x_values[0])
-    plt.ylabel('auction exec time (seconds)')
+    plt.ylabel('allocation exec time (seconds)')
     plt.show()
 
 def buildTwoPhasesComparison(users, instance, x):
@@ -466,7 +468,7 @@ def buildTwoPhasesComparison(users, instance, x):
 
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
 algorithms_cQT = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO')]
-algorithms_ = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree'), (4, '2-phases'), (5, 'VCG')]
+algorithms_ = [(0, 'GAMEC with QuadTree'), (2, 'GSOTO with QuadTree'), (5, 'VCG')]
 algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree')]
 users = 100
