@@ -29,19 +29,105 @@ def normalize(cloudlet, vms):
         normalized.append(nUser)
     return normalized
 
+def calcEfficiency(vms, normOption):
+    if normOption == 'l2':
+        return calcDensitiesBy_L2(vms)
+    elif normOption == 'prioritize_cpu':
+        return calcDensitiesByPrioritizing(vms, 'cpu')
+    elif normOption == 'prioritize_ram':
+        return calcDensitiesByPrioritizing(vms, 'ram')
+    elif normOption == 'prioritize_storage':
+        return calcDensitiesByPrioritizing(vms, 'storage')
+    elif normOption == 'weighted_avg_l1':
+        return calcDensitiesByWeightedAvg_L1(vms)
+    elif normOption == 'weighted_avg_l2':
+        return calcDensitiesByWeightedAvg_L2(vms)
+    elif normOption == 'weighted_avg_max':
+        return calcDensitiesByWeightedAvg_Max(vms)
+    elif normOption == 'max':
+        return calcDensitiesByMax(vms)
+    elif normOption == 'sum':
+        return calcDensitiesBySum(vms)
+
+# Calculting densities by L2 norm
+def calcDensitiesBy_L2(vms):
+    dens = []
+    for v in vms:
+        v.normReq = math.sqrt(v.reqs.cpu**2 + v.reqs.ram**2 + v.reqs.storage**2)
+        dens.append((v, v.bid/v.normReq))
+    return dens
+
+# Calculting densities by prioritizing one of the resources
+def calcDensitiesByPrioritizing(vms, prioritizedResource):
+    dens = []
+    for v in vms:
+        if prioritizedResource == 'cpu':
+            v.normReq = v.reqs.cpu
+        elif prioritizedResource == 'ram':
+            v.normReq = v.reqs.ram
+        elif prioritizedResource == 'storage':
+            v.normReq = v.reqs.storage
+        
+        dens.append((v, v.bid/v.normReq))
+    return dens
+
+# Calculating densities by weighted average - l1 norm
+def calcDensitiesByWeightedAvg_L1(vms):
+    weights = [0.2864216034, 0.3472441883, 0.3663342083]
+    dens = []
+    for v in vms:
+        v.normReq = (v.reqs.cpu*weights[0]
+                            + v.reqs.ram*weights[1]
+                            + v.reqs.storage*weights[2])
+        dens.append((v, v.bid/v.normReq))
+    return dens
+
+# Calculating densities by weighted average - l2 norm
+def calcDensitiesByWeightedAvg_L2(vms):
+    weights = [0.2864216034, 0.3472441883, 0.3663342083]
+    dens = []
+    for v in vms:
+        v.normReq = (math.sqrt(v.reqs.cpu**2)*weights[0] 
+                         + math.sqrt(v.reqs.ram**2)*weights[1] 
+                         + math.sqrt(v.reqs.storage**2)*weights[2])
+        dens.append((v, v.bid/v.normReq))
+    return dens
+
+# Calculating densities by weighted average - max norm
+# but the max must be calculated not using built-in max function
+def calcDensitiesByWeightedAvg_Max(vms):
+    weights = [0.2864216034, 0.3472441883, 0.3663342083]
+    dens = []
+    for v in vms:
+        v.normReq = calcMax(v.reqs.cpu*weights[0], v.reqs.ram*weights[1], v.reqs.storage*weights[2])
+        dens.append((v, v.bid/v.normReq))
+    return dens
+
+def calcMax(a, b, c):
+    if a > b:
+        if a > c:
+            return a
+        else:
+            return c
+    else:
+        if b > c:
+            return b
+        else:
+            return c
+
 def calcDensitiesByMax(vms):
     dens = []
     for v in vms:
-        v.maxReq = max(v.reqs.cpu, v.reqs.ram, v.reqs.storage)
-        dens.append((v, v.bid/v.maxReq))
+        v.normReq = calcMax(v.reqs.cpu, v.reqs.ram, v.reqs.storage)
+        dens.append((v, v.bid/v.normReq))
     
     return dens
 
 def calcDensitiesBySum(vms):
     dens = []
     for v in vms:
-        v.reqsSum = (v.reqs.cpu + v.reqs.ram + v.reqs.storage)
-        dens.append((v, v.bid/v.reqsSum))
+        v.normReq = (v.reqs.cpu + v.reqs.ram + v.reqs.storage)
+        dens.append((v, v.bid/v.normReq))
     
     return dens
 

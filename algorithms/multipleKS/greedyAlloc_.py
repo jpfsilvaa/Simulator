@@ -10,14 +10,14 @@ from timeout_decorator import timeout
 TAG = 'greedyAlloc_.py'
 
 @timeout(60)
-def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
+def greedyAlloc(cloudlets, vms, detectedCloudletsPerUser, withQuadtree, normOption):
     sim_utils.log(TAG, 'greedyAlloc')
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
     # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
     initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
-    D = utils.calcDensitiesByMax(normalVms)
+    D = utils.calcEfficiency(normalVms, normOption)
     D.sort(key=lambda a: a[1], reverse=True)
 
     allocatedUsers = []
@@ -55,45 +55,35 @@ def printAllocation(initTimeLoop, initTime, finalTime, allocatedUsers, vms):
     sim_utils.log(TAG, f'allocated users / total users: {len(allocatedUsers)} / {len(vms)}')
     sim_utils.log(TAG, f'allocated users: {[(allocTup[0].uId, allocTup[0].vmType, allocTup[1].cId) for allocTup in allocatedUsers]}')
 
-def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree):
+def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree, normOption):
     sim_utils.log(TAG, 'pricing')
 
     normalVms = utils.normalize(cloudlets[0], users)
-    D = utils.calcDensitiesByMax(normalVms)
+    D = utils.calcEfficiency(normalVms, normOption)
     D.sort(key=lambda a: a[1], reverse=True)
-    sim_utils.log(TAG, f'D: {[(d[0].uId, d[0].vmType) for d in D]}')
 
-    if len(winners) == len(D):
-        sim_utils.log(TAG, 'len(winners) == len(D) -> All users are winners, all users pay 0.')
-        return winners
     for w in winners:
         allocatedUsers = []
         cloudletsOccupation = {c.cId: utils.Resources(0, 0, 0) for c in cloudlets}
         for d in D:
-            sim_utils.log(TAG,'--------------------------')
-            sim_utils.log(TAG,f'length winners: {len(winners)}')
-            sim_utils.log(TAG,f'length D: {len(D)}')
             if d[0].uId == w[0].uId:
-                sim_utils.log(TAG, f'CONTINUE - {w[0].uId}, {w[0].vmType}, {w[0].price}')
                 continue
             currentUser = d[0]
-            sim_utils.log(TAG,f'currentUser: {currentUser.uId}')
             c = firstFit(currentUser, cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree)
-            sim_utils.log(TAG,f'c: {c.cId if c is not None else "None"}')            
             if c is not None:
                 utils.allocate(currentUser, cloudletsOccupation[c.cId])
             if firstFit(w[0], cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree) is None:
-                w[0].price = d[1] * w[0].maxReq
+                w[0].price = d[1] * w[0].normReq
                 break
-        sim_utils.log(TAG, f'{w[0].uId}, {w[0].vmType}, {w[0].price}')
+
         printWinnerPrice(w)
-        sim_utils.log(TAG, '--------------------------\n\n')
     return winners
 
 def printWinnerPrice(w):
     sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}') 
-    sim_utils.log(TAG, f'w[0].bid/w[0].maxReq: {w[0].bid/w[0].maxReq}')
-    sim_utils.log(TAG, f'w[0].maxReq: {w[0].maxReq}')
+    assert w[0].price <= w[0].bid
+    sim_utils.log(TAG, f'w[0].bid/w[0].normReq: {w[0].bid/w[0].normReq}')
+    sim_utils.log(TAG, f'w[0].normReq: {w[0].normReq}')
     sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
     sim_utils.log(TAG, ' ')
 
@@ -102,9 +92,9 @@ def printResults(winner, criticalValue):
     print('user id ->', winner.uId)
     print('vmType ->', winner.vmType)
     print('critical value (b_j/w_j)->', criticalValue)
-    print('winner density (b_i/w_i)->', winner.bid/winner.maxReq)
+    print('winner density (b_i/w_i)->', winner.bid/winner.normReq)
     print('winner bid (b_i)->', winner.bid)
-    print('winner maxCoord (w_i)->', winner.maxReq)
+    print('winner normReq (w_i)->', winner.normReq)
     print('winner price->', winner.price)
     print('-----------')
 

@@ -13,14 +13,14 @@ TAG = 'crossEdgeAlloc_.py'
 # The thing here is that they use the sum of the resources to calculate the densities (profits),
 # but also, they sort the cloudlets by type in decreasing order
 @timeout(60)
-def crossEdgeAlg(cloudlets, vms, detectedCloudletsPerUser, withQuadtree):
+def crossEdgeAlg(cloudlets, vms, detectedCloudletsPerUser, withQuadtree, normOption):
     sim_utils.log(TAG, 'crossEdgeAlg')
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
     # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
     initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
-    D = utils.calcDensitiesBySum(normalVms)
+    D = utils.calcEfficiency(normalVms, normOption)
     D.sort(key=lambda a: a[1], reverse=True)
 
     allocatedUsers = []
@@ -76,7 +76,7 @@ def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree):
             if c is not None:
                 utils.allocate(currentUser, cloudletsOccupation[c.cId])
             if firstFit(w[0], cloudlets, cloudletsOccupation, detectedCloudletsPerUser, withQuadtree) is None:
-                w[0].price = d[1] * w[0].reqsSum
+                w[0].price = d[1] * w[0].normReq
                 break
         
         printWinnerPrice(w)
@@ -84,8 +84,8 @@ def pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree):
 
 def printWinnerPrice(w):
     sim_utils.log(TAG, f'price > bid? {w[0].price > w[0].bid}')
-    sim_utils.log(TAG, f'w[0].bid/w[0].reqsSum: {w[0].bid/w[0].reqsSum}')
-    sim_utils.log(TAG, f'w[0].reqsSum: {w[0].reqsSum}')
+    sim_utils.log(TAG, f'w[0].bid/w[0].normReq: {w[0].bid/w[0].normReq}')
+    sim_utils.log(TAG, f'w[0].normReq: {w[0].normReq}')
     sim_utils.log(TAG, f'w[0].price: {w[0].price} and w[0].bid: {w[0].bid}')
     sim_utils.log(TAG, ' ')
 
@@ -94,9 +94,9 @@ def printResults(winner, criticalValue):
     print('user id ->', winner.uId)
     print('vmType ->', winner.vmType)
     print('critical value (b_j/w_j)->', criticalValue)
-    print('winner density (b_i/w_i)->', winner.bid/winner.maxReq)
+    print('winner density (b_i/w_i)->', winner.bid/winner.normReq)
     print('winner bid (b_i)->', winner.bid)
-    print('winner maxCoord (w_i)->', winner.maxReq)
+    print('winner maxCoord (w_i)->', winner.normReq)
     print('winner price->', winner.price)
     print('-----------')
 
