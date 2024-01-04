@@ -1,0 +1,1 @@
+time-step,uId,u.bid,u.price,u.latency,u.cpu,u.storage,u.ram,winner(1) or loser(0)
