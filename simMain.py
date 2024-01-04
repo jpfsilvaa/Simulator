@@ -81,7 +81,7 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, insta
         if startTime + simClock.getTimerLimit() < time.time() or simClock.getOptTimeLimitReached():
             utils.log(TAG, 'SIMULATION TIME LIMIT REACHED!')
             endTime = time.time()
-            print('SIMULATION TIME LIMIT REACHED!')
+            print('SIMULATION TIME LIMIT REACHED FOR INSTANCE', instance, 'WITH ALGORITHM', algorithm, 'AND ITERATION', iteration)
             break
         utils.log(TAG, f'HEAP SIZE: {heapSing.getHeapSize()}')
         utils.log(TAG, f'HEAP: {heapSing.curretEventsOnHep()}')
@@ -90,6 +90,7 @@ def startSimulation(cloudletsObjs, usersObjs, graph, subtraces, algorithm, insta
     endTime = time.time()
     utils.log(TAG, 'SIMULATION FINISHED')
     utils.log(TAG, f'TOTAL TIME: {endTime - startTime}')
+    print('SIMULATION FINISHED FOR INSTANCE', instance, 'WITH ALGORITHM', algorithm, 'AND ITERATION', iteration)
     stats.writeReport(algorithm, len(usersObjs), instance, iteration)
 
 def main(jsonFilePath, graphFilePath, busFilePath, algorithm, instance, iteration):
