@@ -69,7 +69,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     cumulative = 'cumulative'
     inputFile = yAxis if yAxis == 'prices' else 'social_welfare'
     for alg in algorithms:
-        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/1/{inputFile}_{alg[0]}_{instance}.csv')
+        df = pd.read_csv(f'{PATH}{alg[0]}-{users}users/0/{inputFile}_{alg[0]}_{instance}.csv')
         df['algorithm'] = alg[1]
         df['time-step'] -= 1
         df['time-step'] /= 60
@@ -256,7 +256,7 @@ def buildBoxplot(algorithms, users, instance, yType, x, y, ylabel, fileName, cut
     for df in dataframes:
         combinedDf[df['algorithm'][0]] = df[y]
 
-    palette= ['#3474a4','#e3832c','#3c923c']
+    palette= ['#4b92c3','#ff8315','#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e78acb', '#7f7f7f', '#bcbd22']
 
     plt.figure(figsize=(10, 6))
     g = sb.boxplot(data=pd.melt(combinedDf), x='variable', y='value', palette=palette)
@@ -354,7 +354,7 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
     datasets = []
     for alg in algorithms:
         algDatasets = []
-        for i in range(20):
+        for i in range(19):
             filename = f'{PATH}{alg[0]}-{users}users/{i}/exec_time_{alg[0]}_11.csv'
             dataset = pd.read_csv(filename)
             dataset['time-step'] -= 1
@@ -368,7 +368,7 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
         for dataset in algDatasets:
             for index, row in dataset.iterrows():
                 x_value = row[x]
-                y_value = row['exec time']
+                y_value = row['total time']
 
                 if x_value not in combinedData[i]:
                     combinedData[i][x_value] = []
@@ -403,15 +403,16 @@ def buildExecTime(algorithms, users, instance, x, y, ylabel, fileName):
     for i in range(len(x_values[0])):
         axs[0].text(x_values[0][i], datasets[0][0]['number of users'][i]+10, str(datasets[0][0]['number of users'][i]), ha='center', va='center')
 
+    markers = ['dashed', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid', 'solid']
     for i in range(len(algorithms)):
-        axs[1].plot(x_values[i], averages[i], label=algorithms[i][1])
+        axs[1].plot(x_values[i], averages[i], label=algorithms[i][1], linestyle=markers[i])
         # axs[1].fill_between(x_values[i], np.subtract(averages[i],std_deviations[i]), 
         #                 np.add(averages[i],std_deviations[i]), alpha=0.5)
 
     plt.legend(loc='upper right')
     plt.xlabel(x)
     plt.xticks(x_values[0])
-    plt.ylabel('allocation exec time (seconds)')
+    plt.ylabel('auction exec time (seconds)')
     plt.show()
 
 def buildTwoPhasesComparison(users, instance, x):
@@ -468,7 +469,10 @@ def buildTwoPhasesComparison(users, instance, x):
 
 algorithms = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO'), (4, '2-phases'), (5, 'ILP')]
 algorithms_cQT = [(0, 'Greedy with QuadTree'), (1, 'Greedy'), (2, 'GSOTO with QuadTree'), (3, 'GSOTO')]
-algorithms_ = [(0, 'GAMEC with QuadTree'), (2, 'GSOTO with QuadTree'), (5, 'VCG')]
+algorithms_ = [(0, 'GAMEC with QuadTree'), (2, 'GSOTO with QuadTree')]
+algorithms_norm = [(0, 'GREEDY (max)'), (2, 'GSOTO (L1)'), (6, 'L2'), (7, 'CPU_PRIORITY'), 
+                   (8, 'RAM_PRIORITY'), (9, 'STORAGE_PRIORITY'), (10, 'WEIGHTED_AVG_L1'), 
+                   (11, 'WEIGHTED_AVG_L2'), (12, 'WEIGHTED_AVG_MAX')]
 algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree')]
 users = 100
@@ -476,11 +480,11 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-# buildBoxplot_VMTypes(algorithms_, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
+# buildBoxplot_VMTypes(algorithms_norm, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
 
-buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
+# buildExecTime(algorithms_norm, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_500')
 
-# buildTwoPhasesComparison(users, instance, byTimeStep) # vai virar uma frase só, sem grafico
+# buildTwoPhasesComparison(users, instance, byTimeStep)
 
 # plotWinners(algorithms_, 100, instance, 'prices', byTimeStep, 'number of winners', 'number of winners', 'winners_100')
 
@@ -488,14 +492,14 @@ buildExecTime(algorithms_, users, instance, byTimeStep, 'exec time', 'execution 
 # plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used ram avg', 'used ram (%)', 'ram_100','RAM')
 # plotResUsage(algorithms_, users, instance, 'cloudlets_usage', byTimeStep, 'used storage avg', 'used storage (%)', 'storage_100', 'Storage')
 
-# buildBoxplot(algorithms_, users, instance, 'latencies', byUsers, 
+# buildBoxplot(algorithms_norm, users, instance, 'latencies', byUsers, 
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
-# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'social welfare')
-# swAndProfitComparison(algorithms_, users, instance, byTimeStep, 'prices')
+# swAndProfitComparison(algorithms_norm, users, instance, byTimeStep, 'social welfare')
+# swAndProfitComparison(algorithms_norm, users, instance, byTimeStep, 'prices')
 
-# buildBoxplot(algorithms_, users, instance, 'prices', byUsers, 
-#               'number of winners', 'winner users', 'winners_bp', False)
+buildBoxplot(algorithms_norm, users, instance, 'prices', byUsers, 
+              'number of winners', 'winner users', 'winners_bp', False)
 
 # ---------------------------------------------------------------------------
 
