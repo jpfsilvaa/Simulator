@@ -7,6 +7,7 @@ import sim_utils as utils
 from algorithms.multipleKS.quadTree import Point, QuadNode
 import utm
 from geopy import distance
+import random
 
 def checkLatencyThreshold(user, cloudlet):
     return getLatency(user, cloudlet) <= user.latencyThresholdForAllocate
@@ -131,9 +132,41 @@ def calcDensitiesBySum(vms):
     
     return dens
 
-def sortCloudletsByType(cloudlets, reverse):
-    sortedCloudlets = copy.deepcopy(cloudlets)
-    sortedCloudlets.sort(key=lambda x: x.cId, reverse=reverse)
+def sortCloudletsByType(cloudlets, user, cloudletsOccupation, sortOption):
+    sortedCloudlets = []
+    if sortOption == 'firstFit':
+        sortedCloudlets = [c.entity for c in cloudlets]
+    elif sortOption == 'distance':
+        for c in cloudlets:
+            sortedCloudlets.append((c.entity, utils.calcDistance(user.position, c.entity.position)))
+        sortedCloudlets.sort(key=lambda a: a[1])
+        sortedCloudlets = [c[0] for c in sortedCloudlets]
+    elif sortOption == 'distance_reverse':
+        for c in cloudlets:
+            sortedCloudlets.append((c.entity, utils.calcDistance(user.position, c.entity.position)))
+        sortedCloudlets.sort(key=lambda a: a[1], reverse=True)
+        sortedCloudlets = [c[0] for c in sortedCloudlets]
+    elif sortOption == 'bestFit':
+        for c in cloudlets:
+            occupationRate = (cloudletsOccupation[c.entity.cId].cpu
+                               + cloudletsOccupation[c.entity.cId].ram
+                               + cloudletsOccupation[c.entity.cId].storage)/3
+            sortedCloudlets.append((c.entity, occupationRate))
+        sortedCloudlets.sort(key=lambda a: a[1], reverse=True)
+        sortedCloudlets = [c[0] for c in sortedCloudlets]
+    elif sortOption == 'worstFit':
+        for c in cloudlets:
+            occupationRate = (cloudletsOccupation[c.entity.cId].cpu
+                               + cloudletsOccupation[c.entity.cId].ram
+                               + cloudletsOccupation[c.entity.cId].storage)/3
+            sortedCloudlets.append((c.entity, occupationRate))
+        sortedCloudlets.sort(key=lambda a: a[1])
+        sortedCloudlets = [c[0] for c in sortedCloudlets]
+    elif sortOption == 'random':
+        sortedCloudlets = [c.entity for c in cloudlets]
+        random.seed(1)
+        random.shuffle(sortedCloudlets)
+
     return sortedCloudlets
 
 def userFits(user, occupation):

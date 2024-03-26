@@ -30,12 +30,12 @@ CROSS_EDGE_QT = 2
 CROSS_EDGE_NO_QT = 3
 TWO_PHASES = 4
 EXACT = 5
-L2_NORM = 6
-PRIORITY_CPU = 7
-PRIORITY_RAM = 8
-PRIORITY_STORAGE = 9
-WEIGHTED_AVG_L1 = 10
-WEIGHTED_AVG_L2 = 11
+FIRST_FIT = 6
+DISTANCE = 7
+DISTANCE_REVERSE = 8
+BEST_FIT = 9
+WORST_FIT = 10
+RANDOM = 11
 WEIGHTED_AVG_MAX = 12
 
 class Event(Enum):
@@ -317,39 +317,39 @@ def allocationAlgorithm(cloudlets, users, algorithm, quadtree, detectedCloudlets
         return twoPhases.twoPhasesAlloc(cloudlets, users, detectedUsersPerCloudlet)
     elif algorithm == EXACT:
         return exact.build(cloudlets, users)
-    elif algorithm == L2_NORM:
+    elif algorithm == FIRST_FIT:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='l2')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='firstFit')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
-    elif algorithm == PRIORITY_CPU:
+    elif algorithm == DISTANCE:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='prioritize_cpu')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='distance')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
-    elif algorithm == PRIORITY_RAM:
+    elif algorithm == DISTANCE_REVERSE:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='prioritize_ram')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='distance_reverse')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
-    elif algorithm == PRIORITY_STORAGE:
+    elif algorithm == BEST_FIT:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='prioritize_storage')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='bestFit')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
-    elif algorithm == WEIGHTED_AVG_L1:
+    elif algorithm == WORST_FIT:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='weighted_avg_l1')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='worstFit')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
-    elif algorithm == WEIGHTED_AVG_L2:
+    elif algorithm == RANDOM:
         try:
-            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, normOption='weighted_avg_l2')
+            return g_.greedyAlloc(cloudlets, users, detectedCloudletsPerUser, withQuadtree=True, sortOption='random')
         except TimeoutError:
             TimerSingleton().optTimeLimitReached = True
             utils.log(TAG, '------OPTIMIZATION TIME LIMIT REACHED!------')
@@ -380,18 +380,18 @@ def pricingAlgorithm(winners, users, cloudlets, algorithm, vcgParams, detectedCl
         return twoPhases.pricing(winners, detectedUsersPerCloudlet, usersSing=users, cloudlets=cloudlets)
     elif algorithm == EXACT:
         return exact.pricing(vcgParams[0], vcgParams[1], winners, vcgParams[2])
-    elif algorithm == L2_NORM:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='l2')
-    elif algorithm == PRIORITY_CPU:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='prioritize_cpu')
-    elif algorithm == PRIORITY_RAM:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='prioritize_ram')
-    elif algorithm == PRIORITY_STORAGE:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='prioritize_storage')
-    elif algorithm == WEIGHTED_AVG_L1:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='weighted_avg_l1')
-    elif algorithm == WEIGHTED_AVG_L2:
-        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='weighted_avg_l2')
+    elif algorithm == FIRST_FIT:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='firstFit')
+    elif algorithm == DISTANCE:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='distance')
+    elif algorithm == DISTANCE_REVERSE:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='distance_reverse')
+    elif algorithm == BEST_FIT:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='bestFit')
+    elif algorithm == WORST_FIT:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='worstFit')
+    elif algorithm == RANDOM:
+        return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, sortOption='random')
     elif algorithm == WEIGHTED_AVG_MAX:
         return g_.pricing(winners, users, detectedCloudletsPerUser, cloudlets, withQuadtree=True, normOption='weighted_avg_max')
         

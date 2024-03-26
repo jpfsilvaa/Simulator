@@ -17,7 +17,6 @@ def crossEdgeAlg(cloudlets, vms, detectedCloudletsPerUser, withQuadtree, normOpt
     sim_utils.log(TAG, 'crossEdgeAlg')
     # For homogeneous cloudlets, the step below is not necessary
     # But for heterogeneous cloudlets, it is necessary and I should do it only once instead of every opt call
-    # sortedCloudlets = utils.sortCloudletsByType(cloudlets, True)
     initTime = time.time()
     normalVms = utils.normalize(cloudlets[0], vms)
     D = utils.calcEfficiency(normalVms, normOption)

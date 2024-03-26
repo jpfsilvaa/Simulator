@@ -87,7 +87,7 @@ def swAndProfitComparison(algorithms, users, instance, xAxis, yAxis):
     sb.despine()
     plt.ylabel(f'cumulative {yAxis} ($)')
     plt.xlabel(f'{xAxis} (minutes)')
-    plt.yticks(np.arange(0, 200001, 25000))
+    # plt.yticks(np.arange(0, 200001, 25000))
     plt.savefig(f'{yAxis}_comparison_100.png')
     plt.show()
 
@@ -473,6 +473,9 @@ algorithms_ = [(0, 'GAMEC with QuadTree'), (2, 'GSOTO with QuadTree')]
 algorithms_norm = [(0, 'GREEDY (max)'), (2, 'GSOTO (L1)'), (6, 'L2'), (7, 'CPU_PRIORITY'), 
                    (8, 'RAM_PRIORITY'), (9, 'STORAGE_PRIORITY'), (10, 'WEIGHTED_AVG_L1'), 
                    (11, 'WEIGHTED_AVG_L2'), (12, 'WEIGHTED_AVG_MAX')]
+algorithms_sort = [(6, 'FIRST_FIT'), (7, 'DISTANCE'), 
+                   (8, 'DISTANCE_REVERSE'), (9, 'BEST_FIT'), (10, 'WORSE_FIT'), 
+                   (11, 'RANDOM')]
 algorithms_noVCG = [(0, 'Greedy with QuadTree'), (2, 'GSOTO'), (4, '2-phases')]
 algorithms_QT = [(0, 'Greedy with QuadTree'), (2, 'GSOTO with QuadTree')]
 users = 100
@@ -480,9 +483,9 @@ instance = 11
 byTimeStep = 'time-step'
 byUsers = 'number of users'
 
-# buildBoxplot_VMTypes(algorithms_norm, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
+# buildBoxplot_VMTypes(algorithms_sort, users, instance, 'alloc_results', byUsers, 'number of winners', 'price (USD)', 'vm_types_100')
 
-# buildExecTime(algorithms_norm, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_500')
+# buildExecTime(algorithms_sort, users, instance, byTimeStep, 'exec time', 'execution time (seconds)', 'exec_time_100')
 
 # buildTwoPhasesComparison(users, instance, byTimeStep)
 
@@ -495,11 +498,11 @@ byUsers = 'number of users'
 # buildBoxplot(algorithms_norm, users, instance, 'latencies', byUsers, 
 #             'avg latency (for the allocated)', 'latency (seconds)', 'lat_100', False)
 
-# swAndProfitComparison(algorithms_norm, users, instance, byTimeStep, 'social welfare')
-# swAndProfitComparison(algorithms_norm, users, instance, byTimeStep, 'prices')
+swAndProfitComparison(algorithms_sort, users, instance, byTimeStep, 'social welfare')
+# swAndProfitComparison(algorithms_sort, users, instance, byTimeStep, 'prices')
 
-buildBoxplot(algorithms_norm, users, instance, 'prices', byUsers, 
-              'number of winners', 'winner users', 'winners_bp', False)
+# buildBoxplot(algorithms_sort, users, instance, 'prices', byUsers, 
+            #   'number of winners', 'winner users', 'winners_bp', False)
 
 # ---------------------------------------------------------------------------
 
